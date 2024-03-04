@@ -4,7 +4,7 @@ import pandas as pd
 
 class Greedy:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max):
-        self.nodos_df = nodos_df.set_index('nodo')  # Asegurándonos de que 'osmid' sea el índice
+        self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
         self.tiempos_df = tiempos_df.set_index('nodo')
         self.tiempo_max = tiempo_max

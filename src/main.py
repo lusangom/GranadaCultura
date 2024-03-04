@@ -3,9 +3,9 @@ from algoritmos import greedy
 from datos import visualizacion
 
 def main():
-    ruta_archivo_nodos = 'data/pois_5.csv'
-    ruta_archivo_distancias = 'data/distancias_5.csv'
-    ruta_archivo_tiempos = 'data/tiempos_5.csv'
+    ruta_archivo_nodos = 'data/pois_158.csv'
+    ruta_archivo_distancias = 'data/distancias_158.csv'
+    ruta_archivo_tiempos = 'data/tiempos_158.csv'
     
     datos = lectura_datos.Datos(ruta_archivo_nodos, ruta_archivo_distancias, ruta_archivo_tiempos)
     nodos_df = datos.cargar_nodos()
@@ -32,7 +32,7 @@ def main():
         # Visualizar la ruta en el mapa, si nodos_df no es None
         if nodos_df is not None:
             mapa = vista.visualizar_ruta_en_mapa(nodos_df)
-            print('guardo')
+            
             mapa.save('ruta_solucion.html')  # Guarda el mapa en un archivo HTML
                 
    
