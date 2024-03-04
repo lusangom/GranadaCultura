@@ -1,0 +1,11 @@
+nodo,element_type,osmid,name,amenity,tourism,lat,lon,interes,tiempo_de_visita
+1,node,507114110,Mirador de San Cristóbal,,viewpoint,37.1830456,-3.596006,1,21
+2,node,533647928,Museo Manuel de Falla,,museum,37.1734517,-3.588879,5,27
+3,node,892037670,Oficina Municipal de Información Turística,,information,37.1742248,-3.5986671,4,38
+4,node,940435771,Museo de la Alhambra,,museum,37.1770011,-3.5900734,4,22
+5,node,1213321729,Mirador de San Nicolás,,viewpoint,37.1810405,-3.5926619,3,22
+6,node,1351200937,Fundación Rodríguez Acosta,,museum,37.1750101,-3.5926373,2,35
+7,node,1351212929,Puerta de las Granadas,,attraction,37.1760317,-3.5930761,9,22
+8,node,1351215450,Museo de Bellas Artes,,museum,37.1769483,-3.5899102,2,37
+9,node,1381852660,Alcaicería,,attraction,37.1753625,-3.5991907,10,24
+10,node,1426439548,Mirador del Barranco del Abogado,,viewpoint,37.1700406,-3.5850184,7,24

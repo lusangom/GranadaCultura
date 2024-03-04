@@ -1,0 +1,21 @@
+nodo,element_type,osmid,name,amenity,tourism,lat,lon,interes,tiempo_de_visita
+1,node,507114110,Mirador de San Cristóbal,,viewpoint,37.1830456,-3.596006,1,21
+2,node,533647928,Museo Manuel de Falla,,museum,37.1734517,-3.588879,5,27
+3,node,892037670,Oficina Municipal de Información Turística,,information,37.1742248,-3.5986671,4,38
+4,node,940435771,Museo de la Alhambra,,museum,37.1770011,-3.5900734,4,22
+5,node,1213321729,Mirador de San Nicolás,,viewpoint,37.1810405,-3.5926619,3,22
+6,node,1351200937,Fundación Rodríguez Acosta,,museum,37.1750101,-3.5926373,2,35
+7,node,1351212929,Puerta de las Granadas,,attraction,37.1760317,-3.5930761,9,22
+8,node,1351215450,Museo de Bellas Artes,,museum,37.1769483,-3.5899102,2,37
+9,node,1381852660,Alcaicería,,attraction,37.1753625,-3.5991907,10,24
+10,node,1426439548,Mirador del Barranco del Abogado,,viewpoint,37.1700406,-3.5850184,7,24
+11,node,1595009247,Patronato Provincial de Turismo de Granada,,information,37.172079,-3.5974525,1,35
+12,node,2068114267,Fuente de los Leones,fountain,attraction,37.1770981,-3.589271,1,37
+13,node,2068135788,Puerta de la Justicia,,attraction,37.1760961,-3.5902866,2,25
+14,node,2068192059,Fuente del Pimiento,fountain,attraction,37.1742781,-3.5870642,4,28
+15,node,2068192062,Fuente del Tomate,fountain,attraction,37.1747469,-3.5887919,4,36
+16,node,2246108726,Mirador de San Miguel Alto,,viewpoint,37.1847644,-3.5879851,9,39
+17,node,2816220886,Museo Cuevas del Sacromonte,,museum,37.1831301,-3.5843209,10,33
+18,node,3738000970,Pilar del Toro,fountain,attraction,37.1771211,-3.5949145,1,26
+19,node,3770575342,Albert Einstein,,artwork,37.162595,-3.6068249,9,37
+20,node,3770593289,Kugelbahn 13,,artwork,37.1618622,-3.6048896,4,26

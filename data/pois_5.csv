@@ -1,0 +1,6 @@
+nodo,element_type,osmid,name,amenity,tourism,lat,lon,interes,tiempo_de_visita
+1,node,507114110,Mirador de San Cristóbal,,viewpoint,37.1830456,-3.596006,1,21
+2,node,533647928,Museo Manuel de Falla,,museum,37.1734517,-3.588879,5,27
+3,node,892037670,Oficina Municipal de Información Turística,,information,37.1742248,-3.5986671,4,38
+4,node,940435771,Museo de la Alhambra,,museum,37.1770011,-3.5900734,4,22
+5,node,1213321729,Mirador de San Nicolás,,viewpoint,37.1810405,-3.5926619,3,22

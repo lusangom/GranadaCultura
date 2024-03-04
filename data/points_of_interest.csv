@@ -1,0 +1,159 @@
+"nodo","element_type","osmid","name","amenity","tourism","lat","lon","interes","tiempo_de_visita"
+1,"node",507114110,"Mirador de San Cristóbal",,"viewpoint","37.1830456","-3.596006",1,21
+2,"node",533647928,"Museo Manuel de Falla",,"museum","37.1734517","-3.588879",5,27
+3,"node",892037670,"Oficina Municipal de Información Turística",,"information","37.1742248","-3.5986671",4,38
+4,"node",940435771,"Museo de la Alhambra",,"museum","37.1770011","-3.5900734",4,22
+5,"node",1213321729,"Mirador de San Nicolás",,"viewpoint","37.1810405","-3.5926619",3,22
+6,"node",1351200937,"Fundación Rodríguez Acosta",,"museum","37.1750101","-3.5926373",2,35
+7,"node",1351212929,"Puerta de las Granadas",,"attraction","37.1760317","-3.5930761",9,22
+8,"node",1351215450,"Museo de Bellas Artes",,"museum","37.1769483","-3.5899102",2,37
+9,"node",1381852660,"Alcaicería",,"attraction","37.1753625","-3.5991907",10,24
+10,"node",1426439548,"Mirador del Barranco del Abogado",,"viewpoint","37.1700406","-3.5850184",7,24
+11,"node",1595009247,"Patronato Provincial de Turismo de Granada",,"information","37.172079","-3.5974525",1,35
+12,"node",2068114267,"Fuente de los Leones","fountain","attraction","37.1770981","-3.589271",1,37
+13,"node",2068135788,"Puerta de la Justicia",,"attraction","37.1760961","-3.5902866",2,25
+14,"node",2068192059,"Fuente del Pimiento","fountain","attraction","37.1742781","-3.5870642",4,28
+15,"node",2068192062,"Fuente del Tomate","fountain","attraction","37.1747469","-3.5887919",4,36
+16,"node",2246108726,"Mirador de San Miguel Alto",,"viewpoint","37.1847644","-3.5879851",9,39
+17,"node",2816220886,"Museo Cuevas del Sacromonte",,"museum","37.1831301","-3.5843209",10,33
+18,"node",3738000970,"Pilar del Toro","fountain","attraction","37.1771211","-3.5949145",1,26
+19,"node",3770575342,"Albert Einstein",,"artwork","37.162595","-3.6068249",9,37
+20,"node",3770593289,"Kugelbahn 13",,"artwork","37.1618622","-3.6048896",4,26
+21,"node",3783642761,"Instituto Andaluz de la Juventud",,"gallery","37.1737569","-3.59544",9,29
+22,"node",3883012134,"Casa Morisca Horno de Oro",,"attraction","37.1795627","-3.5896972",7,32
+23,"node",4214738457,"Ninfa",,"artwork","37.1677423","-3.589507",4,40
+24,"node",4234692262,"Mirador de Alixares",,"viewpoint","37.1717952","-3.5837771",8,31
+25,"node",4548767961,"Escultura Granada al Flamenco",,"artwork","37.1676392","-3.5965358",10,34
+26,"node",4646616591,"Mirador Mario Maya",,"viewpoint","37.1814415","-3.586259",5,36
+27,"node",4646694089,"Casa de los Tiros",,"museum","37.1747484","-3.5955259",1,34
+28,"node",4770092881,"Oficina de Turismo de Granada",,"information","37.1772367","-3.5946533",3,23
+29,"node",4931998724,"Flamenco La Alborea","music_venue","attraction","37.1770551","-3.5963816",7,27
+30,"node",4932003408,"Palacio de los Olvidados",,"museum","37.1784882","-3.5938352",6,27
+31,"node",5124878924,"Mirador de la Placeta de los Carvajales",,"viewpoint","37.178875","-3.594174",5,22
+32,"node",5236626821,"Galería Alea",,"museum","37.1788216","-3.5905527",3,30
+33,"node",5308506129,"Barrio Castrense",,"information","37.1771804","-3.5914013",4,20
+34,"node",5482989648,"Lugar de Memoria Histórica de Andalucía",,"information","37.1704625","-3.5769909",6,38
+35,"node",5595487863,"Muralla San Miguel",,"viewpoint","37.1851547","-3.5889897",2,37
+36,"node",5605028637,"Cripta de Fray Leopoldo de Alpandeire",,"museum","37.1847018","-3.6020545",2,27
+37,"node",5607921954,"Cristo de los Favores",,"artwork","37.1730754","-3.5918509",7,38
+38,"node",5635701433,"Studio Pedro Osakar",,"gallery","37.1899522","-3.6801856",2,27
+39,"node",5679087318,"Washington Irving",,"artwork","37.1760692","-3.5916353",6,20
+40,"node",5690894128,"Mirador de la Placeta de la Puerta del Sol",,"viewpoint","37.1751147","-3.5944762",6,22
+41,"node",5766505452,"Homenaje a los emigrantes granadinos",,"artwork","37.1845794","-3.6089979",10,40
+42,"node",5794187933,"Antigua Prisión Provincial de Granada",,"information","37.1910676","-3.6070077",5,21
+43,"node",5810941368,"Banco-escultura",,"artwork","37.1847516","-3.6056611",1,27
+44,"node",5819193184,"Los Albercones",,"attraction","37.176644","-3.5836452",8,22
+45,"node",5837251052,"Danzante",,"artwork","37.1770654","-3.6060618",9,21
+46,"node",5861960763,"Escultura Luna",,"artwork","37.1987978","-3.6042197",2,30
+47,"node",5862147311,"Museo de la Capilla Real",,"museum","37.1760421","-3.5986977",7,22
+48,"node",5891296485,"Parque Periurbano",,"viewpoint","37.1741337","-3.5786101",2,36
+49,"node",5909852885,"Mirador del Carmen de los Mártires",,"viewpoint","37.1714851","-3.5864855",9,27
+50,"node",5934949175,"Cerro del sol",,"viewpoint","37.1705153","-3.5418633",5,28
+51,"node",5996318031,"Chorrojumo",,"artwork","37.1812283","-3.5885871",10,35
+52,"node",6019478061,"Centro de Exposiciones CajaGranada-Puerta Real",,"gallery","37.1727237","-3.5990407",6,26
+53,"node",6019478062,"Centro Cultural Zaida",,"gallery","37.1714941","-3.5984267",10,37
+54,"node",6025192735,"Estatua de Fray Luis de Granada",,"artwork","37.1732234","-3.5948852",4,24
+55,"node",6032399356,"Pilar de Carlos V","fountain","attraction","37.1758643","-3.5900663",2,38
+56,"node",6032399357,"Mirador de la Churra",,"viewpoint","37.1775039","-3.5936174",1,38
+57,"node",6124023208,"Homenaje a los viajeros románticos",,"artwork","37.1671858","-3.5977743",4,35
+58,"node",6257669600,"Welcome Visitor Centre",,"information","37.1735732","-3.5841567",5,27
+59,"node",6302893185,"Caminante",,"artwork","37.172309","-3.5987925",2,35
+60,"node",6313713685,"Mirador de Hotel Alhambra Palace",,"viewpoint","37.1738321","-3.5902086",4,33
+61,"node",6313713692,"Fundación Rodriguez-Acosta",,"information","37.1743471","-3.5903176",2,26
+62,"node",6313713696,"Alhambra y Generalife",,"information","37.1759578","-3.593042",7,23
+63,"node",6313812858,"La Ciudad Liberal",,"information","37.1809149","-3.5937277",8,33
+64,"node",6313898405,"Conjunto Monumental",,"information","37.1767787","-3.5867708",6,31
+65,"node",6314987692,"Torre de la vela",,"information","37.1769704","-3.5923627",3,33
+66,"node",6564824513,"Mirador de la Lona",,"viewpoint","37.1807036","-3.5976735",6,33
+67,"node",6564828710,"Mirador Ojo de Granada",,"viewpoint","37.1795446","-3.5978027",6,34
+68,"node",6677588011,"Información y Atención al Cliente",,"information","37.1839071","-3.6087187",4,21
+69,"node",6939836186,"Casa Museo Sefardí",,"museum","37.1752357","-3.5949229",2,40
+70,"node",7004550890,"Mirador de la Cruz de la Rauda",,"viewpoint","37.183309","-3.5896306",10,23
+71,"node",7076299940,"Homenaje a las víctimas de la Violencia de Género",,"artwork","37.16911","-3.5963793",3,21
+72,"node",7246054232,"Escultura a Emilio Herrera Linares",,"artwork","37.1799984","-3.6076523",9,32
+73,"node",7416079381,"Mirador Generalife",,"viewpoint","37.178001","-3.5856675",4,30
+74,"node",7615354640,"Pozo Airón",,"attraction","37.1802373","-3.5993525",3,23
+75,"node",7783331001,"Virgen de la Encarnación",,"artwork","37.2014448","-3.6117868",8,27
+76,"node",8039174738,"Estatua de Don Quijote y Rocinante",,"artwork","37.163187","-3.5873725",7,26
+77,"node",8080559747,"Granada a las Escuelas del Ave María",,"artwork","37.1665262","-3.5900768",5,26
+78,"node",8183808229,"Centro de Interpretación del Agua",,"museum","37.1817445","-3.5954391",9,37
+79,"node",8190384520,"Casa Museo Max Moreau",,"museum","37.1809183","-3.5938397",4,34
+80,"node",8379570882,"Palacios Nazaríes",,"attraction","37.1775744","-3.5896868",6,24
+81,"node",9567052873,"Monumento a Agustín Lara",,"artwork","37.1637793","-3.5964942",1,33
+82,"node",9820273127,"Monumento al Aguador",,"artwork","37.1764333","-3.6002107",4,25
+83,"node",9820273321,"Granada Ciudad Amiga de la Infancia 2014-2018",,"artwork","37.1717291","-3.5978868",1,28
+84,"node",9864557941,"Venus de Ilíberis",,"artwork","37.18379","-3.6055142",6,34
+85,"node",9879366527,"Aurora Reina Y Madre del Albayzin",,"artwork","37.177974","-3.5959658",7,27
+86,"node",9881574952,"Nuestro Padre Jesús del Perdón",,"artwork","37.1780858","-3.5961097",5,22
+87,"node",9892888044,"Mirador Romántico",,"viewpoint","37.1781985","-3.584957",2,34
+88,"node",10031167703,"Museo Memoria de Andalucía",,"museum","37.1620736","-3.6074564",4,37
+89,"node",10200326361,"Granada Online",,"information","37.1740506","-3.5992853",10,23
+90,"node",10275872052,"Fuente de la Corona",,"artwork","37.1753937","-3.6039285",6,21
+91,"node",10695301706,"Play Granada",,"information","37.1774735","-3.5950118",4,40
+92,"node",10696924305,"El Silo Eléctrico",,"gallery","37.1761956","-3.594935",8,37
+93,"node",10697488505,"Covento de San Bernardo",,"attraction","37.1787546","-3.591133",7,20
+94,"node",10697584706,"Ashe'",,"gallery","37.1743274","-3.5995126",8,22
+95,"node",10725805096,"Monasterio de Santa Paula",,"attraction","37.1792584","-3.5999383",3,27
+96,"node",11348175787,"Fernando de los Ríos",,"artwork","37.1609197","-3.6047124",5,25
+97,"node",11348175788,"Huecos de Silencio",,"artwork","37.1609518","-3.6047132",3,33
+98,"way",24479691,"Parque de las Ciencias",,"museum","37.16274336837686","-3.605586819830717",4,35
+99,"way",26935518,"Alcazaba",,"attraction","37.177078576245016","-3.591757175960342",9,35
+100,"way",40207114,"Cuesta del Rey Chico",,"attraction","37.17917855","-3.58827255",9,26
+101,"way",43658892,"Cuarto Real de Santo Domingo",,"museum","37.171683729801074","-3.594993788484584",5,32
+102,"way",44041572,"Carmen de los Mártires",,"attraction","37.17270782859279","-3.586312022916176",10,21
+103,"way",51729479,"Mariposario",,"zoo","37.16295506498234","-3.604943257639866",7,25
+104,"way",51730866,"Iglesia Virgen de las Angustias","place_of_worship","attraction","37.16994057878063","-3.597093831571727",10,32
+105,"way",92528618,"Alhambra",,"attraction","37.1762949870614","-3.588539813428346",7,20
+106,"way",92528628,"Patio de los Leones",,"attraction","37.17709433776173","-3.589271086734354",6,32
+107,"way",98815640,"Puente romano",,"attraction","37.168292050000005","-3.5961411",4,28
+108,"way",100269813,"Palacio de Dar al-Horra",,"attraction","37.18159594134411","-3.596378630915296",3,34
+109,"way",105257406,"Calle Carrera del Darro",,"attraction","37.17772755277864","-3.5944433141462024",9,29
+110,"way",105281231,"Paseo de los Tristes",,"attraction","37.17888403180016","-3.589442863633066",8,33
+111,"way",117369758,"Iglesia de Santa María de la Alhambra","place_of_worship","attraction","37.17640173886112","-3.589203410138821",2,37
+112,"way",120728821,"Casa-Museo Federico García Lorca",,"museum","37.170593","-3.6093919000000008",1,35
+113,"way",124069121,"Iglesia del Sagrario","place_of_worship","attraction","37.17591228644034","-3.5990339470136585",2,24
+114,"way",124069145,"Catedral de Granada","place_of_worship","attraction","37.1765037340604","-3.599095105813139",3,26
+115,"way",130534482,"Fuente del Triunfo","fountain","attraction","37.18423969186109","-3.601534197422874",3,29
+116,"way",152363088,"Capilla Real","place_of_worship","attraction","37.176239618706425","-3.5986283821547973",7,26
+117,"way",152363089,"Plaza de Bib-Rambla",,"attraction","37.17518098868944","-3.5997978575743086",10,21
+118,"way",152971913,"Paseo del Padre Manjón",,"attraction","37.17920701313312","-3.588678466570705",2,38
+119,"way",156819359,"Museo José Guerrero",,"museum","37.17579549110141","-3.5986979349139943",7,37
+120,"way",156837504,"Museo de San Juan de Dios",,"museum","37.177665540138","-3.595357218832662",7,21
+121,"way",164041637,"Calle Chirimías",,"attraction","37.178573400000005","-3.590424650000001",10,30
+122,"way",182781541,"El Bañuelo",,"attraction","37.1784442107901","-3.593000472364372",8,21
+123,"way",196490785,"Generalife",,"attraction","37.17705550838473","-3.585132065316046",9,21
+124,"way",197139208,"Carmen de la Victoria",,"attraction","37.18088561934589","-3.58901244353911",5,38
+125,"way",223074706,"Silla del Moro",,"attraction","37.17832748033928","-3.583842249031376",9,35
+126,"way",373620227,"Laberinto",,"attraction","37.16270296014173","-3.605187075307292",1,36
+127,"way",420540407,"Fuente de las Granadas","fountain","attraction","37.16935805500088","-3.595825705075952",2,36
+128,"way",421846007,"Casa Molino de Ángel Ganivet",,"attraction","37.16835866700814","-3.588285791308281",9,25
+129,"way",445396721,"Bomba de Agua",,"artwork","37.1678763","-3.58891305",5,21
+130,"way",484270192,"Puerta de Fajalauza",,"attraction","37.1862322657174","-3.591509990427584",6,36
+131,"way",513660218,"Cuesta de Gomérez",,"attraction","37.17620508334738","-3.594540387181889",2,22
+132,"way",532924460,"Fuente de los Cuatro Leones","fountain","attraction","37.16958014729411","-3.592710312921984",5,25
+133,"way",596126982,"Fuente de la Bomba","fountain","attraction","37.1680719911127","-3.5900666871125946",7,22
+134,"way",596126983,"Fuente de la Ninfa","fountain","attraction","37.167742861362605","-3.5895068868587767",3,39
+135,"way",635944653,"Centro Europeo de las Mujeres Mariana Pineda",,"museum","37.172890446798846","-3.6023992424917024",8,22
+136,"way",674191011,"Aljibe de San Nicolás",,"attraction","37.18125862559248","-3.5928606916846366",1,27
+137,"way",674191013,"Calle Carrera del Darro",,"attraction","37.1780278706851","-3.593702229690241",5,32
+138,"way",674191014,"Convento de Santa Catalina de Zafra",,"attraction","37.1785083136754","-3.591976066330285",9,23
+139,"way",858862405,"Casa de Lorenzo el Chapiz",,"attraction","37.180911542633055","-3.588290629087365",3,38
+140,"way",877866023,"Puerta de Elvira",,"attraction","37.18214551217747","-3.599586493447757",9,27
+141,"way",879752967,"Aljibe del Rey",,"attraction","37.18162984445328","-3.595395716600118",2,38
+142,"way",929361981,"Aljibe de la Lluvia",,"attraction","37.17668951899402","-3.5703371346595203",5,39
+143,"way",1017102318,"Biodomo",,"zoo","37.16360308625822","-3.605761210597184",9,21
+144,"way",1069967602,"Fuente de los Gigantes","fountain","attraction","37.17517599999999","-3.5997918",10,39
+145,"way",1069967615,"Fuente de las Batallas","fountain","attraction","37.1721384783353","-3.5986400879992027",4,22
+146,"way",1079089470,"Aljibe de la Cruz de Piedra",,"attraction","37.18558354072097","-3.5915792980479395",3,33
+147,"way",1079185009,"Sala Regia",,"attraction","37.17824520534427","-3.585784749950839",6,38
+148,"way",1213527705,"Aljibe del Salvador",,"attraction","37.18236196698767","-3.5908002682625115",3,38
+149,"way",1213529102,"Aljibe del Peso de la Harina",,"attraction","37.18145602141758","-3.58879647143898",9,36
+150,"way",1223417161,"Escultura a Fernando de los Ríos",,"artwork","37.1609368171107","-3.604712583072612",9,30
+151,"relation",2640220,"Palacio de Carlos V",,"attraction","37.17675647036195","-3.589922256145011",1,28
+152,"relation",2788286,"Corral del Carbón",,"attraction","37.1748976583681","-3.597995845769101",10,26
+153,"relation",5429567,"Monasterio de La Cartuja","place_of_worship","attraction","37.1919694237601","-3.5994270077282464",6,30
+154,"relation",5734549,"Casa de Zafra",,"attraction","37.17884976670796","-3.5926143922446347",8,27
+155,"relation",11205469,"Museo Arqueológico y Etnológico de Granada",,"museum","37.17882049012946","-3.591676677804604",1,28
+156,"relation",11753471,"Palacio de los Córdova",,"attraction","37.17979234179616","-3.587032115129201",2,32
+157,"relation",11753663,"Casa del Chapiz",,"attraction","37.18107412625366","-3.58847392011665",6,24
+158,"relation",11965863,"Hospital de la tiña",,"museum","37.180304224302304","-3.5951584054605323",5,40
