@@ -24,17 +24,21 @@ def main():
         print("Tiempo total:", tiempo_total)   
         print("Distancia total:", distancia_total) 
         print("Interes total:", beneficio) 
+        print("Numero de nodos visitados:", len(ruta_solucion))
+        print("Margen:",tiempo_max-tiempo_total)
         
        
         vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
-        #nodos_df = vista.cargar_nodos()
         
         # Visualizar la ruta en el mapa, si nodos_df no es None
         if nodos_df is not None:
-            mapa = vista.visualizar_ruta_en_mapa(nodos_df)
-            
-            mapa.save('ruta_solucion.html')  # Guarda el mapa en un archivo HTML
-                
+            #mapa_folium = vista.visualizar_ruta_en_mapa_folium(nodos_df)
+            #mapa_explore = vista.visualizar_ruta_en_mapa_explore(nodos_df)
+            vista.exportar_indicaciones_ruta_v1('indicaciones_ruta.txt')
+
+
+            #mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
+            #mapa_explore.save('ruta_solucion_explore.html')     
    
 if __name__ == "__main__":
     main()
