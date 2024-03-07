@@ -55,3 +55,42 @@ class Greedy:
             
         # Devolver la lista de nodos visitados y el tiempo total
         return self.visitados, tiempo_actual, distancia_total, beneficio
+    
+    def aplicar_greedy_ciclico(self, nodo_ciclico):
+            self.visitados = [nodo_ciclico]
+            distancia_total = 0
+            tiempo_actual = self.nodos_df.loc[nodo_ciclico, 'tiempo_de_visita']
+            beneficio = self.nodos_df.loc[nodo_ciclico, 'interes']
+
+            while True:
+                mejor_fitness = -float('inf')
+                mejor_nodo = None
+                
+                for i, nodo in self.nodos_df.iterrows():
+                    if i not in self.visitados and i != nodo_ciclico:
+                        tiempo_vuelta = self.tiempos_df.loc[i, str(nodo_ciclico)]
+                        # Asegurarse de tener en cuenta el tiempo de visita en el nodo final
+                        tiempo_necesario = tiempo_actual + self.nodos_df.loc[i, 'tiempo_de_visita'] + tiempo_vuelta + self.nodos_df.loc[nodo_ciclico, 'tiempo_de_visita']
+                        
+                        if tiempo_necesario <= self.tiempo_max:
+                            fitness = self.calcular_fitness(self.visitados[-1], i)
+                            if fitness > mejor_fitness:
+                                mejor_fitness = fitness
+                                mejor_nodo = i
+                
+                if mejor_nodo is None:
+                    break
+
+                tiempo_viaje = self.tiempos_df.loc[self.visitados[-1], str(mejor_nodo)]
+                tiempo_actual += tiempo_viaje + self.nodos_df.loc[mejor_nodo, 'tiempo_de_visita']
+                distancia_total += self.distancias_df.loc[self.visitados[-1], str(mejor_nodo)]
+                beneficio += self.nodos_df.loc[mejor_nodo, 'interes']
+                self.visitados.append(mejor_nodo)
+
+            if tiempo_actual + self.tiempos_df.loc[self.visitados[-1], str(nodo_ciclico)] <= self.tiempo_max:
+                self.visitados.append(nodo_ciclico)
+                distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
+                tiempo_actual += self.tiempos_df.loc[self.visitados[-2], str(nodo_ciclico)]
+                # No se añade beneficio porque el nodo cíclico ya fue considerado al inicio
+
+            return self.visitados, tiempo_actual, distancia_total, beneficio
