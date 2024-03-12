@@ -44,16 +44,16 @@ def main():
         print("Margen:", tiempo_max - tiempo_total)
         print("Ruta ciclica:", es_ciclica)
         
-        vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
-        if nodos_df is not None:
+        #vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
+        #if nodos_df is not None:
         
 
-            mapa_folium = vista.visualizar_ruta_en_mapa_folium(nodos_df)
+            #mapa_folium = vista.visualizar_ruta_en_mapa_folium(nodos_df)
             #mapa_explore = vista.visualizar_ruta_en_mapa_explore(nodos_df)
             #vista.exportar_indicaciones_ruta_v1('indicaciones_ruta.txt')
 
 
-            mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
+            #mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
             #mapa_explore.save('ruta_solucion_explore.html')     
    
 if __name__ == "__main__":
