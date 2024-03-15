@@ -1,5 +1,6 @@
 from datos import lectura_datos
 from algoritmos import greedy 
+from algoritmos import grasp
 from datos import visualizacion
 
 def main():
@@ -17,6 +18,7 @@ def main():
         tiempo_max = int(input("Introduce el tiempo máximo: "))
         print("Tiempo máximo:", tiempo_max)
         
+        """ MAIN GREEDY
          # Crear una instancia del algoritmo
         alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
@@ -33,6 +35,11 @@ def main():
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy()
       
 
+        """
+        
+        alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        
+        ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
         
         
 
@@ -42,7 +49,7 @@ def main():
         print("Interes total:", beneficio) 
         print("Numero de nodos visitados:", len(ruta_solucion))
         print("Margen:", tiempo_max - tiempo_total)
-        print("Ruta ciclica:", es_ciclica)
+        #print("Ruta ciclica:", es_ciclica)
         
         #vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
         #if nodos_df is not None:
