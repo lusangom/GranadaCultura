@@ -37,9 +37,24 @@ def main():
 
         """
         
+        # Crear una instancia del algoritmo
         alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
-        ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
+        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
+        nodo_origen = None
+
+        if es_ciclica:
+            print("Lista de POIs:")
+            for nodo, row in nodos_df.iterrows():
+                print(f"{nodo}: {row['name']}")
+            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp_ciclico(nodo_ciclico=nodo_origen)
+        else:
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
+      
+       
+        
+       
         
         
 
@@ -49,6 +64,7 @@ def main():
         print("Interes total:", beneficio) 
         print("Numero de nodos visitados:", len(ruta_solucion))
         print("Margen:", tiempo_max - tiempo_total)
+        print("Porcentaje interes: ",(beneficio/len(ruta_solucion))*100)
         #print("Ruta ciclica:", es_ciclica)
         
         #vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
