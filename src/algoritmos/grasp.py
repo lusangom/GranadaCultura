@@ -97,6 +97,7 @@ class Grasp:
                     candidatos_fallidos.append(nodo)
                     candidatos.remove((fitness, nodo))
                     break
+                    
                         
                 
                 # Comprobar si ya no hay candidatos viables
@@ -153,7 +154,7 @@ class Grasp:
                         if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
                             # Intercambiar nodos
                             mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
-                            tiempo_actual = self.calcular_tiempo_total_ciclico(mejor_solucion)
+                            tiempo_actual = self.calcular_tiempo_total(mejor_solucion)
 
                             # Si no se encuentra una mejora, revertir el intercambio
                             if tiempo_actual < mejor_tiempo:
@@ -264,6 +265,8 @@ class Grasp:
                     if(tiempo_vuelta <= (self.tiempo_max - tiempo_actual)):
                         vuelta = True
                         
+                    #break
+                        
                 
                 # Comprobar si ya no hay candidatos viables
                 if set(candidatos_fallidos) == set([nodo for _, nodo in candidatos]):
@@ -312,7 +315,7 @@ class Grasp:
     def buscar_local_dlb_ciclico(self):
         # Hacer una copia de la solución actual
         mejor_solucion = self.visitados[:]
-        mejor_tiempo = self.calcular_tiempo_total_ciclico(mejor_solucion)
+        mejor_tiempo, tmp = self.calcular_tiempo_total_ciclico(mejor_solucion)
         dlb = [0] * len(mejor_solucion)  # Inicializar la máscara DLB
         
         mejor_encontrada = True
@@ -330,7 +333,7 @@ class Grasp:
                         if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
                             # Intercambiar nodos
                             mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
-                            tiempo_actual = self.calcular_tiempo_total_ciclico(mejor_solucion)
+                            tiempo_actual, tmp_vuelta = self.calcular_tiempo_total_ciclico(mejor_solucion)
 
                             # Si no se encuentra una mejora, revertir el intercambio
                             if tiempo_actual < mejor_tiempo:
@@ -338,8 +341,8 @@ class Grasp:
                                 
                                 #print("ANTES:", str(mejor_tiempo))
                                 
-                                tiempo_vuelta = self.tiempos_df.loc[mejor_solucion[-1],str(mejor_solucion[0])]    
-                                mejor_tiempo = mejor_tiempo - tiempo_vuelta
+                                #tiempo_vuelta = self.tiempos_df.loc[mejor_solucion[-1],str(mejor_solucion[0])]    
+                                mejor_tiempo = mejor_tiempo - tmp_vuelta
                                 
                                 #print("MEJJOR FINAL ES:", str(mejor_solucion[-1]))
                                 #print("MEJOR NODO INICIO ES:", str(mejor_solucion[0]))
@@ -371,12 +374,14 @@ class Grasp:
             tiempo_total += self.tiempos_df.loc[solucion[i], str(solucion[i + 1])]
         
         tiempo_vuelta = self.tiempos_df.loc[solucion[-1],str(solucion[0])]
+        
+        tiempo_total = tiempo_total + tiempo_vuelta
         #print("FINAL ES:", str(solucion[-1]))
         #print("NODO INICIO ES:", str(solucion[0]))
         #print("tiempo ES:", str(tiempo_vuelta))
                
         
-        return tiempo_total
+        return tiempo_total, tiempo_vuelta
     
 
         

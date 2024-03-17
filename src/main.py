@@ -64,7 +64,7 @@ def main():
         print("Interes total:", beneficio) 
         print("Numero de nodos visitados:", len(ruta_solucion))
         print("Margen:", tiempo_max - tiempo_total)
-        print("Porcentaje interes: ",(beneficio/len(ruta_solucion))*100)
+        print("Porcentaje interes: ",(beneficio/len(ruta_solucion))*10)
         #print("Ruta ciclica:", es_ciclica)
         
         #vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
