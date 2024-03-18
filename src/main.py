@@ -1,6 +1,7 @@
 from datos import lectura_datos
 from algoritmos import greedy 
 from algoritmos import grasp
+from algoritmos import enfriamientosimulado
 from datos import visualizacion
 
 def main():
@@ -37,6 +38,7 @@ def main():
 
         """
         
+        """ Main GRASP
         # Crear una instancia del algoritmo
         alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
@@ -52,8 +54,12 @@ def main():
         else:
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
       
-       
+       """
+        """"""
+        # Crear una instancia del algoritmo
+        alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
+        ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado()
        
         
         

@@ -265,7 +265,7 @@ class Grasp:
                     if(tiempo_vuelta <= (self.tiempo_max - tiempo_actual)):
                         vuelta = True
                         
-                    #break
+                    break
                         
                 
                 # Comprobar si ya no hay candidatos viables
