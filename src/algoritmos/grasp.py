@@ -67,7 +67,7 @@ class Grasp:
                 # Seleccionar un nodo aleatorio de la lista de candidatos
                 fitness, nodo = random.choice(candidatos)
                 
-                print("CANDIDATO ES:", str(nodo))
+          
                 
                 tiempo_viaje = self.tiempos_df.loc[self.visitados[-1], str(nodo)]
                 tiempo_visita = self.nodos_df.loc[nodo, 'tiempo_de_visita']
@@ -117,7 +117,7 @@ class Grasp:
         mejor_tiempo = self.calcular_tiempo_total(mejor_solucion)
 
         # Iterar a través de pares de nodos e intentar intercambiarlos para encontrar una solución mejor
-        for i in range(1, len(mejor_solucion) - 1):  # Empezar desde 1 para mantener el nodo inicial fijo
+        for i in range(0, len(mejor_solucion) - 1):  
             for j in range(i + 1, len(mejor_solucion)):
                 # Intercambiar nodos
                 mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
@@ -147,7 +147,7 @@ class Grasp:
         
             mejor_encontrada = False
             
-            for i in range(1, len(mejor_solucion) - 1):  # El nodo inicial se mantiene fijo
+            for i in range(0, len(mejor_solucion) - 1): 
                 if dlb[i] == 0:  # Solo considerar este nodo si su DLB está en 0
                     improve_flag = False
                     for j in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos

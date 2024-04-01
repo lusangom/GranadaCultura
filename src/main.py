@@ -2,6 +2,7 @@ from datos import lectura_datos
 from algoritmos import greedy 
 from algoritmos import grasp
 from algoritmos import enfriamientosimulado
+from algoritmos import algoritmogenetico
 from datos import visualizacion
 
 def main():
@@ -57,7 +58,7 @@ def main():
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
       
        """
-        """"""
+        """
         # Crear una instancia del algoritmo
         alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
@@ -73,9 +74,19 @@ def main():
         else:
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado()
        
+        """
         
         
-
+        alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        
+        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
+        nodo_origen = None
+        
+        ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
+        
+       
+              
+       
         print("Ruta solución:", ruta_solucion)
         print("Tiempo total:", tiempo_total)   
         print("Distancia total:", distancia_total) 
@@ -97,18 +108,19 @@ def main():
         print("Ruta ciclica:", es_ciclica)
         
        
+       
     
         
-        vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
-        if nodos_df is not None:
+        #vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
+        #if nodos_df is not None:
         
 
-            mapa_folium = vista.visualizar_ruta_en_mapa_folium(nodos_df)
+            #mapa_folium = vista.visualizar_ruta_en_mapa_folium(nodos_df)
             #mapa_explore = vista.visualizar_ruta_en_mapa_explore(nodos_df)
             #vista.exportar_indicaciones_ruta_v1('indicaciones_ruta.txt')
 
 
-            mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
+            #mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
             #mapa_explore.save('ruta_solucion_explore.html')     
    
 if __name__ == "__main__":
