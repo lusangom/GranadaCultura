@@ -82,7 +82,14 @@ def main():
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
         nodo_origen = None
         
-        ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
+        if es_ciclica:
+            print("Lista de POIs:")
+            for nodo, row in nodos_df.iterrows():
+                print(f"{nodo}: {row['name']}")
+            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico_ciclico(nodo_ciclico=nodo_origen)
+        else:
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
         
        
               
