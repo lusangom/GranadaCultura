@@ -5,11 +5,27 @@ from algoritmos import enfriamientosimulado
 from algoritmos import algoritmogenetico
 from algoritmos import algoritmomemetico
 from datos import visualizacion
+import pandas as pd
 
 def main():
     ruta_archivo_nodos = 'data/pois_158.csv'
     ruta_archivo_distancias = 'data/distancias_158.csv'
     ruta_archivo_tiempos = 'data/tiempos_158.csv'
+    ruta_archivo_edad_velocidad = 'data/edadvelocidad.csv'
+    
+    # Leer el archivo edad_velocidad.csv
+    edad_velocidad_df = pd.read_csv(ruta_archivo_edad_velocidad)
+    
+    # Solicitar la edad al usuario y verificar que esté dentro del rango permitido
+    edad = -1
+    while not (0 <= edad <= 99):
+        edad = int(input("Introduce la edad (entre 0 y 99): "))
+        if not (0 <= edad <= 99):
+            print("Edad fuera de rango. Por favor, introduce una edad entre 0 y 99.")
+    
+    # Obtener la velocidad correspondiente a la edad introducida
+    velocidad = edad_velocidad_df[(edad_velocidad_df['Edad_inicio'] <= edad) & (edad_velocidad_df['Edad_fin'] >= edad)]['Velocidad(m/min)'].iloc[0]
+    print("Velocidad correspondiente a la edad:", velocidad)
     
     datos = lectura_datos.Datos(ruta_archivo_nodos, ruta_archivo_distancias, ruta_archivo_tiempos)
     nodos_df = datos.cargar_nodos()
@@ -22,13 +38,11 @@ def main():
         tiempo_max = int(input("Introduce el tiempo máximo: "))
         print("Tiempo máximo:", tiempo_max)
         
-        edad = int(input("Introduce la edad: "))
-        print("Edad:", edad)
         
         es_ciclica=False
-        """ MAIN GREEDY
+        
          # Crear una instancia del algoritmo
-        alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
         
         print("ALGORITMO GREEDY:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
@@ -44,11 +58,12 @@ def main():
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy()
       
 
-        """
         
-        """ Main GRASP
+        
+        
+        """ 
         # Crear una instancia del algoritmo
-        alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
         
         print("ALGORITMO GRASP:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
@@ -63,10 +78,11 @@ def main():
         else:
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
       
-       """
         """
+        """ 
+        
         # Crear una instancia del algoritmo
-        alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
         
         print("ALGORITMO ENFRIAMIENTO SIMULADO:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
@@ -83,8 +99,9 @@ def main():
        
         """
         
+        
         """
-        alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
         
         print("ALGORITMO GENETICO:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
@@ -102,7 +119,8 @@ def main():
         
         """
       
-        alg_mm = algoritmomemetico.AlgoritmoMemetico(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        """      
+        alg_mm = algoritmomemetico.AlgoritmoMemetico(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
         
         print("ALGORITMO MEMETICO:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
@@ -117,7 +135,7 @@ def main():
         else:
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico()
          
-      
+        """
   
         print("Ruta solución:", ruta_solucion)
         print("Tiempo total:", tiempo_total)   

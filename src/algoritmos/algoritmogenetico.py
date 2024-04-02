@@ -3,11 +3,12 @@ import numpy as np
 import random
 
 class AlgoritmoGeneticoEstacionario:
-    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, poblacion_size=50):
+    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad,poblacion_size=50):
         self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
         self.tiempos_df = tiempos_df.set_index('nodo')
         self.tiempo_max = tiempo_max
+        self.velocidad = velocidad
         self.poblacion_size = poblacion_size
         self.poblacion = []
         self.fitness = []
@@ -46,7 +47,7 @@ class AlgoritmoGeneticoEstacionario:
         while nodos_disponibles:
             nodo_siguiente = random.choice(nodos_disponibles)
             
-            tiempo_siguiente=self.tiempos_df.loc[cromosoma[-1], str(nodo_siguiente)]
+            tiempo_siguiente=(self.distancias_df.loc[cromosoma[-1], str(nodo_siguiente)])/self.velocidad
             tiempo_visita_siguiente = self.nodos_df.loc[nodo_siguiente, 'tiempo_de_visita']
             if tiempo_actual + tiempo_siguiente + tiempo_visita_siguiente >= self.tiempo_max: #Solo se añaden si hay suficiente tiempo disponible
                 break  # No se puede añadir más nodos sin superar el tiempo máximo
@@ -73,9 +74,9 @@ class AlgoritmoGeneticoEstacionario:
         while nodos_disponibles:
             nodo_siguiente = random.choice(nodos_disponibles)
             
-            tiempo_siguiente=self.tiempos_df.loc[cromosoma[-1], str(nodo_siguiente)]
+            tiempo_siguiente=(self.distancias_df.loc[cromosoma[-1], str(nodo_siguiente)])/self.velocidad
             tiempo_visita_siguiente = self.nodos_df.loc[nodo_siguiente, 'tiempo_de_visita']
-            tiempo_vuelta=self.tiempos_df.loc[nodo_siguiente,str(nodo_ciclico)]
+            tiempo_vuelta=(self.distancias_df.loc[nodo_siguiente,str(nodo_ciclico)])/self.velocidad           
             if tiempo_actual + tiempo_siguiente + tiempo_visita_siguiente + tiempo_vuelta >= self.tiempo_max: #Solo se añaden si hay suficiente tiempo disponible
                 cromosoma.append(nodo_ciclico)
                 break  # No se puede añadir más nodos sin superar el tiempo máximo
@@ -94,7 +95,7 @@ class AlgoritmoGeneticoEstacionario:
     def calcular_fitness_cromosoma(self, cromosoma):
         fitness_total = 0
         for i, nodo in enumerate(cromosoma[:-1]):
-            tiempo_viaje = self.tiempos_df.loc[cromosoma[i], str(cromosoma[i+1])]
+            tiempo_viaje = (self.distancias_df.loc[cromosoma[i], str(cromosoma[i+1])])/self.velocidad            
             fitness_total += self.nodos_df.loc[nodo, 'interes'] - tiempo_viaje*0.1
         return fitness_total
     
@@ -337,8 +338,8 @@ class AlgoritmoGeneticoEstacionario:
         
         for i in range(len(solucion) - 1):
             tiempo_total += self.nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
-            tiempo_total += self.tiempos_df.loc[solucion[i], str(solucion[i + 1])]
-            
+            tiempo_total += (self.distancias_df.loc[solucion[i], str(solucion[i + 1])]
+)/self.velocidad            
         return tiempo_total
     
     def calcular_tiempo_beneficio_distancia_total(self, solucion):
@@ -349,7 +350,7 @@ class AlgoritmoGeneticoEstacionario:
      
         for i in range(len(solucion) - 1):
             tiempo_actual += self.nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
-            tiempo_actual += self.tiempos_df.loc[solucion[i], str(solucion[i + 1])]
+            tiempo_actual += (self.distancias_df.loc[solucion[i], str(solucion[i + 1])])/self.velocidad            
             distancia_total += self.distancias_df.loc[solucion[i], str(solucion[i + 1])]
             beneficio_actual += self.nodos_df.loc[solucion[i + 1], 'interes']
             
