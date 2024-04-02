@@ -2,7 +2,9 @@ import pandas as pd
 import numpy as np
 import random
 
-class AlgoritmoGeneticoEstacionario:
+MAX_ITERACIONES = 50000
+
+class AlgoritmoMemetico:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, poblacion_size=50):
         self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
@@ -195,6 +197,10 @@ class AlgoritmoGeneticoEstacionario:
 
 
     def verificar_tiempo_hijo(self, hijo):
+        
+        #if len(hijo) <= 3:
+        #    return self.nodos_df.at[hijo[0], 'tiempo_de_visita'] 
+        
         tiempo_total = 0
         for i, nodo in enumerate(hijo[:-1]):
             tiempo_viaje = self.tiempos_df.at[hijo[i], str(hijo[i + 1])]
@@ -356,7 +362,7 @@ class AlgoritmoGeneticoEstacionario:
         return tiempo_actual, distancia_total, beneficio_actual
 
 
-    def aplicar_algoritmo_genetico(self, max_iteraciones=500):
+    def aplicar_algoritmo_memetico(self, max_iteraciones=500):
         self.inicializar_poblacion()
         generaciones = 0
         while generaciones < max_iteraciones:  # Criterio de terminación simplificado
@@ -383,11 +389,73 @@ class AlgoritmoGeneticoEstacionario:
             # Ordenamos segun el valor de fitness
             self.poblacion = sorted(self.poblacion, key=self.calcular_fitness_cromosoma, reverse=True)[:self.poblacion_size]
             generaciones += 1
+            
+            if generaciones % 10 == 0:
+                mejores = self.poblacion[:int(np.ceil(self.poblacion_size * 0.1))]
+                #print("Mejores cromosomas seleccionados para búsqueda local:")
+                #print(mejores)
+                for cromosoma in mejores:
+                    cromosoma_mejorado = self.buscar_local_dlb(cromosoma)
+                    self.poblacion.append(cromosoma_mejorado)
+
+            
         self.visitados =  max(self.poblacion, key=self.calcular_beneficio_cromosoma)  # Devuelve el mejor cromosoma, aunque antes hayamos usado el fitness ahora usamos el beneficio por que es lo que hemos hecho en el resto de algoritmos
         tiempo_actual, distancia_total, beneficio_actual = self.calcular_tiempo_beneficio_distancia_total(self.visitados)
+        
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
+    
+    def buscar_local_dlb(self, solucion):
+        # Hacer una copia de la solución actual
+        mejor_solucion = solucion[:]
+        mejor_tiempo = self.calcular_tiempo_total(mejor_solucion)
+        dlb = [0] * len(mejor_solucion)  # Inicializar la máscara DLB
+        
+        mejor_encontrada = True
+        j=0
+      
+        # Iterar a través de los nodos de la solución
+        while j < MAX_ITERACIONES and mejor_encontrada:
+        
+            mejor_encontrada = False
+            
+            for i in range(0, len(mejor_solucion) - 1): 
+                if dlb[i] == 0:  # Solo considerar este nodo si su DLB está en 0
+                    improve_flag = False
+                    for j in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
+                        if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
+                            # Intercambiar nodos
+                            mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                            tiempo_actual = self.calcular_tiempo_total(mejor_solucion)
+
+                            # Si no se encuentra una mejora, revertir el intercambio
+                            if tiempo_actual < mejor_tiempo:
+                                mejor_tiempo = tiempo_actual  # Actualizar el mejor tiempo
+                                mejor_encontrada = True;
+                                improve_flag = True  # Indicar que hubo una mejora
+                                dlb[i] = dlb[j] = 0  # Restablecer los bits DLB ya que hubo una mejora
+                                break  # Salir del bucle for interno
+                            else:
+                                # Revertir el intercambio si no mejora
+                                mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+
+                    # Si no se encontró ninguna mejora, establecer el bit DLB en 1
+                    if not improve_flag:
+                        dlb[i] = 1
+            
+            j = j+1            
+                    
+
+        return mejor_solucion
+
+    def calcular_tiempo_total(self, solucion):
+        tiempo_total = self.nodos_df.loc[solucion[0], 'tiempo_de_visita']
+        for i in range(len(solucion) - 1):
+            tiempo_total += self.nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
+            tiempo_total += self.tiempos_df.loc[solucion[i], str(solucion[i + 1])]
+        return tiempo_total
+    
    
-    def aplicar_algoritmo_genetico_ciclico(self, nodo_ciclico, max_iteraciones=500):
+    def aplicar_algoritmo_memetico_ciclico(self, nodo_ciclico, max_iteraciones=500):
         self.inicializar_poblacion_ciclico(nodo_ciclico)
         generaciones = 0
         while generaciones < max_iteraciones: 
@@ -414,7 +482,90 @@ class AlgoritmoGeneticoEstacionario:
             # Ordenamos segun el valor de fitness
             self.poblacion = sorted(self.poblacion, key=self.calcular_fitness_cromosoma, reverse=True)[:self.poblacion_size]
             generaciones += 1
+            
+            if generaciones % 10 == 0:
+                mejores = self.poblacion[:int(np.ceil(self.poblacion_size * 0.1))]
+                #print("Mejores cromosomas seleccionados para búsqueda local:")
+                #print(mejores)
+                for cromosoma in mejores:
+                    cromosoma_mejorado = self.buscar_local_dlb_ciclico(cromosoma)
+                    self.poblacion.append(cromosoma_mejorado)
+
         self.visitados =  max(self.poblacion, key=self.calcular_beneficio_cromosoma)  # Devuelve el mejor cromosoma, aunque antes hayamos usado el fitness ahora usamos el beneficio por que es lo que hemos hecho en el resto de algoritmos
         tiempo_actual, distancia_total, beneficio_actual = self.calcular_tiempo_beneficio_distancia_total(self.visitados)
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
-   
+
+  
+    def buscar_local_dlb_ciclico(self, solucion):
+        # Hacer una copia de la solución actual
+        mejor_solucion = solucion[:]
+        mejor_tiempo, tmp = self.calcular_tiempo_total_ciclico(mejor_solucion)
+        dlb = [0] * len(mejor_solucion)  # Inicializar la máscara DLB
+        
+        mejor_encontrada = True
+        j=0
+      
+        # Iterar a través de los nodos de la solución
+        while j < MAX_ITERACIONES and mejor_encontrada:
+        
+            mejor_encontrada = False
+            
+            for i in range(1, len(mejor_solucion) - 1):  # El nodo inicial se mantiene fijo
+                if dlb[i] == 0:  # Solo considerar este nodo si su DLB está en 0
+                    improve_flag = False
+                    for j in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
+                        if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
+                            # Intercambiar nodos
+                            mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                            tiempo_actual, tmp_vuelta = self.calcular_tiempo_total_ciclico(mejor_solucion)
+
+                            # Si no se encuentra una mejora, revertir el intercambio
+                            if tiempo_actual < mejor_tiempo:
+                                mejor_tiempo = tiempo_actual  # Actualizar el mejor tiempo
+                                
+                                #print("ANTES:", str(mejor_tiempo))
+                                
+                                #tiempo_vuelta = self.tiempos_df.loc[mejor_solucion[-1],str(mejor_solucion[0])]    
+                                mejor_tiempo = mejor_tiempo - tmp_vuelta
+                                
+                                #print("MEJJOR FINAL ES:", str(mejor_solucion[-1]))
+                                #print("MEJOR NODO INICIO ES:", str(mejor_solucion[0]))
+                                #print("MEJOR tiempo ES:", str(tiempo_vuelta))
+                                #print("DESPUES:", str(mejor_tiempo))
+                                
+                                mejor_encontrada = True;
+                                improve_flag = True  # Indicar que hubo una mejora
+                                dlb[i] = dlb[j] = 0  # Restablecer los bits DLB ya que hubo una mejora
+                                break  # Salir del bucle for interno
+                            else:
+                                # Revertir el intercambio si no mejora
+                                mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+
+                    # Si no se encontró ninguna mejora, establecer el bit DLB en 1
+                    if not improve_flag:
+                        dlb[i] = 1
+            
+            j = j+1
+                     
+                    
+
+        return mejor_solucion
+
+    def calcular_tiempo_total_ciclico(self, solucion):
+        tiempo_total = self.nodos_df.loc[solucion[0], 'tiempo_de_visita']
+        for i in range(len(solucion) - 1):
+            tiempo_total += self.nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
+            tiempo_total += self.tiempos_df.loc[solucion[i], str(solucion[i + 1])]
+        
+        tiempo_vuelta = self.tiempos_df.loc[solucion[-1],str(solucion[0])]
+        
+        tiempo_total = tiempo_total + tiempo_vuelta
+        #print("FINAL ES:", str(solucion[-1]))
+        #print("NODO INICIO ES:", str(solucion[0]))
+        #print("tiempo ES:", str(tiempo_vuelta))
+               
+        
+        return tiempo_total, tiempo_vuelta
+    
+
+           

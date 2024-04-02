@@ -3,6 +3,7 @@ from algoritmos import greedy
 from algoritmos import grasp
 from algoritmos import enfriamientosimulado
 from algoritmos import algoritmogenetico
+from algoritmos import algoritmomemetico
 from datos import visualizacion
 
 def main():
@@ -26,6 +27,7 @@ def main():
          # Crear una instancia del algoritmo
         alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
+        print("ALGORITMO GREEDY:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
         nodo_origen = None
 
@@ -45,6 +47,7 @@ def main():
         # Crear una instancia del algoritmo
         alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
+        print("ALGORITMO GRASP:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
         nodo_origen = None
 
@@ -62,6 +65,7 @@ def main():
         # Crear una instancia del algoritmo
         alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
+        print("ALGORITMO ENFRIAMIENTO SIMULADO:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
         nodo_origen = None
 
@@ -76,9 +80,10 @@ def main():
        
         """
         
-        
+        """
         alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max) 
         
+        print("ALGORITMO GENETICO:")
         es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
         nodo_origen = None
         
@@ -91,9 +96,26 @@ def main():
         else:
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
         
-       
-              
-       
+        
+        """
+      
+        alg_mm = algoritmomemetico.AlgoritmoMemetico(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+        
+        print("ALGORITMO MEMETICO:")
+        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
+        nodo_origen = None
+        
+        if es_ciclica:
+            print("Lista de POIs:")
+            for nodo, row in nodos_df.iterrows():
+                print(f"{nodo}: {row['name']}")
+            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico_ciclico(nodo_ciclico=nodo_origen)
+        else:
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico()
+         
+      
+  
         print("Ruta solución:", ruta_solucion)
         print("Tiempo total:", tiempo_total)   
         print("Distancia total:", distancia_total) 
@@ -113,7 +135,6 @@ def main():
             print("Porcentaje interes: ",(beneficio/len(ruta_solucion))*10)
             
         print("Ruta ciclica:", es_ciclica)
-        
        
        
     

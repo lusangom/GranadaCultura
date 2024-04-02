@@ -5,7 +5,7 @@ import math
 import random
 
 MAX_ITERACIONES = 50000
-RANDOM_SEED = 36
+RANDOM_SEED = 42
 
 class Grasp:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max):
