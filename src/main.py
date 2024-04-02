@@ -1,121 +1,10 @@
 from datos import lectura_datos
-from algoritmos import greedy 
-from algoritmos import grasp
-from algoritmos import enfriamientosimulado
-from algoritmos import algoritmogenetico
-from algoritmos import algoritmomemetico
+from algoritmos import greedy, grasp, enfriamientosimulado, algoritmogenetico, algoritmomemetico
 from datos import visualizacion
+import pandas as pd
 
-def main():
-    ruta_archivo_nodos = 'data/pois_158.csv'
-    ruta_archivo_distancias = 'data/distancias_158.csv'
-    ruta_archivo_tiempos = 'data/tiempos_158.csv'
-    
-    datos = lectura_datos.Datos(ruta_archivo_nodos, ruta_archivo_distancias, ruta_archivo_tiempos)
-    nodos_df = datos.cargar_nodos()
-    distancias_df = datos.cargar_distancias()
-    tiempos_df = datos.cargar_tiempos()
-    
-    if nodos_df is not None and distancias_df is not None:
-        
-        
-        tiempo_max = int(input("Introduce el tiempo máximo: "))
-        print("Tiempo máximo:", tiempo_max)
-        
-        es_ciclica=False
-        """ MAIN GREEDY
-         # Crear una instancia del algoritmo
-        alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max) 
-        
-        print("ALGORITMO GREEDY:")
-        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
-        nodo_origen = None
 
-        if es_ciclica:
-            print("Lista de POIs:")
-            for nodo, row in nodos_df.iterrows():
-                print(f"{nodo}: {row['name']}")
-            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy_ciclico(nodo_ciclico=nodo_origen)
-        else:
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy()
-      
-
-        """
-        
-        """ Main GRASP
-        # Crear una instancia del algoritmo
-        alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max) 
-        
-        print("ALGORITMO GRASP:")
-        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
-        nodo_origen = None
-
-        if es_ciclica:
-            print("Lista de POIs:")
-            for nodo, row in nodos_df.iterrows():
-                print(f"{nodo}: {row['name']}")
-            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp_ciclico(nodo_ciclico=nodo_origen)
-        else:
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
-      
-       """
-        """
-        # Crear una instancia del algoritmo
-        alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max) 
-        
-        print("ALGORITMO ENFRIAMIENTO SIMULADO:")
-        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
-        nodo_origen = None
-
-        if es_ciclica:
-            print("Lista de POIs:")
-            for nodo, row in nodos_df.iterrows():
-                print(f"{nodo}: {row['name']}")
-            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado_ciclico(nodo_ciclico=nodo_origen)
-        else:
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado()
-       
-        """
-        
-        """
-        alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max) 
-        
-        print("ALGORITMO GENETICO:")
-        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
-        nodo_origen = None
-        
-        if es_ciclica:
-            print("Lista de POIs:")
-            for nodo, row in nodos_df.iterrows():
-                print(f"{nodo}: {row['name']}")
-            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico_ciclico(nodo_ciclico=nodo_origen)
-        else:
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
-        
-        
-        """
-      
-        alg_mm = algoritmomemetico.AlgoritmoMemetico(nodos_df, distancias_df, tiempos_df, tiempo_max) 
-        
-        print("ALGORITMO MEMETICO:")
-        es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
-        nodo_origen = None
-        
-        if es_ciclica:
-            print("Lista de POIs:")
-            for nodo, row in nodos_df.iterrows():
-                print(f"{nodo}: {row['name']}")
-            nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico_ciclico(nodo_ciclico=nodo_origen)
-        else:
-            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico()
-         
-      
-  
+def mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica):
         print("Ruta solución:", ruta_solucion)
         print("Tiempo total:", tiempo_total)   
         print("Distancia total:", distancia_total) 
@@ -135,11 +24,98 @@ def main():
             print("Porcentaje interes: ",(beneficio/len(ruta_solucion))*10)
             
         print("Ruta ciclica:", es_ciclica)
-       
-       
+
+def main():
+    ruta_archivo_nodos = 'data/pois_158.csv'
+    ruta_archivo_distancias = 'data/distancias_158.csv'
+    ruta_archivo_tiempos = 'data/tiempos_158.csv'
     
+    
+    # Cargar datos
+    datos = lectura_datos.Datos(ruta_archivo_nodos, ruta_archivo_distancias, ruta_archivo_tiempos)
+    nodos_df = datos.cargar_nodos()
+    distancias_df = datos.cargar_distancias()
+    tiempos_df = datos.cargar_tiempos()
+
+    tiempo_max = int(input("Introduce el tiempo máximo: "))
+    print("Tiempo máximo:", tiempo_max)
+    alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max) 
+    alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max)
+    alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max)
+    alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max)
+    alg_mm = algoritmomemetico.AlgoritmoMemetico(nodos_df, distancias_df, tiempos_df, tiempo_max)
         
-        #vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
+    print("¿Qué algoritmo(s) deseas ejecutar?")
+    print("1. Greedy")
+    print("2. GRASP")
+    print("3. Enfriamiento Simulado")
+    print("4. Algoritmo Genético")
+    print("5. Algoritmo Memético")
+    print("6. Todos")
+    eleccion = input("Introduce el número correspondiente a tu elección, separados por coma si son varios (ejemplo: 1,2): ")
+
+    elecciones = [int(e.strip()) for e in eleccion.split(",")]
+
+    es_ciclica = input("¿Deseas que la ruta sea cíclica? (si/no): ").strip().lower() == 'si'
+    nodo_origen = None
+    if es_ciclica:
+        print("Lista de POIs:")
+        for nodo, row in nodos_df.iterrows():
+            print(f"{nodo}: {row['name']}")
+        nodo_origen = int(input("Selecciona el número de nodo para el punto de origen: "))
+
+    # Ejecutar los algoritmos seleccionados
+    if 1 in elecciones or 6 in elecciones: #greedy
+        if(es_ciclica):
+            print("ALGORITMO GREEDY")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy_ciclico(nodo_ciclico=nodo_origen)
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+        else:
+            print("ALGORITMO GREEDY")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy()
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+    if 2 in elecciones or 6 in elecciones: #grasp
+       
+        if(es_ciclica):
+            print("ALGORITMO GRASP")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp_ciclico(nodo_ciclico=nodo_origen)
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+        else:
+            print("ALGORITMO GRASP")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+        
+    if 3 in elecciones or 6 in elecciones: #es
+        
+        if(es_ciclica):
+            print("ALGORITMO ENFRIAMIENTO SIMULADO")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado_ciclico(nodo_ciclico=nodo_origen)
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+        else:
+            print("ALGORITMO ENFRIAMIENTO SIMULADO")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado()
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+      
+    if 4 in elecciones or 6 in elecciones: #genetico
+        if(es_ciclica):
+            print("ALGORITMO GENETICO")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico_ciclico(nodo_ciclico=nodo_origen)
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+        else:
+            print("ALGORITMO GENETICO")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+    if 5 in elecciones or 6 in elecciones: #memetico
+        if(es_ciclica):
+            print("ALGORITMO MEMETICO")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico_ciclico(nodo_ciclico=nodo_origen)
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+        else:
+            print("ALGORITMO MEMETICO")
+            ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico()
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+      
+    #vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
         #if nodos_df is not None:
         
 
@@ -149,7 +125,9 @@ def main():
 
 
             #mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
-            #mapa_explore.save('ruta_solucion_explore.html')     
-   
+            #mapa_explore.save('ruta_solucion_explore.html')   
+
+
+
 if __name__ == "__main__":
     main()
