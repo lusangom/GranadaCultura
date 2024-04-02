@@ -22,6 +22,9 @@ def main():
         tiempo_max = int(input("Introduce el tiempo máximo: "))
         print("Tiempo máximo:", tiempo_max)
         
+        edad = int(input("Introduce la edad: "))
+        print("Edad:", edad)
+        
         es_ciclica=False
         """ MAIN GREEDY
          # Crear una instancia del algoritmo
