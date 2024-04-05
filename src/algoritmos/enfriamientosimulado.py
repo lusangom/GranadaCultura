@@ -1,39 +1,30 @@
-# algoritmo_enfriamientosimulado.py
+# Algoritmo Enfriamiento Simulado
 
 import pandas as pd
 import random
 import math
 import numpy as np
-
-MU = 0.3
-PHI = 0.2
-T_FINAL = 0.0001 # 10⁻⁴
-RANDOM_SEED = 36
-MAX_EVALUACIONES = 50000
-BETA = 0.2 
+import funciones
 
 class EnfriamientoSimulado:
-    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad):
+    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, MU = 0.3, PHI = 0.2, T_FINAL = 0.0001, RANDOM_SEED = None, MAX_EVALUACIONES = 50000, BETA = 0.2 ):
         self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
         self.tiempos_df = tiempos_df.set_index('nodo')
         self.tiempo_max = tiempo_max
         self.velocidad = velocidad
         self.visitados = []
-        random.seed(RANDOM_SEED)
+        self.MU = MU
+        self.PHI = PHI
+        self.T_FINAL = T_FINAL
+        self.MAX_EVALUACIONES = 50000
+        self.BETA = 0.2 
+        if RANDOM_SEED is not None:
+            random.seed(RANDOM_SEED)
         
-    def calcular_fitness(self, nodo_origen, nodo_destino):
-        tiempo_viaje = (self.distancias_df.loc[nodo_origen, str(nodo_destino)])/self.velocidad
-        tiempo_viaje = tiempo_viaje * 0.1
-        beneficio = self.nodos_df.loc[nodo_destino, 'interes']
-       
-        fitness = beneficio - tiempo_viaje
-        return fitness
-
-    
    
     def generar_solucion_inicial_greedy(self):
-        # Seleccionar el nodo inicial basado en el mayor interés
+        
         nodo_inicial = self.nodos_df['interes'].idxmax()
         self.visitados.append(nodo_inicial)
         distancia_total = 0
@@ -49,14 +40,12 @@ class EnfriamientoSimulado:
             
             for i, nodo in self.nodos_df.iterrows():
                 if i not in self.visitados:
-                    fitness = self.calcular_fitness(self.visitados[-1], i)
+                    fitness = funciones.calcular_fitness(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
                     if fitness > mejor_fitness and tiempo_actual + (self.distancias_df.loc[self.visitados[-1], str(i)])/self.velocidad + self.nodos_df.loc[i, 'tiempo_de_visita'] <= self.tiempo_max:
                         mejor_fitness = fitness
                         mejor_nodo = i
-                        #distancia_total += self.distancias_df.loc[self.visitados[-1], str(i)]
-                      
                         
-            
+                      
             if mejor_nodo is None:
                 break  # No se encontraron más nodos para visitar sin superar el tiempo máximo
             
@@ -84,7 +73,7 @@ class EnfriamientoSimulado:
                         tiempo_necesario = tiempo_actual + self.nodos_df.loc[i, 'tiempo_de_visita'] + tiempo_vuelta + self.nodos_df.loc[nodo_ciclico, 'tiempo_de_visita']
                         
                         if tiempo_necesario <= self.tiempo_max:
-                            fitness = self.calcular_fitness(self.visitados[-1], i)
+                            fitness = funciones.calcular_fitness(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
                             if fitness > mejor_fitness:
                                 mejor_fitness = fitness
                                 mejor_nodo = i
@@ -201,12 +190,12 @@ class EnfriamientoSimulado:
     def aplicar_enfriamiento_simulado(self):
         self.visitados, tiempo_actual, distancia_total, beneficio_actual = self.generar_solucion_inicial_greedy()
         
-        t_actual = (MU * beneficio_actual) / (-math.log(PHI))
+        t_actual = (self.MU * beneficio_actual) / (-math.log(self.PHI))
         
         
 
         iteracion = 0
-        while t_actual > T_FINAL and iteracion < MAX_EVALUACIONES:
+        while t_actual > self.T_FINAL and iteracion < self.MAX_EVALUACIONES:
             vecino = self.generar_vecino(self.visitados)
             beneficio_vecino = self.calcular_beneficio_total(vecino)
             tmp_act = self.calcular_tiempo_total(self.visitados)
@@ -215,13 +204,11 @@ class EnfriamientoSimulado:
             tmp_vec = tmp_vec*0.1
             delta_beneficio = (beneficio_vecino - tmp_vec)  - (beneficio_actual - tmp_act)
             if delta_beneficio > 0 or np.random.rand() < math.exp(delta_beneficio / t_actual):
-                #print("HACEMOS CAMBIO")
                 self.visitados = vecino
                 beneficio_actual = beneficio_vecino
                 tiempo_actual = self.calcular_tiempo_total(self.visitados)
                 distancia_total = self.calcular_distancia_total(self.visitados)
-            #print(t_actual)    
-            t_actual = t_actual / (1 + BETA * t_actual)
+            t_actual = t_actual / (1 + self.BETA * t_actual)
             iteracion += 1
         
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
@@ -230,12 +217,12 @@ class EnfriamientoSimulado:
     def aplicar_enfriamiento_simulado_ciclico(self, nodo_ciclico):
         self.visitados, tiempo_actual, distancia_total, beneficio_actual = self.generar_solucion_inicial_greedy_ciclico(nodo_ciclico=nodo_ciclico)
         
-        t_actual = (MU * beneficio_actual) / (-math.log(PHI))
+        t_actual = (self.MU * beneficio_actual) / (-math.log(self.PHI))
         
         
 
         iteracion = 0
-        while t_actual > T_FINAL and iteracion < MAX_EVALUACIONES:
+        while t_actual > self.T_FINAL and iteracion < self.MAX_EVALUACIONES:
             vecino = self.generar_vecino_ciclico(self.visitados)
             beneficio_vecino = self.calcular_beneficio_total(vecino)
             tmp_act = self.calcular_tiempo_total(self.visitados)
@@ -244,13 +231,12 @@ class EnfriamientoSimulado:
             tmp_vec = tmp_vec*0.1
             delta_beneficio = (beneficio_vecino - tmp_vec)  - (beneficio_actual - tmp_act)
             if delta_beneficio > 0 or np.random.rand() < math.exp(delta_beneficio / t_actual):
-                #print("HACEMOS CAMBIO")
                 self.visitados = vecino
                 beneficio_actual = beneficio_vecino
                 tiempo_actual = self.calcular_tiempo_total(self.visitados)
                 distancia_total = self.calcular_distancia_total(self.visitados)
-            #print(t_actual)    
-            t_actual = t_actual / (1 + BETA * t_actual)
+
+            t_actual = t_actual / (1 + self.BETA * t_actual)
             iteracion += 1
         
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
