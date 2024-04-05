@@ -29,7 +29,17 @@ def main():
     ruta_archivo_nodos = 'data/pois_158.csv'
     ruta_archivo_distancias = 'data/distancias_158.csv'
     ruta_archivo_tiempos = 'data/tiempos_158.csv'
+    ruta_archivo_edad_velocidad = 'data/edadvelocidad.csv'
     
+    # Leer el archivo edad_velocidad.csv
+    edad_velocidad_df = pd.read_csv(ruta_archivo_edad_velocidad)
+    
+    # Solicitar la edad al usuario
+    edad = int(input("Introduce la edad (entre 0 y 99): "))
+    
+    # Obtener la velocidad correspondiente a la edad introducida
+    velocidad = edad_velocidad_df[(edad_velocidad_df['Edad_inicio'] <= edad) & (edad_velocidad_df['Edad_fin'] >= edad)]['Velocidad(m/min)'].iloc[0]
+    print("Velocidad correspondiente a la edad:", velocidad)
     
     # Cargar datos
     datos = lectura_datos.Datos(ruta_archivo_nodos, ruta_archivo_distancias, ruta_archivo_tiempos)
@@ -39,11 +49,11 @@ def main():
 
     tiempo_max = int(input("Introduce el tiempo máximo: "))
     print("Tiempo máximo:", tiempo_max)
-    alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max) 
-    alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max)
-    alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max)
-    alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max)
-    alg_mm = algoritmomemetico.AlgoritmoMemetico(nodos_df, distancias_df, tiempos_df, tiempo_max)
+    alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
+    alg_grasp = grasp.Grasp(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad)
+    alg_es = enfriamientosimulado.EnfriamientoSimulado(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad)
+    alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad)
+    alg_mm = algoritmomemetico.AlgoritmoMemetico(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad)
         
     print("¿Qué algoritmo(s) deseas ejecutar?")
     print("1. Greedy")

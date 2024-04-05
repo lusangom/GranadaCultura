@@ -8,15 +8,16 @@ MAX_ITERACIONES = 50000
 RANDOM_SEED = 42
 
 class Grasp:
-    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max):
+    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad):
         self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
         self.tiempos_df = tiempos_df.set_index('nodo')
         self.tiempo_max = tiempo_max
+        self.velocidad = velocidad
         self.visitados = []
         
     def calcular_fitness(self, nodo_origen, nodo_destino):
-        tiempo_viaje = self.tiempos_df.loc[nodo_origen, str(nodo_destino)]
+        tiempo_viaje = (self.distancias_df.loc[nodo_origen, str(nodo_destino)])/self.velocidad
         tiempo_viaje = tiempo_viaje * 0.1
         beneficio = self.nodos_df.loc[nodo_destino, 'interes']
        
@@ -69,7 +70,7 @@ class Grasp:
                 
           
                 
-                tiempo_viaje = self.tiempos_df.loc[self.visitados[-1], str(nodo)]
+                tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)])/self.velocidad                
                 tiempo_visita = self.nodos_df.loc[nodo, 'tiempo_de_visita']
                 tiempo_total = tiempo_actual + tiempo_viaje + tiempo_visita
                 distancia = self.distancias_df.loc[self.visitados[-1],str(nodo)]
@@ -85,7 +86,8 @@ class Grasp:
                     self.visitados.append(nodo)
                     #print("AÑADIDO ES:", str(nodo))
                     #print("Solucion es:", self.visitados)  
-                    #tiempo_viaje = self.tiempos_df.loc[self.visitados[-1], str(nodo)]
+                    #tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)]
+#)/self.velocidad                    
                     tiempo_actual += tiempo_viaje + tiempo_visita
                     distancia_total += distancia
                     beneficio += self.nodos_df.loc[nodo, 'interes']
@@ -180,7 +182,7 @@ class Grasp:
         tiempo_total = self.nodos_df.loc[solucion[0], 'tiempo_de_visita']
         for i in range(len(solucion) - 1):
             tiempo_total += self.nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
-            tiempo_total += self.tiempos_df.loc[solucion[i], str(solucion[i + 1])]
+            tiempo_total += (self.distancias_df.loc[solucion[i], str(solucion[i + 1])])/self.velocidad
         return tiempo_total
     
 
@@ -229,9 +231,9 @@ class Grasp:
                 #print("CANDIDATO ES:", str(nodo))
                 #print("NODO INICIO ES:", str(nodo_ciclico))
                 
-                tiempo_viaje = self.tiempos_df.loc[self.visitados[-1], str(nodo)]
+                tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)])/self.velocidad                
                 tiempo_visita = self.nodos_df.loc[nodo, 'tiempo_de_visita']
-                tiempo_vuelta = self.tiempos_df.loc[nodo, str(nodo_ciclico)]
+                tiempo_vuelta = (self.distancias_df.loc[nodo, str(nodo_ciclico)])/self.velocidad          
                 tiempo_total = tiempo_actual + tiempo_viaje + tiempo_visita + tiempo_vuelta
                 
                 distancia = self.distancias_df.loc[self.visitados[-1],str(nodo)]
@@ -248,7 +250,8 @@ class Grasp:
                     self.visitados.append(nodo)
                     #print("AÑADIDO ES:", str(nodo))
                     #print("Solucion es:", self.visitados)  
-                    #tiempo_viaje = self.tiempos_df.loc[self.visitados[-1], str(nodo)]
+                    #tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)]
+#)/self.velocidad                    
                     tiempo_actual += tiempo_viaje + tiempo_visita
                     distancia_total += distancia
                     beneficio += self.nodos_df.loc[nodo, 'interes']
@@ -283,7 +286,7 @@ class Grasp:
             if(vuelta):
                 self.visitados.append(nodo_ciclico)
                 distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
-                tiempo_actual += self.tiempos_df.loc[self.visitados[-2], str(nodo_ciclico)]
+                tiempo_actual += (self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)])/self.velocidad
                 break
             
         # Devolver la lista de nodos visitados y el tiempo total
@@ -341,7 +344,7 @@ class Grasp:
                                 
                                 #print("ANTES:", str(mejor_tiempo))
                                 
-                                #tiempo_vuelta = self.tiempos_df.loc[mejor_solucion[-1],str(mejor_solucion[0])]    
+                                #tiempo_vuelta = (self.distancias_df.loc[mejor_solucion[-1],str(mejor_so)/self.velocidadlucion[0])]    
                                 mejor_tiempo = mejor_tiempo - tmp_vuelta
                                 
                                 #print("MEJJOR FINAL ES:", str(mejor_solucion[-1]))
@@ -371,10 +374,10 @@ class Grasp:
         tiempo_total = self.nodos_df.loc[solucion[0], 'tiempo_de_visita']
         for i in range(len(solucion) - 1):
             tiempo_total += self.nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
-            tiempo_total += self.tiempos_df.loc[solucion[i], str(solucion[i + 1])]
+            tiempo_total += (self.distancias_df.loc[solucion[i], str(solucion[i + 1])])/self.velocidad
         
-        tiempo_vuelta = self.tiempos_df.loc[solucion[-1],str(solucion[0])]
-        
+        tiempo_vuelta = (self.distancias_df.loc[solucion[-1],str(solucion[0])]
+)/self.velocidad        
         tiempo_total = tiempo_total + tiempo_vuelta
         #print("FINAL ES:", str(solucion[-1]))
         #print("NODO INICIO ES:", str(solucion[0]))
