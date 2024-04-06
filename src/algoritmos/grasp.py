@@ -8,6 +8,9 @@ import funciones
 
 class Grasp:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, MAX_ITERACIONES = 300, MAX_ITERACIONES_BL = 50000, RANDOM_SEED = None, cantidad_candidatos = 0.03):
+        """
+        Inicializa la clase GRASP.
+        """
         self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
         self.tiempos_df = tiempos_df.set_index('nodo')
@@ -195,7 +198,6 @@ class Grasp:
         
         # El procedimiento de ejecución es igual que el algoritmo GRASP pero esta vez, se considera un nodo cíclico.
         # Es decir se específica un nodo que tiene que ser el de inicio y el de fin.
-       
        
         self.visitados = [nodo_ciclico]
         distancia_total = 0

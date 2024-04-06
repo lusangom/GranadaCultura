@@ -5,6 +5,9 @@ import funciones as funciones
 
 class Greedy:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad):
+        """
+        Inicializa la clase Greedy.
+        """
         self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
         self.tiempos_df = tiempos_df.set_index('nodo')

@@ -8,6 +8,9 @@ import funciones as funciones
 
 class EnfriamientoSimulado:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, MU = 0.3, PHI = 0.2, T_FINAL = 0.0001, RANDOM_SEED = None, MAX_EVALUACIONES = 50000, BETA = 0.2 ):
+        """
+        Inicializa la clase Enfriamiento Simulado.
+        """
         self.nodos_df = nodos_df.set_index('nodo') 
         self.distancias_df = distancias_df.set_index('nodo')
         self.tiempos_df = tiempos_df.set_index('nodo')
@@ -28,6 +31,7 @@ class EnfriamientoSimulado:
 
         Función usada para generar la solución inicial del algoritmo, el modo de creación
         es un algoritmo Greedy, por lo que el funcionamiento es igual que dicho algoritmo.
+        
 
         Returns:
             Array: Ruta inicial Greedy y la información asociada a ella.
