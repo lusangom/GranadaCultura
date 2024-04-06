@@ -238,6 +238,9 @@ class EnfriamientoSimulado:
         """Función algoritmo enfriamiento simulado ciclico.
 
         Función para aplicar el algoritmo de enfriamiento simulado ciclico.
+        
+        Args:
+            nodo_ciclico (int): Número que representa el nodo ciclico
 
         Returns:
             Array: Ruta solución y la información asociada a ella.

@@ -60,6 +60,9 @@ class Greedy:
         """Función algoritmo greedy ciclico.
 
         Función para aplicar el algoritmo greedy ciclico.
+        
+        Args:
+            nodo_ciclico (int): Número que representa el nodo ciclico
 
         Returns:
             Array: Ruta solución y la información asociada a ella.

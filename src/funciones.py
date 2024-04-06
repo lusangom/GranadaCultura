@@ -37,7 +37,7 @@ def calcular_tiempo_total(solucion, nodos_df, distancias_df, velocidad):
         nodos_df (matrix): Matriz con la información del interes de los nodos.
 
     Returns:
-        float: Número que representa el tiempo total para recorrer la funcion en minutos.
+        float: Número que representa el tiempo total para recorrer la solucion en minutos.
     """
     tiempo_total = nodos_df.loc[solucion[0], 'tiempo_de_visita']
         
@@ -47,6 +47,33 @@ def calcular_tiempo_total(solucion, nodos_df, distancias_df, velocidad):
             
     return tiempo_total
 
+def calcular_tiempo_total_ciclico(solucion, nodos_df, distancias_df, velocidad):
+    """Calcular tiempo total de duracion de una solucion ciclica en minutos.
+
+    Esta función se encarga de recorrer el array solución ciclica para calcular el tiempo total que se necesita
+    para recorrerla teniendo en cuenta las distancias y la edad además del tiempo de visita
+
+    Args:
+        solucion (array): Array que representa la ruta solución.
+        distancias_df (matrix): Matriz con las distancias entre todos los nodos de la BBDD.
+        velocidad (int): Entero que representa la velocidad a la que anda el usuario según la edad.
+        nodos_df (matrix): Matriz con la información del interes de los nodos.
+
+    Returns:
+        float: Número que representa el tiempo total para recorrer la solucion ciclica en minutos.
+        float: Número que representa el tiempo total para volver al nodo ciclico en minutos.
+    """
+    tiempo_total = nodos_df.loc[solucion[0], 'tiempo_de_visita']
+    for i in range(len(solucion) - 1):
+        tiempo_total += nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
+        tiempo_total += (distancias_df.loc[solucion[i], str(solucion[i + 1])])/velocidad
+        
+    tiempo_vuelta = (distancias_df.loc[solucion[-1],str(solucion[0])])/velocidad        
+    tiempo_total = tiempo_total + tiempo_vuelta
+       
+        
+    return tiempo_total, tiempo_vuelta
+    
 
 def calcular_distancia_total(solucion, distancias_df): 
     """Calcular distancia total de una solucion en metros.
