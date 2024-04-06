@@ -1,7 +1,7 @@
 # Algoritmo Greedy
 
 import pandas as pd
-import funciones 
+import funciones as funciones 
 
 class Greedy:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad):

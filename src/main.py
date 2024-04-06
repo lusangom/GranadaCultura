@@ -2,6 +2,7 @@ from datos import lectura_datos
 from algoritmos import greedy, grasp, enfriamientosimulado, algoritmogenetico, algoritmomemetico
 from datos import visualizacion
 import pandas as pd
+import algoritmos
 
 
 def mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica):
