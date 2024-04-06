@@ -42,10 +42,10 @@ class Grasp:
         tiempo_actual = self.nodos_df.loc[nodo_inicial, 'tiempo_de_visita']
         beneficio = self.nodos_df.loc[nodo_inicial, 'interes']
      
-      
+        # Mientras que haya tiempo y mientras que no hayamos llegado al maximo de iteraciones
         while tiempo_actual <= self.tiempo_max and iter < self.MAX_ITERACIONES:
             
-            #Calculamos el fitness de todos los nodos que no esten en la solucion
+            # Calculamos el fitness de todos los nodos que no esten en la solucion
             fitness_nodos = []
             for i, nodo in self.nodos_df.iterrows():
                 if i not in self.visitados:
@@ -68,9 +68,8 @@ class Grasp:
                 tiempo_total = tiempo_actual + tiempo_viaje + tiempo_visita
                 distancia = self.distancias_df.loc[self.visitados[-1],str(nodo)]
                 
-                 
+                # Si se puede añadir, añadir el nodo a la solución lo añadimos y actualizamos las variables correspondientes 
                 if tiempo_total <= self.tiempo_max:
-                    # Si se puede añadir, añadir el nodo a la solución lo añadimos y actualizamos las variables correspondientes
                     self.visitados.append(nodo)
                     tiempo_actual += tiempo_viaje + tiempo_visita
                     distancia_total += distancia
@@ -95,14 +94,23 @@ class Grasp:
         return self.visitados, tiempo_actual, distancia_total, beneficio
     
     def buscar_local(self):
-        # Hacer una copia de la solución actual
+        """Función Busqueda Local sin DLB.
+
+        Función para aplicar un busqueda local a nuestra solución donde el objetivo es minimizar las distancias 
+        entre nuestros nodos.
+        
+        Returns:
+            Array: Ruta solución actualizada por la búsqueda local.
+            Float: Número que representa el tiempo de nuestra solución actual
+        """
+        # Hacer una copia de la solución actual y calcular su tiempo
         mejor_solucion = self.visitados[:]
         mejor_tiempo = funciones.calcular_tiempo_total(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
 
         # Iterar a través de pares de nodos e intentar intercambiarlos para encontrar una solución mejor
         for i in range(0, len(mejor_solucion) - 1):  
             for j in range(i + 1, len(mejor_solucion)):
-                # Intercambiar nodos
+                # Intercambiar nodos para ver si el intercambio reduce el tiempo de nuestra ruta
                 mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
                 tiempo_actual = funciones.calcular_tiempo_total(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
 
@@ -110,6 +118,7 @@ class Grasp:
                 if tiempo_actual >= mejor_tiempo:
                     mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
                 else:
+                    # Actualizamos el tiempo si hay mejora
                     mejor_tiempo = tiempo_actual
 
         return mejor_solucion, mejor_tiempo
@@ -117,6 +126,16 @@ class Grasp:
     
     
     def buscar_local_dlb(self):
+        """Función Busqueda Local con DLB.
+
+        Función para aplicar un busqueda local a nuestra solución donde el objetivo es minimizar las distancias 
+        entre nuestros nodos. Se utiliza una máscara DLB (Don't Look Bits) para reducir el tiempo de ejecución
+        
+        Returns:
+            Array: Ruta solución actualizada por la búsqueda local.
+            Float: Número que representa el tiempo de nuestra solución actual
+        """
+        
         # Hacer una copia de la solución actual
         mejor_solucion = self.visitados[:]
         mejor_tiempo = funciones.calcular_tiempo_total(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
@@ -173,6 +192,10 @@ class Grasp:
         Returns:
             Array: Ruta solución y la información asociada a ella.
         """
+        
+        # El procedimiento de ejecución es igual que el algoritmo GRASP pero esta vez, se considera un nodo cíclico.
+        # Es decir se específica un nodo que tiene que ser el de inicio y el de fin.
+       
        
         self.visitados = [nodo_ciclico]
         distancia_total = 0
@@ -181,10 +204,6 @@ class Grasp:
         iter = 0
         vuelta = False;
         
-        #print("NODO INICIO ES:", str(nodo_ciclico))
-        #print("TIENE BENEFICIO DE:", str(self.nodos_df.loc[nodo_ciclico, 'interes']))
-        
-     
         while tiempo_actual <= self.tiempo_max and iter < self.MAX_ITERACIONES:
             
             #Calculamos el fitness de todos los nodos
@@ -194,27 +213,17 @@ class Grasp:
                     fitness = funciones.calcular_fitness(self.distancias_df,self.visitados[-1], i, self.velocidad, self.nodos_df)
                     fitness_nodos.append((fitness,i))
                     
-            # Ordenar los nodos por fitness y obtenemos la lista de candidatos
+            # Ordenar los nodos por fitness y obtenemos la lista de candidatos según un porcentaje de la población de candidatos
             fitness_nodos.sort(reverse=True)
             candidatos = fitness_nodos[:max(1, math.ceil(len(fitness_nodos) * self.cantidad_candidatos))]
-            
-            
-            
-            #print("Candidatos:", candidatos)   
-            #print("Tamanio", str(math.ceil(len(fitness_nodos) * 0.01)))
-            #print("Iteracion:", str(iter))
-            
-           
-
+       
             # Iterar sobre la lista de candidatos
             candidatos_fallidos = []
             while candidatos:
                 # Seleccionar un nodo aleatorio de la lista de candidatos
                 fitness, nodo = random.choice(candidatos)
                 
-                print("CANDIDATO ES:", str(nodo))
-                #print("NODO INICIO ES:", str(nodo_ciclico))
-                
+                # Para los tiempos hay que tener en cuenta el tiempo de vuelta al nodo ciclico
                 tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)])/self.velocidad                
                 tiempo_visita = self.nodos_df.loc[nodo, 'tiempo_de_visita']
                 tiempo_vuelta = (self.distancias_df.loc[nodo, str(nodo_ciclico)])/self.velocidad          
@@ -222,20 +231,10 @@ class Grasp:
                 
                 distancia = self.distancias_df.loc[self.visitados[-1],str(nodo)]
                 
-                #print("tiempo vuelta:", str(tiempo_vuelta)) 
-                #print("tiempo viaje:", str(tiempo_viaje)) 
-                #print("tiempo visita", str(tiempo_visita))
-                #print("tiempo total", str(tiempo_total))
-                #print("distancia", str(distancia))
-                       
-                 
                 if tiempo_total <= self.tiempo_max:
                     # Si se puede añadir, añadir el nodo a la solución y actualizar el tiempo actual y otros parámetros
                     self.visitados.append(nodo)
-                    #print("AÑADIDO ES:", str(nodo))
-                    #print("Solucion es:", self.visitados)  
-                    #tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)]
-#)/self.velocidad                    
+                
                     tiempo_actual += tiempo_viaje + tiempo_visita
                     distancia_total += distancia
                     beneficio += self.nodos_df.loc[nodo, 'interes']
@@ -255,46 +254,51 @@ class Grasp:
                     candidatos.remove((fitness, nodo))
                     break
                         
-                
-
-            
+                        
             self.visitados, tiempo_actual = self.buscar_local_dlb_ciclico()
             distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
             beneficio = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
               
-            
-                    
                                  
             iter=iter+1
-            #print("FIN ITERACION:", str(tiempo_actual))
-              # Verificar si se puede añadir el nodo de inicio al final para cerrar el ciclo
+           
+            # Cuando se llega al final añadir el nodo ciclico y actualizar las variables. El interes no se tiene 
+            # en cuenta 2 veces
             if(vuelta):
                 self.visitados.append(nodo_ciclico)
                 distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
                 tiempo_actual += (self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)])/self.velocidad
                 break
             
-        # Devolver la lista de nodos visitados y el tiempo total
+        # Devolver la solución y la información asociada a ella
         return self.visitados, tiempo_actual, distancia_total, beneficio
     
     def buscar_local_ciclico(self):
+        """Función Busqueda Local ciclica sin DLB.
+
+        Función para aplicar un busqueda local ciclica a nuestra solución donde el objetivo es minimizar las distancias 
+        entre nuestros nodos.
+        
+        Returns:
+            Array: Ruta solución actualizada por la búsqueda local.
+            Float: Número que representa el tiempo de nuestra solución actual
+        """
         # Hacer una copia de la solución actual
         mejor_solucion = self.visitados[:]
         mejor_tiempo, tmp = funciones.calcular_tiempo_total_ciclico(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
 
         # Iterar a través de pares de nodos e intentar intercambiarlos para encontrar una solución mejor
-        for i in range(1, len(mejor_solucion) - 1):  # Empezar desde 1 para mantener el nodo inicial fijo
+        for i in range(1, len(mejor_solucion) - 1):  # El nodo inicial se mantiene fijo
             for j in range(i + 1, len(mejor_solucion)):
                 # Intercambiar nodos
                 mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
                 tiempo_actual, tmp_vuelta = funciones.calcular_tiempo_total_ciclico(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
 
-            
-
                 # Si no se encuentra una mejora, revertir el intercambio
                 if tiempo_actual >= mejor_tiempo:
                     mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
                 else:
+                    # Restamos el tiempo de vuelta al nodo ciclico ya que este solo se tiene en cuenta al final
                     mejor_tiempo = tiempo_actual
                     mejor_tiempo = mejor_tiempo - tmp_vuelta
     
@@ -304,6 +308,16 @@ class Grasp:
     
     
     def buscar_local_dlb_ciclico(self):
+        """Función Busqueda Local ciclica con DLB.
+
+        Función para aplicar un busqueda local ciclica a nuestra solución donde el objetivo es minimizar las distancias 
+        entre nuestros nodos. Se utiliza una máscara DLB (Don't Look Bits) para reducir el tiempo de ejecución
+        
+        Returns:
+            Array: Ruta solución actualizada por la búsqueda local.
+            Float: Número que representa el tiempo de nuestra solución actual
+        """
+        
         # Hacer una copia de la solución actual
         mejor_solucion = self.visitados[:]
         mejor_tiempo, tmp = funciones.calcular_tiempo_total_ciclico(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
@@ -329,18 +343,11 @@ class Grasp:
 
                             # Si no se encuentra una mejora, revertir el intercambio
                             if tiempo_actual < mejor_tiempo:
-                                mejor_tiempo = tiempo_actual  # Actualizar el mejor tiempo
                                 
-                                #print("ANTES:", str(mejor_tiempo))
-                                
-                                #tiempo_vuelta = (self.distancias_df.loc[mejor_solucion[-1],str(mejor_so)/self.velocidadlucion[0])]    
+                                mejor_tiempo = tiempo_actual
+                                # Restamos el tiempo de vuelta al nodo ciclico ya que este solo se tiene en cuenta al final
                                 mejor_tiempo = mejor_tiempo - tmp_vuelta
-                                
-                                #print("MEJJOR FINAL ES:", str(mejor_solucion[-1]))
-                                #print("MEJOR NODO INICIO ES:", str(mejor_solucion[0]))
-                                #print("MEJOR tiempo ES:", str(tiempo_vuelta))
-                                #print("DESPUES:", str(mejor_tiempo))
-                                
+                              
                                 mejor_encontrada = True;
                                 improve_flag = True  # Indicar que hubo una mejora
                                 dlb[i] = dlb[j] = 0  # Restablecer los bits DLB ya que hubo una mejora
