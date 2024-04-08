@@ -8,6 +8,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class Visualizacion:
     def __init__(self, archivo_nodos, ruta_solucion, cache_folder='osmnx_cache'):
+        """
+        Inicializa la clase Visualizacion.
+        """
         self.archivo_nodos = archivo_nodos.set_index('nodo')
         self.ruta_solucion = ruta_solucion
         
@@ -28,6 +31,15 @@ class Visualizacion:
         
 
     def calcular_ruta(self, nodo_origen, nodo_destino):
+        """Calcula la ruta más corta entre dos nodos.
+
+        Args:
+            nodo_origen (int): Identificador del nodo de origen.
+            nodo_destino (int): Identificador del nodo de destino.
+
+        Returns:
+            tuple: Tupla que contiene la ruta, el nodo de origen y el nodo de destino.
+        """
         try:
             orig_point = self.nodos_df_filtrado.loc[self.nodos_df_filtrado['nodo'] == nodo_origen].iloc[0]
             dest_point = self.nodos_df_filtrado.loc[self.nodos_df_filtrado['nodo'] == nodo_destino].iloc[0]
@@ -40,8 +52,15 @@ class Visualizacion:
             return None, None, None       
 
 
-    def visualizar_ruta_en_mapa_folium_paral(self, nodos_df):
-        
+    def visualizar_ruta_en_mapa_folium_paralelo(self, nodos_df):
+        """Visualiza la ruta en un mapa interactivo utilizando Folium.
+
+        Args:
+            nodos_df (DataFrame): DataFrame con información sobre los nodos.
+
+        Returns:
+            folium.Map: Mapa interactivo con la ruta y los nodos marcados.
+        """
         if not self.ruta_solucion:
             print("La ruta de solución está vacía.")
             return None
@@ -80,7 +99,14 @@ class Visualizacion:
 
 
     def visualizar_ruta_en_mapa_folium(self, nodos_df):
-        
+        """Visualiza la ruta en un mapa interactivo utilizando Folium.
+
+        Args:
+            nodos_df (DataFrame): DataFrame con información sobre los nodos.
+
+        Returns:
+            folium.Map: Mapa interactivo con la ruta y los nodos marcados.
+        """
         if not self.ruta_solucion:
             print("La ruta de solución está vacía.")
             return None
@@ -120,6 +146,14 @@ class Visualizacion:
 
 
     def visualizar_ruta_en_mapa_explore(self, nodos_df):
+        """Visualiza la ruta en un mapa interactivo utilizando OSMnx.
+
+        Args:
+            nodos_df (DataFrame): DataFrame con información sobre los nodos.
+
+        Returns:
+            folium.Map: Mapa interactivo con la ruta y los nodos marcados.
+        """
         nodos_df_filtrado = nodos_df[nodos_df['nodo'].isin(self.ruta_solucion)].copy()
         
         
@@ -197,11 +231,17 @@ class Visualizacion:
             return None
 
     def exportar_indicaciones_ruta_v1(self, ruta_archivo):
-            if not self.ruta_solucion:
-                print("La ruta de solución está vacía. No hay indicaciones para exportar.")
-                return
+        """Exporta las indicaciones de la ruta a un archivo de texto.
 
-            with open(ruta_archivo, 'w') as f:
+        Args:
+            ruta_archivo (str): Ruta del archivo de texto donde se guardarán las indicaciones.
+        """
+            
+        if not self.ruta_solucion:
+            print("La ruta de solución está vacía. No hay indicaciones para exportar.")
+            return
+
+        with open(ruta_archivo, 'w') as f:
                 f.write("Indicaciones de la Ruta:\n\n")
                 f.write("Nodos Visitados:\n")
                 for idx, nodo_id in enumerate(self.ruta_solucion, start=1):
@@ -225,14 +265,19 @@ class Visualizacion:
 
                         
     def exportar_indicaciones_ruta_v2(self, ruta_archivo):
-            if not self.ruta_solucion:
-                print("La ruta de solución está vacía. No hay indicaciones para exportar.")
-                return
+        """Exporta las indicaciones de la ruta a un archivo de texto.
+
+        Args:
+            ruta_archivo (str): Ruta del archivo de texto donde se guardarán las indicaciones.
+        """
+        if not self.ruta_solucion:
+            print("La ruta de solución está vacía. No hay indicaciones para exportar.")
+            return
 
             # Obtener DataFrame de nodos y aristas del grafo
-            nodes, edges = ox.graph_to_gdfs(self.G)
+        nodes, edges = ox.graph_to_gdfs(self.G)
 
-            with open(ruta_archivo, 'w') as f:
+        with open(ruta_archivo, 'w') as f:
                 f.write("Indicaciones de la Ruta:\n\n")
                 f.write("Nodos Visitados:\n")
                 for idx, nodo_id in enumerate(self.ruta_solucion, start=1):

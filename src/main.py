@@ -2,10 +2,10 @@ from datos import lectura_datos
 from algoritmos import greedy, grasp, enfriamientosimulado, algoritmogenetico, algoritmomemetico
 from datos import visualizacion
 import pandas as pd
-import algoritmos
+import time
 
 
-def mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica):
+def mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion):
         """Mostrar resultados de forma interactiva.
 
         Esta función recoge los datos que devuelve la ejecución de los algoritmos y los muestra.
@@ -17,10 +17,12 @@ def mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, 
             beneficio (int): Número que representa el interés total de la ruta solución.
             tiempo_max (float): Número que representa el tiempo total máximo del que se dispone para hacer la ruta.
             es_ciclica (bool): Booleano que representa si la ruta es cíclica o no.
+            tiempo_ejecucion (float): Tiempo de ejecución del algoritmo. 
 
         Returns:
             void: Prints con la información generada de la ruta solución.
         """
+        print("Tiempo ejecucion algoritmo:", tiempo_ejecucion, "segundos")
         print("Ruta solución:", ruta_solucion)
         print("Tiempo total:", tiempo_total)   
         print("Distancia total:", distancia_total) 
@@ -96,53 +98,83 @@ def main():
     if 1 in elecciones or 6 in elecciones: #greedy
         if(es_ciclica):
             print("ALGORITMO GREEDY")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy_ciclico(nodo_ciclico=nodo_origen)
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
         else:
             print("ALGORITMO GREEDY")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy()
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
             
     if 2 in elecciones or 6 in elecciones: #grasp
         if(es_ciclica):
             print("ALGORITMO GRASP")
+            tiempo_ini = time.time() 
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp_ciclico(nodo_ciclico=nodo_origen)
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
         else:
             print("ALGORITMO GRASP")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
         
     if 3 in elecciones or 6 in elecciones: #es
         if(es_ciclica):
             print("ALGORITMO ENFRIAMIENTO SIMULADO")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado_ciclico(nodo_ciclico=nodo_origen)
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
         else:
             print("ALGORITMO ENFRIAMIENTO SIMULADO")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado()
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
-      
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
+        
     if 4 in elecciones or 6 in elecciones: #genetico
         if(es_ciclica):
             print("ALGORITMO GENETICO")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico_ciclico(nodo_ciclico=nodo_origen)
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
         else:
             print("ALGORITMO GENETICO")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
             
     if 5 in elecciones or 6 in elecciones: #memetico
         if(es_ciclica):
+            tiempo_ini = time.time()
             print("ALGORITMO MEMETICO")
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico_ciclico(nodo_ciclico=nodo_origen)
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
         else:
             print("ALGORITMO MEMETICO")
+            tiempo_ini = time.time()
             ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico()
-            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica)
-      
+            tiempo_fin = time.time()
+            tiempo_ejecucion = tiempo_fin - tiempo_ini
+            mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
+        
     #Visualizamos las rutas
     """
     vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)

@@ -10,9 +10,10 @@ class Datos:
         self.archivo_tiempos = archivo_tiempos
 
     def cargar_nodos(self):
-        """
-        Carga los datos de los nodos desde un archivo CSV.
-        Retorna un DataFrame de pandas.
+        """Carga los datos de los nodos desde un archivo CSV.
+
+        Returns:
+            pandas.DataFrame: DataFrame con los datos de los nodos.
         """
         try:
             nodos_df = pd.read_csv(self.archivo_nodos)
@@ -23,9 +24,10 @@ class Datos:
             return None
 
     def cargar_distancias(self):
-        """
-        Carga la matriz de distancias entre nodos desde un archivo CSV.
-        Retorna un DataFrame de pandas.
+        """Carga la matriz de distancias entre nodos desde un archivo CSV.
+
+        Returns:
+            pandas.DataFrame: DataFrame con la matriz de distancias entre nodos.
         """
         try:
             distancias_df = pd.read_csv(self.archivo_distancias)
@@ -36,9 +38,10 @@ class Datos:
             return None
 
     def cargar_tiempos(self):
-        """
-        Carga la matriz de tiempos entre nodos desde un archivo CSV.
-        Retorna un DataFrame de pandas.
+        """Carga la matriz de tiempos entre nodos desde un archivo CSV.
+
+        Returns:
+            pandas.DataFrame: DataFrame con la matriz de tiempos entre nodos.
         """
         try:
             tiempos_df = pd.read_csv(self.archivo_tiempos)
@@ -77,9 +80,10 @@ class Datos:
             
     #Funciones auxiliares       
     def calcula_tiempos(self, ruta_guardado):
-        """
-        Divide los datos de distancias entre 75.
-        Muestra el resultado.
+        """Divide los datos de distancias entre 75 y muestra el resultado.
+
+        Args:
+            ruta_guardado (str): Ruta del archivo CSV donde se guardará el resultado.
         """
         distancias_df = self.cargar_distancias()
         if distancias_df is not None:
@@ -102,10 +106,12 @@ class Datos:
      
   
     def int_to_float(self, ruta_guardado):
-        """
-        Comprueba los valores de las casillas de la matriz de distancias.
-        Si el valor es mayor que 20000, divide esa casilla por 1000.
-        Guarda el archivo generado.
+        """Comprueba y modifica los valores de la matriz de distancias.
+
+        Si el valor es mayor que 20000, lo divide por 1000.
+
+        Args:
+            ruta_guardado (str): Ruta del archivo CSV donde se guardará la matriz de distancias modificada.
         """
         distancias_df = self.cargar_distancias()
         if distancias_df is not None:
@@ -130,10 +136,12 @@ class Datos:
                 
      
     def change_distances(self, ruta_guardado):
-        """
-        Comprueba los valores de las casillas de la matriz de distancias.
-        Si el valor es mayor que 20000, divide esa casilla por 1000.
-        Guarda el archivo generado.
+        """Comprueba y modifica los valores de la matriz de distancias.
+
+        Si el valor es mayor que 251, lo divide por 1000.
+
+        Args:
+            ruta_guardado (str): Ruta del archivo CSV donde se guardará la matriz de distancias modificada.
         """
         distancias_df = self.cargar_distancias()
         if distancias_df is not None:
