@@ -4,6 +4,7 @@ import pandas as pd
 import math
 import random
 import funciones
+import time
 
 
 class Grasp:
@@ -22,6 +23,9 @@ class Grasp:
         self.cantidad_candidatos = cantidad_candidatos
         if RANDOM_SEED is not None:
             random.seed(RANDOM_SEED)
+        else: #Para que no se repitan los resultados
+            semilla_actual = int(time.time())
+            random.seed(semilla_actual)
         
 
   

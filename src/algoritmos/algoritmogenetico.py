@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import random
 import funciones
+import time
 
 class AlgoritmoGeneticoEstacionario:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, poblacion_size=50, RANDOM_SEED=None, intentos_cruce=10, max_iteraciones=500):
@@ -21,7 +22,10 @@ class AlgoritmoGeneticoEstacionario:
         self.MAX_ITERACIONES = max_iteraciones
         if RANDOM_SEED is not None:
             random.seed(RANDOM_SEED)
-
+        else: #Para que no se repitan los resultados
+            semilla_actual = int(time.time())
+            random.seed(semilla_actual)
+           
     
     def inicializar_poblacion(self):
         """Función inicializa población.
@@ -460,13 +464,18 @@ class AlgoritmoGeneticoEstacionario:
             if random.random() < 0.1:
                 hijo1 = self.mutacion_intercambio(hijo1)
                 hijo1 = self.mutacion_añado(hijo1)
+                tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
+                if(tiempo_hijo1 <= self.tiempo_max):
+                    self.poblacion += [hijo1]
                
             if random.random() < 0.1:
                 hijo2 = self.mutacion_intercambio(hijo2)
                 hijo2 = self.mutacion_añado(hijo2)
+                tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
+                if(tiempo_hijo2 <= self.tiempo_max):
+                    self.poblacion += [hijo2]
               
-            # Evaluar y seleccionar para la próxima generación
-            self.poblacion += [hijo1, hijo2]
+
             # Ordenamos segun el valor de fitness
             self.poblacion = sorted(self.poblacion, key=lambda c:funciones.calcular_fitness_total(c, distancias_df=self.distancias_df, velocidad=self.velocidad, nodos_df=self.nodos_df), reverse=True)[:self.poblacion_size]
             generaciones += 1
@@ -507,13 +516,18 @@ class AlgoritmoGeneticoEstacionario:
             if random.random() < 0.1:
                 hijo1 = self.mutacion_intercambio_ciclico(hijo1)
                 hijo1 = self.mutacion_añado_ciclico(hijo1)
-                
+                tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
+                if(tiempo_hijo1 <= self.tiempo_max):
+                    self.poblacion += [hijo1]
+                    
             if random.random() < 0.1:
                 hijo2 = self.mutacion_intercambio_ciclico(hijo2)
                 hijo2 = self.mutacion_añado_ciclico(hijo2)
-             
-            # Evaluar y seleccionar para la próxima generación
-            self.poblacion += [hijo1, hijo2]
+                tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
+                if(tiempo_hijo2 <= self.tiempo_max):
+                    self.poblacion += [hijo2]
+         
+         
             # Ordenamos segun el valor de fitness
             self.poblacion = sorted(self.poblacion, key=lambda c:funciones.calcular_fitness_total(c, distancias_df=self.distancias_df, velocidad=self.velocidad, nodos_df=self.nodos_df), reverse=True)[:self.poblacion_size]
             generaciones += 1

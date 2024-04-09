@@ -5,6 +5,7 @@ import random
 import math
 import numpy as np
 import funciones as funciones
+import time
 
 class EnfriamientoSimulado:
     def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, MU = 0.3, PHI = 0.2, T_FINAL = 0.0001, RANDOM_SEED = None, MAX_EVALUACIONES = 50000, BETA = 0.2 ):
@@ -20,10 +21,13 @@ class EnfriamientoSimulado:
         self.MU = MU
         self.PHI = PHI
         self.T_FINAL = T_FINAL
-        self.MAX_EVALUACIONES = 50000
-        self.BETA = 0.2 
+        self.MAX_EVALUACIONES = MAX_EVALUACIONES
+        self.BETA = BETA
         if RANDOM_SEED is not None:
             random.seed(RANDOM_SEED)
+        else: #Para que no se repitan los resultados
+            semilla_actual = int(time.time())
+            random.seed(semilla_actual)
         
    
     def generar_solucion_inicial_greedy(self):
@@ -190,10 +194,11 @@ class EnfriamientoSimulado:
         vecino_potencial[index_a_reemplazar] = nuevo_nodo  
 
         tiempo_total =  funciones.calcular_tiempo_total(vecino_potencial, self.nodos_df, self.distancias_df, self.velocidad)
-    
+        
         if tiempo_total <= self.tiempo_max:
             return vecino_potencial  
         
+      
         return solucion
 
     
@@ -222,15 +227,16 @@ class EnfriamientoSimulado:
             tmp_act = tmp_act*0.1
             tmp_vec = tmp_vec*0.1
             delta_beneficio = (beneficio_vecino - tmp_vec)  - (beneficio_actual - tmp_act)
+            
             # Si merece la pena el intercambio o si queremos empeorar la solución para explorar nuevos campos
             # se realiza el intercambio
             if delta_beneficio > 0 or np.random.rand() < math.exp(delta_beneficio / t_actual):
-                # Actualizamos la solución
-                self.visitados = vecino
-                beneficio_actual = beneficio_vecino
-                tiempo_actual =  funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
-            
-                distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
+                tiempo_vecino =  funciones.calcular_tiempo_total(vecino, self.nodos_df, self.distancias_df, self.velocidad)
+                if(tiempo_vecino <= self.tiempo_max):
+                    self.visitados = vecino
+                    beneficio_actual = beneficio_vecino
+                    tiempo_actual = tiempo_vecino
+                    distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
             # Actualizamos la temperatura y la solución
             t_actual = t_actual / (1 + self.BETA * t_actual)
             iteracion += 1
@@ -268,10 +274,12 @@ class EnfriamientoSimulado:
             tmp_vec = tmp_vec*0.1
             delta_beneficio = (beneficio_vecino - tmp_vec)  - (beneficio_actual - tmp_act)
             if delta_beneficio > 0 or np.random.rand() < math.exp(delta_beneficio / t_actual):
-                self.visitados = vecino
-                beneficio_actual = beneficio_vecino
-                tiempo_actual =  funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
-                distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
+                tiempo_vecino =  funciones.calcular_tiempo_total(vecino, self.nodos_df, self.distancias_df, self.velocidad)
+                if(tiempo_vecino <= self.tiempo_max):
+                    self.visitados = vecino
+                    beneficio_actual = beneficio_vecino
+                    tiempo_actual = tiempo_vecino
+                    distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
 
             t_actual = t_actual / (1 + self.BETA * t_actual)
             iteracion += 1
