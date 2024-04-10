@@ -14,6 +14,10 @@ def escribir_resultados_a_archivo(ruta_archivo, resultados):
     with open(ruta_archivo, 'w') as archivo:
         for resultado in resultados:
             archivo.write(resultado + '\n')
+            
+def escribir_resultados_a_archivo_df(ruta_archivo, resultados_df):
+    resultados_df.index.name = 'RUTA:'
+    resultados_df.to_csv(ruta_archivo, index=True)
 
 def mostrar_resultados_a_lista(algoritmo, ejecucion, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion):
     resultados = [
@@ -41,6 +45,28 @@ def mostrar_resultados_a_lista(algoritmo, ejecucion, ruta_solucion, tiempo_total
     
     return resultados
 
+def resultados_a_tabla(algoritmo, ejecucion, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion):
+    numero_pois_visitados = len(ruta_solucion) - 1 if es_ciclica else len(ruta_solucion)
+    porcentaje_interes = (beneficio / numero_pois_visitados) * 10
+    
+    # Creamos un DataFrame con una sola fila con los resultados
+    resultados_df = pd.DataFrame([{
+        "TIEMPO MAX": tiempo_max,
+        "ALGORITMO": algoritmo,
+        "EJECUCION Nº": ejecucion,
+        "RUTA CICLICA": es_ciclica,
+        "POIS VISITADOS": ruta_solucion,
+        "INTERÉS": beneficio,
+        "TIEMPO TOTAL ALGORITMO": tiempo_total,
+        "MARGEN": tiempo_max - tiempo_total,
+        "NUMERO DE POIS VISITADOS": numero_pois_visitados,
+        "PORCENTAJE INTERES": porcentaje_interes,
+        "TIEMPO EJECUCION ALGORITMO": tiempo_ejecucion
+    }])
+    
+    
+    return resultados_df
+
 def main(configuracion):
     tamaño_db = configuracion["tamaño_db"]
     prefijo_ruta = 'data/'
@@ -65,7 +91,8 @@ def main(configuracion):
     nodos_df, distancias_df, tiempos_df = datos.cargar_nodos(), datos.cargar_distancias(), datos.cargar_tiempos()
       
     
-    resultados_finales = []
+    resultados_fichero = []
+    resultados_tabla = pd.DataFrame()
     algoritmos = {
         1: "Greedy",
         2: "GRASP",
@@ -84,16 +111,20 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy_ciclico(nodo_ciclico=configuracion["nodo_origen"])
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                 else:
                     alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
                     tiempo_ini = time.time()
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_greedy.aplicar_greedy()
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
             if alg_id == 2 or alg_id == 6: #grasp
                 if(configuracion["es_ciclica"]):
@@ -108,8 +139,11 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp_ciclico(nodo_ciclico=configuracion["nodo_origen"])
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
+                    
                 else:
                     alg_grasp = grasp.Grasp(
                     nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad,
@@ -123,8 +157,10 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp()
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                 
             if alg_id == 3 or alg_id == 6: #es
                 if(configuracion["es_ciclica"]):
@@ -141,8 +177,11 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado_ciclico(nodo_ciclico=configuracion["nodo_origen"])
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
+                    
                 else:
                     alg_es = enfriamientosimulado.EnfriamientoSimulado(
                     nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad,
@@ -157,8 +196,10 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_es.aplicar_enfriamiento_simulado()
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                 
             if alg_id == 4 or alg_id == 6: #genetico
                 if configuracion["es_ciclica"]:
@@ -173,8 +214,11 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico_ciclico(nodo_ciclico=configuracion["nodo_origen"])
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
+                    
                 else:
                     alg_ag = algoritmogenetico.AlgoritmoGeneticoEstacionario(
                     nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad,
@@ -187,8 +231,10 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
             if alg_id == 5 or alg_id == 6: #memetico
                 if(configuracion["es_ciclica"]):
@@ -205,8 +251,11 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico_ciclico(nodo_ciclico=configuracion["nodo_origen"])
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
+                    
                 else:
                     alg_mm = algoritmomemetico.AlgoritmoMemetico(
                     nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad,
@@ -221,10 +270,15 @@ def main(configuracion):
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico()
                     tiempo_fin = time.time()
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
-                    resultados = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
-                    resultados_finales.extend(resultados)
+                    resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_fichero.extend(resultado_fichero)
+                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
+                 
+                    
     
-    escribir_resultados_a_archivo('resultados.txt', resultados_finales)
+    escribir_resultados_a_archivo('resultados.txt', resultados_fichero)
+    escribir_resultados_a_archivo_df('tabla.csv', resultados_tabla)
 
 if __name__ == "__main__":
     config = leer_configuracion_json('configuracion.json')

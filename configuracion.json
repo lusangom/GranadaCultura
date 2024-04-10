@@ -3,8 +3,8 @@
     "tiempo_maximo": 150,
     "algoritmos": [1,2,3,4,5],
     "es_ciclica": false,
-    "nodo_origen": 4,
-    "numero_ejecuciones": 4,
+    "nodo_origen": 10,
+    "numero_ejecuciones": 2,
     "tamaño_db": "158",
     "configuracion_algoritmos": {
         "genetico": {
