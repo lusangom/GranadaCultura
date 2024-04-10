@@ -57,6 +57,7 @@ def resultados_a_tabla(algoritmo, ejecucion, ruta_solucion, tiempo_total, distan
         "RUTA CICLICA": es_ciclica,
         "POIS VISITADOS": ruta_solucion,
         "INTERÉS": beneficio,
+        "DISTANCIA TOTAL": distancia_total,
         "TIEMPO TOTAL ALGORITMO": tiempo_total,
         "MARGEN": tiempo_max - tiempo_total,
         "NUMERO DE POIS VISITADOS": numero_pois_visitados,

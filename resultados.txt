@@ -1,7 +1,7 @@
 
 Algoritmo: Greedy
 Ejecucion nº: 1
-Tiempo ejecucion algoritmo: 0.10999393463134766 segundos
+Tiempo ejecucion algoritmo: 0.06248116493225098 segundos
 Ruta solución: [9, 117, 144, 89, 152]
 Tiempo total: 137.79641732283463
 Distancia total: 365.487
@@ -13,55 +13,55 @@ Porcentaje interes: 100.0
 
 Algoritmo: GRASP
 Ejecucion nº: 1
-Tiempo ejecucion algoritmo: 2.8313400745391846 segundos
-Ruta solución: [9, 117, 53, 104]
-Tiempo total: 124.72217847769029
-Distancia total: 817.03
-Interes total: 40
-Margen: 25.277821522309708
+Tiempo ejecucion algoritmo: 2.872929096221924 segundos
+Ruta solución: [152, 9, 117, 89, 104]
+Tiempo total: 137.93080052493437
+Distancia total: 909.1270000000002
+Interes total: 50
+Margen: 12.06919947506563
 Ruta ciclica: False
-Numero de nodos visitados: 4
+Numero de nodos visitados: 5
 Porcentaje interes: 100.0
 
 Algoritmo: Enfriamiento Simulado
 Ejecucion nº: 1
-Tiempo ejecucion algoritmo: 19.007174491882324 segundos
-Ruta solución: [144, 117, 152, 89, 9]
-Tiempo total: 139.84858267716535
-Distancia total: 521.8620000000001
+Tiempo ejecucion algoritmo: 17.32979702949524 segundos
+Ruta solución: [152, 117, 144, 89, 9]
+Tiempo total: 139.41862204724407
+Distancia total: 489.099
 Interes total: 50
-Margen: 10.151417322834646
+Margen: 10.581377952755929
 Ruta ciclica: False
 Numero de nodos visitados: 5
 Porcentaje interes: 100.0
 
 Algoritmo: Algoritmo Genetico Estacionario
 Ejecucion nº: 1
-Tiempo ejecucion algoritmo: 1.6254289150238037 segundos
-Ruta solución: [9, 152, 120, 62, 89]
-Tiempo total: 139.53791338582676
-Distancia total: 1717.3890000000001
-Interes total: 44
-Margen: 10.462086614173245
+Tiempo ejecucion algoritmo: 1.9566242694854736 segundos
+Ruta solución: [89, 9, 117, 47, 152]
+Tiempo total: 122.90631233595799
+Distancia total: 526.261
+Interes total: 47
+Margen: 27.093687664042008
 Ruta ciclica: False
 Numero de nodos visitados: 5
-Porcentaje interes: 88.0
+Porcentaje interes: 94.0
 
 Algoritmo: Algoritmo Memetico
 Ejecucion nº: 1
-Tiempo ejecucion algoritmo: 1.9963388442993164 segundos
-Ruta solución: [121, 152, 9, 94, 90]
-Tiempo total: 145.2209973753281
-Distancia total: 1693.2400000000002
-Interes total: 44
-Margen: 4.779002624671904
+Tiempo ejecucion algoritmo: 1.756629228591919 segundos
+Ruta solución: [121, 9, 109, 92]
+Tiempo total: 142.34349081364832
+Distancia total: 1702.5739999999998
+Interes total: 37
+Margen: 7.656509186351684
 Ruta ciclica: False
-Numero de nodos visitados: 5
-Porcentaje interes: 88.0
+Numero de nodos visitados: 4
+Porcentaje interes: 92.5
 
 Algoritmo: Greedy
 Ejecucion nº: 2
-Tiempo ejecucion algoritmo: 0.06428265571594238 segundos
+Tiempo ejecucion algoritmo: 0.06848955154418945 segundos
 Ruta solución: [9, 117, 144, 89, 152]
 Tiempo total: 137.79641732283463
 Distancia total: 365.487
@@ -73,19 +73,19 @@ Porcentaje interes: 100.0
 
 Algoritmo: GRASP
 Ejecucion nº: 2
-Tiempo ejecucion algoritmo: 3.220357894897461 segundos
-Ruta solución: [53, 89, 117, 9, 152]
-Tiempo total: 139.53643044619423
-Distancia total: 650.476
-Interes total: 50
-Margen: 10.463569553805769
+Tiempo ejecucion algoritmo: 3.8509678840637207 segundos
+Ruta solución: [9, 152, 53, 104]
+Tiempo total: 130.75246719160106
+Distancia total: 895.538
+Interes total: 40
+Margen: 19.247532808398944
 Ruta ciclica: False
-Numero de nodos visitados: 5
+Numero de nodos visitados: 4
 Porcentaje interes: 100.0
 
 Algoritmo: Enfriamiento Simulado
 Ejecucion nº: 2
-Tiempo ejecucion algoritmo: 19.16419744491577 segundos
+Tiempo ejecucion algoritmo: 16.707706928253174 segundos
 Ruta solución: [9, 117, 144, 89, 152]
 Tiempo total: 137.79641732283466
 Distancia total: 365.487
@@ -97,24 +97,24 @@ Porcentaje interes: 100.0
 
 Algoritmo: Algoritmo Genetico Estacionario
 Ejecucion nº: 2
-Tiempo ejecucion algoritmo: 1.498204231262207 segundos
-Ruta solución: [9, 122, 109, 138, 123]
-Tiempo total: 145.33372703412073
-Distancia total: 2082.8300000000004
-Interes total: 45
-Margen: 4.666272965879273
+Tiempo ejecucion algoritmo: 1.3583812713623047 segundos
+Ruta solución: [94, 89, 9, 30, 100]
+Tiempo total: 141.14499999999998
+Distancia total: 1458.8490000000002
+Interes total: 43
+Margen: 8.855000000000018
 Ruta ciclica: False
 Numero de nodos visitados: 5
-Porcentaje interes: 90.0
+Porcentaje interes: 86.0
 
 Algoritmo: Algoritmo Memetico
 Ejecucion nº: 2
-Tiempo ejecucion algoritmo: 1.6244654655456543 segundos
-Ruta solución: [25, 128, 133, 76]
-Tiempo total: 134.0893569553806
-Distancia total: 2064.209
-Interes total: 33
-Margen: 15.910643044619405
+Tiempo ejecucion algoritmo: 1.5734212398529053 segundos
+Ruta solución: [144, 117, 9, 79]
+Tiempo total: 131.9607874015748
+Distancia total: 1063.812
+Interes total: 34
+Margen: 18.039212598425195
 Ruta ciclica: False
 Numero de nodos visitados: 4
-Porcentaje interes: 82.5
+Porcentaje interes: 85.0
