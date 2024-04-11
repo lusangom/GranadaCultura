@@ -45,12 +45,14 @@ def mostrar_resultados_a_lista(algoritmo, ejecucion, ruta_solucion, tiempo_total
     
     return resultados
 
-def resultados_a_tabla(algoritmo, ejecucion, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion):
+def resultados_a_tabla(edad, tamaño_bbdd, algoritmo, ejecucion, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion):
     numero_pois_visitados = len(ruta_solucion) - 1 if es_ciclica else len(ruta_solucion)
     porcentaje_interes = (beneficio / numero_pois_visitados) * 10
     
     # Creamos un DataFrame con una sola fila con los resultados
     resultados_df = pd.DataFrame([{
+        "EDAD": edad,
+        "TAMAÑO BBDD": tamaño_bbdd,
         "TIEMPO MAX": tiempo_max,
         "ALGORITMO": algoritmo,
         "EJECUCION Nº": ejecucion,
@@ -114,7 +116,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                 else:
                     alg_greedy = greedy.Greedy(nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad=velocidad) 
@@ -124,7 +126,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
             if alg_id == 2 or alg_id == 6: #grasp
@@ -142,7 +144,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
                 else:
@@ -160,7 +162,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                 
             if alg_id == 3 or alg_id == 6: #es
@@ -180,7 +182,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
                 else:
@@ -199,7 +201,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                 
             if alg_id == 4 or alg_id == 6: #genetico
@@ -217,7 +219,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
                 else:
@@ -234,7 +236,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
             if alg_id == 5 or alg_id == 6: #memetico
@@ -254,7 +256,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                     
                 else:
@@ -273,7 +275,7 @@ def main(configuracion):
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)
-                    resultado_tabla = resultados_a_tabla(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
+                    resultado_tabla = resultados_a_tabla(edad, tamaño_db, algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_tabla = pd.concat([resultados_tabla,resultado_tabla], ignore_index=True)
                  
                     
