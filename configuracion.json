@@ -1,10 +1,10 @@
 {
     "edad": 30,
-    "tiempo_maximo": 150,
-    "algoritmos": [4, 5],
+    "tiempo_maximo": 300,
+    "algoritmos": [2],
     "es_ciclica": true,
     "nodo_origen": 10,
-    "numero_ejecuciones": 1,
+    "numero_ejecuciones": 5,
     "tamaño_db": "158",
     "configuracion_algoritmos": {
         "genetico": {
@@ -35,7 +35,7 @@
           "grasp": {
             "MAX_ITERACIONES": 300,
             "MAX_ITERACIONES_BL": 50000,
-            "cantidad_candidatos": 0.03
+            "cantidad_candidatos": 0.05
           }
       }
 }

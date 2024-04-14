@@ -252,6 +252,7 @@ class Grasp:
                 else:
                    
                     if(tiempo_vuelta <= (self.tiempo_max - tiempo_actual)):
+                        
                         vuelta = True
                         break
                     
@@ -274,10 +275,22 @@ class Grasp:
                 self.visitados.append(nodo_ciclico)
                 distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
                 tiempo_actual += (self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)])/self.velocidad
-                break
+                if self.visitados[0] == nodo_ciclico and self.visitados[-1] == nodo_ciclico:
+                    break
+        
+        if self.visitados[-1] != nodo_ciclico:
+            self.visitados[-1] = nodo_ciclico
+            tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
+            distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
+            beneficio = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
             
+              
+            
+        # Actualizar la distancia total si es necesario
+
+        return self.visitados, tiempo_actual, distancia_total, beneficio  
         # Devolver la solución y la información asociada a ella
-        return self.visitados, tiempo_actual, distancia_total, beneficio
+      
     
     def buscar_local_ciclico(self):
         """Función Busqueda Local ciclica sin DLB.

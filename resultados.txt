@@ -1,24 +1,60 @@
 
-Algoritmo: Algoritmo Genetico Estacionario
+Algoritmo: GRASP
 Ejecucion nº: 1
-Tiempo ejecucion algoritmo: 12.339603185653687 segundos
-Ruta solución: [10, 121, 7, 10]
-Tiempo total: 149.18024934383203
-Distancia total: 3747.5350000000003
-Interes total: 33
-Margen: 0.8197506561679688
+Tiempo ejecucion algoritmo: 0.08980011940002441 segundos
+Ruta solución: [10, 128, 53, 89, 144, 9, 152, 10]
+Tiempo total: 277.8011679790026
+Distancia total: 4360.146999999999
+Interes total: 66
+Margen: 22.198832020997372
 Ruta ciclica: True
-Porcentaje interes: 110.0
-Numero de nodos visitados: 3
+Porcentaje interes: 94.28571428571429
+Numero de nodos visitados: 7
 
-Algoritmo: Algoritmo Memetico
-Ejecucion nº: 1
-Tiempo ejecucion algoritmo: 155.74155163764954 segundos
-Ruta solución: [10, 7, 99, 10]
-Tiempo total: 148.30266404199475
-Distancia total: 3299.663
-Interes total: 32
-Margen: 1.6973359580052545
+Algoritmo: GRASP
+Ejecucion nº: 2
+Tiempo ejecucion algoritmo: 0.07893252372741699 segundos
+Ruta solución: [10, 128, 53, 89, 144, 9, 152, 10]
+Tiempo total: 277.8011679790026
+Distancia total: 4360.146999999999
+Interes total: 66
+Margen: 22.198832020997372
 Ruta ciclica: True
-Porcentaje interes: 106.66666666666666
-Numero de nodos visitados: 3
+Porcentaje interes: 94.28571428571429
+Numero de nodos visitados: 7
+
+Algoritmo: GRASP
+Ejecucion nº: 3
+Tiempo ejecucion algoritmo: 0.07911992073059082 segundos
+Ruta solución: [10, 128, 53, 89, 144, 9, 152, 10]
+Tiempo total: 277.8011679790026
+Distancia total: 4360.146999999999
+Interes total: 66
+Margen: 22.198832020997372
+Ruta ciclica: True
+Porcentaje interes: 94.28571428571429
+Numero de nodos visitados: 7
+
+Algoritmo: GRASP
+Ejecucion nº: 4
+Tiempo ejecucion algoritmo: 0.07735919952392578 segundos
+Ruta solución: [10, 128, 53, 89, 144, 9, 152, 10]
+Tiempo total: 277.8011679790026
+Distancia total: 4360.146999999999
+Interes total: 66
+Margen: 22.198832020997372
+Ruta ciclica: True
+Porcentaje interes: 94.28571428571429
+Numero de nodos visitados: 7
+
+Algoritmo: GRASP
+Ejecucion nº: 5
+Tiempo ejecucion algoritmo: 0.07772111892700195 segundos
+Ruta solución: [10, 128, 53, 89, 144, 9, 152, 10]
+Tiempo total: 277.8011679790026
+Distancia total: 4360.146999999999
+Interes total: 66
+Margen: 22.198832020997372
+Ruta ciclica: True
+Porcentaje interes: 94.28571428571429
+Numero de nodos visitados: 7
