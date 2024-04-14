@@ -25,8 +25,8 @@ def graficar_dispersion(resultados, x, y, titulo_comun="", hue='ALGORITMO'):
         resultados (pandas.DataFrame): El DataFrame que contiene los datos.
         x (str): El nombre de la columna para el eje x.
         y (str): El nombre de la columna para el eje y.
-        titulo_comun (str, optional): El título común para el gráfico. Por defecto, "".
-        hue (str, optional): El nombre de la columna para agrupar colores. Por defecto, 'ALGORITMO'.
+        titulo_comun (str): El título común para el gráfico.
+        hue (str): El nombre de la columna para agrupar colores. 
     """
     plt.figure()
     sns.scatterplot(data=resultados, x=x, y=y, hue=hue)
@@ -39,8 +39,8 @@ def graficar_bigotes(resultados, y, x='ALGORITMO', titulo_comun=""):
     Args:
         resultados (pandas.DataFrame): El DataFrame que contiene los datos.
         y (str): El nombre de la columna para el eje y.
-        x (str, optional): El nombre de la columna para agrupar en el eje x. Por defecto, 'ALGORITMO'.
-        titulo_comun (str, optional): El título común para el gráfico. Por defecto, "".
+        x (st): El nombre de la columna para agrupar en el eje x. 
+        titulo_comun (str): El título común para el gráfico.
     """
     plt.figure()
     sns.boxplot(x=x, y=y, data=resultados)
@@ -65,7 +65,7 @@ def graficar_diagrama_araña(resultados, titulo_comun=""):
 
     Args:
         resultados (pandas.DataFrame): El DataFrame que contiene los datos.
-        titulo_comun (str, optional): El título común para el gráfico. Por defecto, "".
+        titulo_comun (str): El título común para el gráfico. 
     """
     categorias = ['NUMERO DE POIS VISITADOS', 'INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO TOTAL ALGORITMO', 'MARGEN', 'TIEMPO EJECUCION ALGORITMO']
     N = len(categorias)
@@ -97,7 +97,7 @@ def graficar_matriz_pois(resultados, tamaño_bbdd, titulo_comun=""):
     Args:
         resultados (pandas.DataFrame): El DataFrame que contiene los datos.
         tamaño_bbdd (int): El tamaño de la base de datos de POIs.
-        titulo_comun (str, optional): El título común para el gráfico. Por defecto, "".
+        titulo_comun (str): El título común para el gráfico. 
     """
     plt.figure()
     max_pois_visitados = resultados['POIS VISITADOS'].apply(lambda x: len(ast.literal_eval(x))).max()
@@ -140,6 +140,7 @@ def main(ruta_archivo):
     graficar_bigotes(resultados, 'TIEMPO TOTAL ALGORITMO', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'INTERÉS', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'DISTANCIA TOTAL', 'ALGORITMO', titulo_comun)
+    graficar_bigotes(resultados, 'MARGEN', 'ALGORITMO', titulo_comun)
 
     graficar_diagrama_araña(resultados, titulo_comun)
     graficar_matriz_pois(resultados, int(tamaño_bbdd), titulo_comun)

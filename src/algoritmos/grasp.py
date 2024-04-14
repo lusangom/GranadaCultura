@@ -8,7 +8,7 @@ import time
 
 
 class Grasp:
-    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, MAX_ITERACIONES = 300, MAX_ITERACIONES_BL = 50000, RANDOM_SEED = None, cantidad_candidatos = 0.03):
+    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, MAX_ITERACIONES = 300, MAX_ITERACIONES_BL = 50000, RANDOM_SEED = None, cantidad_candidatos = 0.05):
         """
         Inicializa la clase GRASP.
         """
@@ -278,6 +278,7 @@ class Grasp:
                 if self.visitados[0] == nodo_ciclico and self.visitados[-1] == nodo_ciclico:
                     break
         
+        # Aplicamos una comprobacion adicional
         if self.visitados[-1] != nodo_ciclico:
             self.visitados[-1] = nodo_ciclico
             tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)

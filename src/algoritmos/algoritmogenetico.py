@@ -472,6 +472,7 @@ class AlgoritmoGeneticoEstacionario:
             hijo1 = self.cruce(padres[0], padres[1])
             hijo2 = self.cruce(padres[1], padres[0])
             
+            # Añadimos a la poblacion para aumentar diversidad
             tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
             if(tiempo_hijo1 <= self.tiempo_max):
                 self.poblacion += [hijo1]
@@ -479,26 +480,28 @@ class AlgoritmoGeneticoEstacionario:
             if(tiempo_hijo2 <= self.tiempo_max):
                 self.poblacion += [hijo2]
             
-             # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_intercambio(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if(tiempo_hijo1 <= self.tiempo_max):
                     self.poblacion += [hijo1]
             
-            # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_añado(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if(tiempo_hijo1 <= self.tiempo_max):
                     self.poblacion += [hijo1]
-               
+            
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad  
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_intercambio(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
                 if(tiempo_hijo2 <= self.tiempo_max):
                     self.poblacion += [hijo2]
             
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_añado(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
@@ -542,6 +545,7 @@ class AlgoritmoGeneticoEstacionario:
             hijo1 = self.cruce_ciclico(padres[0], padres[1])
             hijo2 = self.cruce_ciclico(padres[1], padres[0])
             
+            # Añadimos a la poblacion para aumentar diversidad ademas hacemos comprobaciones adicionales
             tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
             if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                 self.poblacion += [hijo1]
@@ -549,26 +553,28 @@ class AlgoritmoGeneticoEstacionario:
             if tiempo_hijo2 <= self.tiempo_max and hijo2[0] == nodo_ciclico and hijo2[-1] == nodo_ciclico:
                 self.poblacion += [hijo2]
             
-            # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_intercambio(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                     self.poblacion += [hijo1]
             
-            # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_añado(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                     self.poblacion += [hijo1]
-               
+            
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad  
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_intercambio(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
                 if tiempo_hijo2 <= self.tiempo_max and hijo2[0] == nodo_ciclico and hijo2[-1] == nodo_ciclico:
                     self.poblacion += [hijo2]
-            
+                    
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_añado(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)

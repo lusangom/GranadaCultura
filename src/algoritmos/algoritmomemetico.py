@@ -476,6 +476,7 @@ class AlgoritmoMemetico:
             hijo1 = self.cruce(padres[0], padres[1])
             hijo2 = self.cruce(padres[1], padres[0])
            
+            # Añadimos a la poblacion para aumentar diversidad
             tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
             if(tiempo_hijo1 <= self.tiempo_max):
                 self.poblacion += [hijo1]
@@ -483,26 +484,28 @@ class AlgoritmoMemetico:
             if(tiempo_hijo2 <= self.tiempo_max):
                 self.poblacion += [hijo2]
             
-            # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_intercambio(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if(tiempo_hijo1 <= self.tiempo_max):
                     self.poblacion += [hijo1]
             
-            # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_añado(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if(tiempo_hijo1 <= self.tiempo_max):
                     self.poblacion += [hijo1]
-               
+            
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad  
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_intercambio(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
                 if(tiempo_hijo2 <= self.tiempo_max):
                     self.poblacion += [hijo2]
             
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_añado(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
@@ -510,9 +513,7 @@ class AlgoritmoMemetico:
                     self.poblacion += [hijo2]
               
           
-            
-            
-             # Aplicar la búsqueda local según el tipo de hibridación
+             # Aplicar la búsqueda local según el tipo de hibridación, ademas hacemos una comprobacion adicional de que los tiempos sean correctos
             if generaciones % self.aplica_bl == 0:
                 if self.tipo_hibridacion == "all":
                     # Aplica BL a todos los cromosomas de la población
@@ -520,7 +521,6 @@ class AlgoritmoMemetico:
                     for cromosoma in self.poblacion:
                         cromosoma_mejorado = self.buscar_local_dlb(cromosoma)
                         tiempo_mejorado = funciones.calcular_tiempo_total(cromosoma_mejorado, self.nodos_df, self.distancias_df, self.velocidad)
-                      
                         if(tiempo_mejorado <= self.tiempo_max):
                             a_añadir.append(cromosoma_mejorado)
                         
@@ -548,7 +548,7 @@ class AlgoritmoMemetico:
                         
                     
                         
-              # Ordenamos segun el valor de fitness
+            # Ordenamos segun el valor de fitness
             self.poblacion = sorted(self.poblacion, key=lambda c:funciones.calcular_fitness_total(c, distancias_df=self.distancias_df, velocidad=self.velocidad, nodos_df=self.nodos_df), reverse=True)[:len(self.poblacion)]    
             generaciones += 1
                 
@@ -584,6 +584,7 @@ class AlgoritmoMemetico:
             hijo1 = self.cruce_ciclico(padres[0], padres[1])
             hijo2 = self.cruce_ciclico(padres[1], padres[0])
             
+            # Añadimos a la poblacion para aumentar diversidad y además hacemos comprobaciones adicionales
             tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
             if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                 self.poblacion += [hijo1]
@@ -591,26 +592,28 @@ class AlgoritmoMemetico:
             if tiempo_hijo2 <= self.tiempo_max and hijo2[0] == nodo_ciclico and hijo2[-1] == nodo_ciclico:
                 self.poblacion += [hijo2]
             
-            # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_intercambio(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                     self.poblacion += [hijo1]
             
-            # Aplicar mutación con cierta probabilidad
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_añado(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
                 if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                     self.poblacion += [hijo1]
-               
+             
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad   
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_intercambio(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
                 if tiempo_hijo2 <= self.tiempo_max and hijo2[0] == nodo_ciclico and hijo2[-1] == nodo_ciclico:
                     self.poblacion += [hijo2]
             
+            # Aplicar mutación con cierta probabilidad y añadimos a la poblacion para aumentar diversidad
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_añado(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
@@ -619,7 +622,7 @@ class AlgoritmoMemetico:
                
            
             # Ordenamos segun el valor de fitness
-            # Aplicar la búsqueda local según el tipo de hibridación
+            # Aplicar la búsqueda local según el tipo de hibridación además nos aseguramos de que haya tiempo suficiente
             if generaciones % self.aplica_bl == 0:
                 if self.tipo_hibridacion == "all":
                     a_añadir = []
