@@ -5,7 +5,7 @@ import funciones
 import time
 
 class AlgoritmoGeneticoEstacionario:
-    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, poblacion_size=50, RANDOM_SEED=None, intentos_cruce=10, max_iteraciones=500, porcentaje_mutacion=0.2):
+    def __init__(self, nodos_df, distancias_df, tiempos_df, tiempo_max, velocidad, poblacion_size=50, RANDOM_SEED=None, intentos_cruce=10, max_iteraciones=500, porcentaje_mutacion=0.2, max_intentos_poblacion=100):
         """
         Inicializa la clase Algoritmo Genetico Estacionario.
         """
@@ -21,6 +21,7 @@ class AlgoritmoGeneticoEstacionario:
         self.intentos_cruce = intentos_cruce
         self.MAX_ITERACIONES = max_iteraciones
         self.porcentaje_mutacion = porcentaje_mutacion
+        self.max_intentos_poblacion = max_intentos_poblacion
         if RANDOM_SEED is not None:
             random.seed(RANDOM_SEED)
         else: #Para que no se repitan los resultados
@@ -36,11 +37,16 @@ class AlgoritmoGeneticoEstacionario:
         
        
         """
-        
-        while len(self.poblacion) < self.poblacion_size:
+        intentos = 0
+     
+        while len(self.poblacion) < self.poblacion_size and intentos < self.max_intentos_poblacion:
             cromosoma = self.generar_cromosoma()
-            if cromosoma:
+            tiempo_cromosoma = funciones.calcular_tiempo_total(cromosoma, self.nodos_df, self.distancias_df, self.velocidad)
+            if tiempo_cromosoma <= self.tiempo_max:
                 self.poblacion.append(cromosoma)
+            else:
+                intentos = intentos + 1
+             
                 
     def inicializar_poblacion_ciclico(self,nodo_ciclico):
         """Función inicializa población ciclica.
@@ -51,10 +57,15 @@ class AlgoritmoGeneticoEstacionario:
         Args:
             nodo_ciclico (int): Número que representa el nodo ciclico
         """
-        while len(self.poblacion) < self.poblacion_size:
+        intentos = 0
+     
+        while len(self.poblacion) < self.poblacion_size and intentos < self.max_intentos_poblacion:
             cromosoma = self.generar_cromosoma_ciclico(nodo_ciclico)
-            if cromosoma:
+            tiempo_cromosoma = funciones.calcular_tiempo_total(cromosoma, self.nodos_df, self.distancias_df, self.velocidad)
+            if tiempo_cromosoma <= self.tiempo_max:
                 self.poblacion.append(cromosoma)
+            else:
+                intentos = intentos + 1
                 
    
 
@@ -532,36 +543,36 @@ class AlgoritmoGeneticoEstacionario:
             hijo2 = self.cruce_ciclico(padres[1], padres[0])
             
             tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
-            if(tiempo_hijo1 <= self.tiempo_max):
+            if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                 self.poblacion += [hijo1]
             tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
-            if(tiempo_hijo2 <= self.tiempo_max):
+            if tiempo_hijo2 <= self.tiempo_max and hijo2[0] == nodo_ciclico and hijo2[-1] == nodo_ciclico:
                 self.poblacion += [hijo2]
             
             # Aplicar mutación con cierta probabilidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_intercambio(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
-                if(tiempo_hijo1 <= self.tiempo_max):
+                if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                     self.poblacion += [hijo1]
             
             # Aplicar mutación con cierta probabilidad
             if random.random() < self.porcentaje_mutacion:
                 hijo1 = self.mutacion_añado(hijo1)
                 tiempo_hijo1 = funciones.calcular_tiempo_total(hijo1, self.nodos_df, self.distancias_df, self.velocidad)
-                if(tiempo_hijo1 <= self.tiempo_max):
+                if tiempo_hijo1 <= self.tiempo_max and hijo1[0] == nodo_ciclico and hijo1[-1] == nodo_ciclico:
                     self.poblacion += [hijo1]
                
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_intercambio(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
-                if(tiempo_hijo2 <= self.tiempo_max):
+                if tiempo_hijo2 <= self.tiempo_max and hijo2[0] == nodo_ciclico and hijo2[-1] == nodo_ciclico:
                     self.poblacion += [hijo2]
             
             if random.random() < self.porcentaje_mutacion:
                 hijo2 = self.mutacion_añado(hijo2)
                 tiempo_hijo2 = funciones.calcular_tiempo_total(hijo2, self.nodos_df, self.distancias_df, self.velocidad)
-                if(tiempo_hijo2 <= self.tiempo_max):
+                if tiempo_hijo2 <= self.tiempo_max and hijo2[0] == nodo_ciclico and hijo2[-1] == nodo_ciclico:
                     self.poblacion += [hijo2]
          
          

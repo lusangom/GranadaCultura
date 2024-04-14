@@ -211,7 +211,8 @@ def main(configuracion):
                     poblacion_size=config_genetico["poblacion_size"],
                     #RANDOM_SEED=config_genetico["RANDOM_SEED"],
                     intentos_cruce=config_genetico["intentos_cruce"],
-                    max_iteraciones=config_genetico["max_iteraciones"]
+                    max_iteraciones=config_genetico["max_iteraciones"],
+                    max_intentos_poblacion = config_genetico["max_intentos_poblacion"]
                     )
                     tiempo_ini = time.time()
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico_ciclico(nodo_ciclico=configuracion["nodo_origen"])
@@ -228,7 +229,8 @@ def main(configuracion):
                     poblacion_size=config_genetico["poblacion_size"],
                     #RANDOM_SEED=config_genetico["RANDOM_SEED"],
                     intentos_cruce=config_genetico["intentos_cruce"],
-                    max_iteraciones=config_genetico["max_iteraciones"]
+                    max_iteraciones=config_genetico["max_iteraciones"],
+                    max_intentos_poblacion = config_genetico["max_intentos_poblacion"]
                     )
                     tiempo_ini = time.time()
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_ag.aplicar_algoritmo_genetico()
@@ -248,7 +250,10 @@ def main(configuracion):
                     intentos_cruce=config_memetico["intentos_cruce"],
                     max_iteraciones=config_memetico["max_iteraciones"],
                     max_iteraciones_bl=config_memetico["max_iteraciones_bl"],
-                    tipo_hibridacion=config_memetico["tipo_hibridacion"]
+                    tipo_hibridacion=config_memetico["tipo_hibridacion"],
+                    aplica_bl = config_memetico["aplica_bl"],
+                    porcentaje_best = config_memetico["porcentaje_best"],
+                    max_intentos_poblacion = config_memetico["max_intentos_poblacion"]
                     )
                     tiempo_ini = time.time()
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico_ciclico(nodo_ciclico=configuracion["nodo_origen"])
@@ -267,7 +272,10 @@ def main(configuracion):
                     intentos_cruce=config_memetico["intentos_cruce"],
                     max_iteraciones=config_memetico["max_iteraciones"],
                     max_iteraciones_bl=config_memetico["max_iteraciones_bl"],
-                    tipo_hibridacion=config_memetico["tipo_hibridacion"]
+                    tipo_hibridacion=config_memetico["tipo_hibridacion"],
+                    aplica_bl = config_memetico["aplica_bl"],
+                    porcentaje_best = config_memetico["porcentaje_best"],
+                    max_intentos_poblacion = config_memetico["max_intentos_poblacion"]
                     )
                     tiempo_ini = time.time()
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_mm.aplicar_algoritmo_memetico()
