@@ -48,18 +48,6 @@ def graficar_bigotes(resultados, y, x='ALGORITMO', titulo_comun=""):
     plt.xticks(rotation=45)
 
 
-def graficar_matriz_correlacion(resultados):
-    """Genera una matriz de correlación entre variables.
-
-    Args:
-        resultados (pandas.DataFrame): El DataFrame que contiene los datos.
-    """
-    plt.figure()
-    corr = resultados.select_dtypes(include=['float64', 'int']).corr()
-    sns.heatmap(data=corr, annot=True, cmap='coolwarm')
-    plt.title('Matriz de Correlación')
-
-
 def graficar_diagrama_araña(resultados, titulo_comun=""):
     """Genera un diagrama de araña.
 
@@ -67,7 +55,7 @@ def graficar_diagrama_araña(resultados, titulo_comun=""):
         resultados (pandas.DataFrame): El DataFrame que contiene los datos.
         titulo_comun (str): El título común para el gráfico. 
     """
-    categorias = ['NUMERO DE POIS VISITADOS', 'INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO TOTAL ALGORITMO', 'MARGEN', 'TIEMPO EJECUCION ALGORITMO']
+    categorias = ['NUMERO DE POIS VISITADOS', 'INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO RUTA', 'MARGEN', 'TIEMPO EJECUCION ALGORITMO']
     N = len(categorias)
     
     valores_maximos = resultados[categorias].max()
@@ -133,18 +121,18 @@ def main(ruta_archivo):
     graficar_dispersion(resultados, 'DISTANCIA TOTAL', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'MARGEN', 'NUMERO DE POIS VISITADOS', titulo_comun)
     graficar_dispersion(resultados, 'MARGEN', 'INTERÉS', titulo_comun)
-    graficar_dispersion(resultados, 'TIEMPO TOTAL ALGORITMO', 'INTERÉS', titulo_comun)
+    graficar_dispersion(resultados, 'TIEMPO RUTA', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'TIEMPO EJECUCION ALGORITMO', 'INTERÉS', titulo_comun)
-    graficar_dispersion(resultados, 'TIEMPO TOTAL ALGORITMO', 'DISTANCIA TOTAL', titulo_comun)
+    graficar_dispersion(resultados, 'TIEMPO RUTA', 'DISTANCIA TOTAL', titulo_comun)
     
-    graficar_bigotes(resultados, 'TIEMPO TOTAL ALGORITMO', 'ALGORITMO', titulo_comun)
+    graficar_bigotes(resultados, 'TIEMPO RUTA', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'INTERÉS', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'DISTANCIA TOTAL', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'MARGEN', 'ALGORITMO', titulo_comun)
 
     graficar_diagrama_araña(resultados, titulo_comun)
     graficar_matriz_pois(resultados, int(tamaño_bbdd), titulo_comun)
-    graficar_matriz_correlacion(resultados)
+   
 
     plt.show()
 

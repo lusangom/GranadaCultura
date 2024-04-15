@@ -97,8 +97,10 @@ class Grasp:
                                  
             iter=iter+1
             
-        # Devolver la lista de nodos visitados y la información asociada
-        return self.visitados, tiempo_actual, distancia_total, beneficio
+        tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
+        distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
+        beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
+        return self.visitados, tiempo_actual, distancia_total, beneficio_actual
     
     def buscar_local(self):
         """Función Busqueda Local sin DLB.
@@ -286,10 +288,11 @@ class Grasp:
             beneficio = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
             
               
-            
-        # Actualizar la distancia total si es necesario
 
-        return self.visitados, tiempo_actual, distancia_total, beneficio  
+        tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
+        distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
+        beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
+        return self.visitados, tiempo_actual, distancia_total, beneficio_actual
         # Devolver la solución y la información asociada a ella
       
     

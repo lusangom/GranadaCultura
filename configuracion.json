@@ -2,9 +2,9 @@
     "edad": 30,
     "tiempo_maximo": 300,
     "algoritmos": [1,2,3,4,5],
-    "es_ciclica": true,
+    "es_ciclica": false,
     "nodo_origen": 10,
-    "numero_ejecuciones": 2,
+    "numero_ejecuciones": 20,
     "tamaño_db": "158",
     "configuracion_algoritmos": {
         "genetico": {
