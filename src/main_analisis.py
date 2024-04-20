@@ -169,7 +169,7 @@ def main(ruta_archivo):
     graficar_dispersion(resultados, 'TIEMPO EJECUCION ALGORITMO', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'TIEMPO RUTA', 'DISTANCIA TOTAL', titulo_comun)
     
-    """
+    
     graficar_bigotes(resultados, 'TIEMPO RUTA', 'ALGORITMO', titulo_comun)
    
     graficar_bigotes(resultados, 'INTERÉS', 'ALGORITMO', titulo_comun)
@@ -177,6 +177,8 @@ def main(ruta_archivo):
     graficar_bigotes(resultados, 'MARGEN', 'ALGORITMO', titulo_comun)
     """
     graficar_diagrama_araña(resultados, titulo_comun)
+    
+    """
     graficar_matriz_pois(resultados, int(tamaño_bbdd), titulo_comun)
     """
 

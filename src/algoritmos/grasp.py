@@ -264,6 +264,7 @@ class Grasp:
                         
                         
             self.visitados = self.buscar_local_dlb_ciclico()
+            tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
             distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
             beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
               
