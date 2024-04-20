@@ -141,7 +141,8 @@ def main(configuracion):
                     tiempo_ini = time.time() 
                     ruta_solucion, tiempo_total, distancia_total, beneficio = alg_grasp.aplicar_grasp_ciclico(nodo_ciclico=configuracion["nodo_origen"])
                     tiempo_fin = time.time()
-                   
+                    if((tiempo_max - tiempo_total)<=0):
+                        print(str(tiempo_max - tiempo_total))
                     tiempo_ejecucion = tiempo_fin - tiempo_ini
                     resultado_fichero = mostrar_resultados_a_lista(algoritmos[alg_id], i+1, ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, configuracion["es_ciclica"], tiempo_ejecucion)
                     resultados_fichero.extend(resultado_fichero)

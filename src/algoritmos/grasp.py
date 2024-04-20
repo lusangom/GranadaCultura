@@ -208,9 +208,9 @@ class Grasp:
         self.visitados = [nodo_ciclico]
         distancia_total = 0
         tiempo_actual = self.nodos_df.loc[nodo_ciclico, 'tiempo_de_visita']
-        beneficio = self.nodos_df.loc[nodo_ciclico, 'interes']
+        beneficio_actual = self.nodos_df.loc[nodo_ciclico, 'interes']
         iter = 0
-        vuelta = False;
+        vuelta = False
         
         while tiempo_actual <= self.tiempo_max and iter < self.MAX_ITERACIONES:
             
@@ -242,10 +242,9 @@ class Grasp:
                 if tiempo_total <= self.tiempo_max:
                     # Si se puede añadir, añadir el nodo a la solución y actualizar el tiempo actual y otros parámetros
                     self.visitados.append(nodo)
-                
                     tiempo_actual += tiempo_viaje + tiempo_visita
                     distancia_total += distancia
-                    beneficio += self.nodos_df.loc[nodo, 'interes']
+                    beneficio_actual += self.nodos_df.loc[nodo, 'interes']
                     vuelta = False
                    
                     
@@ -264,9 +263,9 @@ class Grasp:
                     break
                         
                         
-            self.visitados, tiempo_actual = self.buscar_local_dlb_ciclico()
+            self.visitados = self.buscar_local_dlb_ciclico()
             distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
-            beneficio = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
+            beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
               
                                  
             iter=iter+1
@@ -285,13 +284,10 @@ class Grasp:
             self.visitados[-1] = nodo_ciclico
             tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
             distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
-            beneficio = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
+            beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
             
               
 
-        tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
-        distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
-        beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
         # Devolver la solución y la información asociada a ella
       
@@ -387,7 +383,7 @@ class Grasp:
                      
                     
 
-        return mejor_solucion, mejor_tiempo
+        return mejor_solucion
 
    
 
