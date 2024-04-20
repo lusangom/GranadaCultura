@@ -118,9 +118,9 @@ def graficar_diagrama_araña(resultados, titulo_comun=""):
         ax.fill(angulos, valores, alpha=0.1)
     
     ax.set_thetagrids([n * 360.0 / N for n in range(N)], categorias)
-    plt.title(titulo_comun + '\nDiagrama de Araña por Algoritmo')
-    plt.legend(loc='upper right', bbox_to_anchor=(1.1, 1.1))
-
+    plt.title(titulo_comun + '\nDiagrama de Araña por Algoritmo', fontsize=14, fontweight='bold')
+    plt.legend(loc='upper left', bbox_to_anchor=(1.0, 0.9))  # Leyenda en la parte derecha central
+  
 
 def graficar_matriz_pois(resultados, tamaño_bbdd, titulo_comun=""):
     """Genera una matriz de POIs visitados.
