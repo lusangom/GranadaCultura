@@ -4,6 +4,7 @@ import seaborn as sns
 import argparse  # Importa argparse
 import ast
 from math import pi
+import numpy as np
 
 
 def cargar_datos(ruta_archivo):
@@ -90,7 +91,7 @@ def graficar_bigotes(resultados, y, x='ALGORITMO', titulo_comun=""):
     plt.grid(True, linestyle='--', alpha=0.6) 
 
     plt.tight_layout()  
-
+    
 def graficar_diagrama_araña(resultados, titulo_comun=""):
     """Genera un diagrama de araña.
 
@@ -98,7 +99,7 @@ def graficar_diagrama_araña(resultados, titulo_comun=""):
         resultados (pandas.DataFrame): El DataFrame que contiene los datos.
         titulo_comun (str): El título común para el gráfico. 
     """
-    categorias = ['NUMERO DE POIS VISITADOS', 'INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO RUTA', 'MARGEN', 'TIEMPO EJECUCION ALGORITMO']
+    categorias = ['INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO RUTA', 'MARGEN', 'TIEMPO EJECUCION ALGORITMO','NUMERO DE POIS VISITADOS']
     N = len(categorias)
     
     valores_maximos = resultados[categorias].max()
@@ -109,17 +110,24 @@ def graficar_diagrama_araña(resultados, titulo_comun=""):
     angulos = [n / float(N) * 2 * pi for n in range(N)]
     angulos += angulos[:1]
     
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
     
     for index, row in promedios_por_algoritmo.iterrows():
         valores = row.drop('ALGORITMO').values.flatten().tolist()
         valores += valores[:1]
-        ax.plot(angulos, valores, linewidth=1, linestyle='solid', label=row['ALGORITMO'])
+        ax.plot(angulos, valores, linewidth=2, linestyle='-', marker='o', markersize=8, label=row['ALGORITMO'])
         ax.fill(angulos, valores, alpha=0.1)
     
-    ax.set_thetagrids([n * 360.0 / N for n in range(N)], categorias)
-    plt.title(titulo_comun + '\nDiagrama de Araña por Algoritmo', fontsize=14, fontweight='bold')
-    plt.legend(loc='upper left', bbox_to_anchor=(1.0, 0.9))  # Leyenda en la parte derecha central
+    ax.set_thetagrids([n * 360.0 / N for n in range(N)], categorias, fontsize=12)  
+    ax.tick_params(axis='y', labelsize=12)  
+    plt.title(titulo_comun + '\nDiagrama de Araña por Algoritmo', fontsize=16, fontweight='bold', pad=30) 
+    plt.legend(loc='upper left', bbox_to_anchor=(1.0, 0.9), fontsize=12)  
+
+    # Mover las etiquetas fuera del círculo
+    for i, label in enumerate(ax.get_xticklabels()):
+        label.set_position((-0.1,-0.1))
+        
+
   
 
 def graficar_matriz_pois(resultados, tamaño_bbdd, titulo_comun=""):

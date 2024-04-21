@@ -4,7 +4,7 @@
     "algoritmos": [1,2,3,4,5],
     "es_ciclica": true,
     "nodo_origen": 9,
-    "numero_ejecuciones": 200,
+    "numero_ejecuciones": 20,
     "tamaño_db": "158",
     "configuracion_algoritmos": {
         "genetico": {
