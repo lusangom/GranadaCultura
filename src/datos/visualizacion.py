@@ -153,11 +153,9 @@ class Visualizacion:
             print("La ruta de solución está vacía.")
             return mapa
 
-        # Crear un grupo de características para cada ruta
         feature_group = folium.FeatureGroup(name=f"{algoritmo} (Color: {color_leyenda})", show=True)
         nodos_df_filtrado = nodos_df[nodos_df['nodo'].isin(self.ruta_solucion)].copy()
         
-        # Agregar marcadores y líneas con tooltip para mostrar al hacer hover
         tooltip = f"Ruta generada por: {algoritmo}"
         for idx, nodo_id in enumerate(self.ruta_solucion, start=1):
             row = nodos_df_filtrado[nodos_df_filtrado['nodo'] == nodo_id].iloc[0]
@@ -226,8 +224,6 @@ class Visualizacion:
             for i in self.ruta_solucion:
                 lat.append(self.archivo_nodos.loc[i, 'lat'])
                 lon.append(self.archivo_nodos.loc[i, 'lon'])
-             
-                
                 name.append(self.archivo_nodos.loc[i, 'name'])
                 interes.append(str(self.archivo_nodos.loc[i, 'interes']))
 
