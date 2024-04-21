@@ -18,6 +18,8 @@ def cargar_datos(ruta_archivo):
     """
     return pd.read_csv(ruta_archivo)
 
+def escribir_resultados_a_archivo_df(ruta_archivo, resultados_df):
+    resultados_df.to_csv(ruta_archivo, index=False)
 
 def graficar_dispersion(resultados, x, y, titulo_comun="", hue='ALGORITMO'):
     """Genera un gráfico de dispersión.
@@ -158,7 +160,7 @@ def graficar_matriz_pois(resultados, tamaño_bbdd, titulo_comun=""):
     annot = ax.annotate("", xy=(0,0), xytext=(10,10), textcoords="offset points",
                         bbox=dict(boxstyle="round", fc="white", ec="black"),
                         arrowprops=dict(arrowstyle="->"))
-    annot.set_visible(False""")
+    annot.set_visible(False)
 
     def hover(event):
         if event.inaxes == ax:
@@ -185,6 +187,45 @@ def graficar_matriz_pois(resultados, tamaño_bbdd, titulo_comun=""):
     plt.gcf().canvas.mpl_connect("motion_notify_event", hover)
 
 
+def tabla_ordenada_por_interes(resultados):
+    """Ordena y muestra una tabla basada en el nivel de interés.
+    
+    Args:
+        resultados (pandas.DataFrame): DataFrame con los datos de los algoritmos.
+
+    Returns:
+        pandas.DataFrame: DataFrame ordenado por nivel de interés.
+    """
+    return resultados.sort_values(by='INTERÉS', ascending=False)
+
+def mejor_solucion_por_algoritmo(resultados):
+    """Encuentra la mejor solución por cada algoritmo.
+
+    Args:
+        resultados (pandas.DataFrame): DataFrame con los datos de los algoritmos.
+
+    Returns:
+        pandas.DataFrame: DataFrame con la mejor solución de cada algoritmo.
+    """
+    resultados = resultados.loc[resultados.groupby('ALGORITMO')['INTERÉS'].idxmax()]
+    return resultados.sort_values(by='INTERÉS', ascending=False)
+
+
+        
+    
+# Función para calcular ROC
+def calcular_roc(resultados, criterios):
+    # Normalizar cada criterio para que todos tengan igual importancia
+    for criterio in criterios:
+        max_value = resultados[criterio].max()
+        resultados[criterio] = resultados[criterio] / max_value
+
+    # Calcular ROC como el promedio de los criterios normalizados
+    resultados['ROC'] = resultados[criterios].mean(axis=1)
+    return resultados.sort_values(by='ROC', ascending=False)
+
+
+
 def main(ruta_archivo):
     """Función principal para el análisis de resultados de algoritmos.
 
@@ -198,7 +239,7 @@ def main(ruta_archivo):
     edad = resultados['EDAD'].iloc[0] if 'EDAD' in resultados.columns else 'Desconocido'
     titulo_comun = f'BASE DE DATOS: {tamaño_bbdd} POIS. TIEMPO MAXIMO: {tiempo_max}. CICLICA: {ciclica}. EDAD: {edad}'
 
-    
+   
     graficar_dispersion(resultados, 'DISTANCIA TOTAL', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'MARGEN', 'NUMERO DE POIS VISITADOS', titulo_comun)
     graficar_dispersion(resultados, 'MARGEN', 'INTERÉS', titulo_comun)
@@ -216,8 +257,22 @@ def main(ruta_archivo):
     graficar_diagrama_araña(resultados, titulo_comun)
     
     graficar_matriz_pois(resultados, int(tamaño_bbdd), titulo_comun)
+    
+    resultados_roc = resultados[:]
+    criterios = ['INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO RUTA', 'MARGEN', 'NUMERO DE POIS VISITADOS'] 
+    resultados_roc = calcular_roc(resultados_roc, criterios)
+    escribir_resultados_a_archivo_df('tabla_roc.csv', resultados_roc)
+    
+    resultados_ordenados = resultados[:]
+    resultados_ordenados = tabla_ordenada_por_interes(resultados_ordenados)
+    escribir_resultados_a_archivo_df('tabla_ordenada.csv', resultados_ordenados)
    
-
+    mejores = f'MEJORES 5 RESULTADOS\n BASE DE DATOS: {tamaño_bbdd} POIS. TIEMPO MAXIMO: {tiempo_max}. CICLICA: {ciclica}. EDAD: {edad}'
+    resultados_mejores = resultados[:]
+    resultados_mejores = mejor_solucion_por_algoritmo(resultados_mejores)
+    escribir_resultados_a_archivo_df('tabla_mejores.csv', resultados_mejores)
+    graficar_diagrama_araña(resultados_mejores, mejores)
+    
     plt.show()
 
 
