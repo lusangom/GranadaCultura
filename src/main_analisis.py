@@ -120,7 +120,7 @@ def graficar_diagrama_araña(resultados, titulo_comun=""):
     
     ax.set_thetagrids([n * 360.0 / N for n in range(N)], categorias, fontsize=12)  
     ax.tick_params(axis='y', labelsize=12)  
-    plt.title(titulo_comun + '\nDiagrama de Araña por Algoritmo', fontsize=16, fontweight='bold', pad=30) 
+    plt.title(titulo_comun + '\nDiagrama de Araña por Algoritmo', fontsize=14, fontweight='bold', pad=30) 
     plt.legend(loc='upper left', bbox_to_anchor=(1.0, 0.9), fontsize=12)  
 
     # Mover las etiquetas fuera del círculo
@@ -138,7 +138,7 @@ def graficar_matriz_pois(resultados, tamaño_bbdd, titulo_comun=""):
         tamaño_bbdd (int): El tamaño de la base de datos de POIs.
         titulo_comun (str): El título común para el gráfico. 
     """
-    plt.figure()
+    plt.figure(figsize=(10, 8))
     max_pois_visitados = resultados['POIS VISITADOS'].apply(lambda x: len(ast.literal_eval(x))).max()
 
     pois = range(1, tamaño_bbdd + 1)
@@ -150,10 +150,39 @@ def graficar_matriz_pois(resultados, tamaño_bbdd, titulo_comun=""):
             if poi in pois:
                 matriz_pois.loc[poi, idx] += 1
 
-    sns.heatmap(matriz_pois, cmap='Greys', cbar=True)
-    plt.title(titulo_comun + '\nMatriz de POIs Visitados')
-    plt.xlabel('Posición en la Solución')
-    plt.ylabel('ID del POI')
+    ax = sns.heatmap(matriz_pois, cmap='Greys', cbar=True)
+    plt.title(titulo_comun + '\nMatriz de POIs Visitados', fontsize=14, fontweight='bold', pad=30)
+    plt.xlabel('Posición en la Solución', fontsize=12)
+    plt.ylabel('ID del POI', fontsize=12)
+
+    annot = ax.annotate("", xy=(0,0), xytext=(10,10), textcoords="offset points",
+                        bbox=dict(boxstyle="round", fc="white", ec="black"),
+                        arrowprops=dict(arrowstyle="->"))
+    annot.set_visible(False""")
+
+    def hover(event):
+        if event.inaxes == ax:
+            # Convertir las coordenadas del evento a ubicación de celda
+            col, row = int(event.xdata + 0.5), int(event.ydata + 0.5)
+            if row > 0 and row <= tamaño_bbdd and col > 0 and col <= max_pois_visitados:
+                # Ajustar la posición de la anotación y actualizar su texto
+                annot.xy = (col - 1, row - 1)
+                poi_id = row
+                visit_count = matriz_pois.iloc[row-1, col-1]
+                if(visit_count > 0):
+                    annot.set_text(f"POI {poi_id}\nPosición: {col}\nVisitas: {visit_count}")
+                    annot.set_visible(True)
+                    plt.draw()
+            else:
+                if annot.get_visible():
+                    annot.set_visible(False)
+                    plt.draw()
+        else:
+            if annot.get_visible():
+                annot.set_visible(False)
+                plt.draw()
+
+    plt.gcf().canvas.mpl_connect("motion_notify_event", hover)
 
 
 def main(ruta_archivo):
@@ -169,7 +198,7 @@ def main(ruta_archivo):
     edad = resultados['EDAD'].iloc[0] if 'EDAD' in resultados.columns else 'Desconocido'
     titulo_comun = f'BASE DE DATOS: {tamaño_bbdd} POIS. TIEMPO MAXIMO: {tiempo_max}. CICLICA: {ciclica}. EDAD: {edad}'
 
-    """
+    
     graficar_dispersion(resultados, 'DISTANCIA TOTAL', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'MARGEN', 'NUMERO DE POIS VISITADOS', titulo_comun)
     graficar_dispersion(resultados, 'MARGEN', 'INTERÉS', titulo_comun)
@@ -183,12 +212,11 @@ def main(ruta_archivo):
     graficar_bigotes(resultados, 'INTERÉS', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'DISTANCIA TOTAL', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'MARGEN', 'ALGORITMO', titulo_comun)
-    """
+    
     graficar_diagrama_araña(resultados, titulo_comun)
     
-    """
     graficar_matriz_pois(resultados, int(tamaño_bbdd), titulo_comun)
-    """
+   
 
     plt.show()
 
