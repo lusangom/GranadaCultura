@@ -5,9 +5,13 @@ import networkx as nx
 import geopandas as gpd
 import matplotlib.pyplot as plt
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import ast
+import math
+
+
 
 class Visualizacion:
-    def __init__(self, archivo_nodos, ruta_solucion, cache_folder='osmnx_cache'):
+    def __init__(self, archivo_nodos, ruta_solucion=" ", cache_folder='osmnx_cache'):
         """
         Inicializa la clase Visualizacion.
         """
@@ -98,7 +102,7 @@ class Visualizacion:
         return mapa
 
 
-    def visualizar_ruta_en_mapa_folium(self, nodos_df):
+    def visualizar_ruta_en_mapa_folium_individual(self, nodos_df):
         """Visualiza la ruta en un mapa interactivo utilizando Folium.
 
         Args:
@@ -143,7 +147,61 @@ class Visualizacion:
                 print(f"No se pudo encontrar una ruta entre {nodo_origen} y {nodo_destino}")
 
         return mapa
+    
+    def visualizar_ruta_en_mapa_folium(self, nodos_df, mapa, color, color_leyenda,algoritmo):
+        if not self.ruta_solucion:
+            print("La ruta de solución está vacía.")
+            return mapa
 
+        # Crear un grupo de características para cada ruta
+        feature_group = folium.FeatureGroup(name=f"{algoritmo} (Color: {color_leyenda})", show=True)
+        nodos_df_filtrado = nodos_df[nodos_df['nodo'].isin(self.ruta_solucion)].copy()
+        
+        # Agregar marcadores y líneas con tooltip para mostrar al hacer hover
+        tooltip = f"Ruta generada por: {algoritmo}"
+        for idx, nodo_id in enumerate(self.ruta_solucion, start=1):
+            row = nodos_df_filtrado[nodos_df_filtrado['nodo'] == nodo_id].iloc[0]
+            icon = folium.DivIcon(html=f'<div style="font-size: 12pt; color : black; background-color:white; border-radius:50%; padding: 5px;">{idx}</div>')
+            folium.Marker(location=[row['lat'], row['lon']],
+                          popup=f'Nodo {idx}: {row["name"]} - Interés: {row["interes"]}',
+                          icon=icon).add_to(feature_group)
+            
+        for i in range(len(self.ruta_solucion) - 1):
+            nodo_origen = self.ruta_solucion[i]
+            nodo_destino = self.ruta_solucion[i + 1]
+            orig_point = nodos_df_filtrado[nodos_df_filtrado['nodo'] == nodo_origen].iloc[0]
+            dest_point = nodos_df_filtrado[nodos_df_filtrado['nodo'] == nodo_destino].iloc[0]
+            orig_node = ox.nearest_nodes(self.G, X=orig_point['lon'], Y=orig_point['lat'])
+            dest_node = ox.nearest_nodes(self.G, X=dest_point['lon'], Y=dest_point['lat'])
+            try:
+                route = ox.shortest_path(self.G, orig_node, dest_node, weight='travel_time')
+                folium.PolyLine(locations=[(self.G.nodes[node]['y'], self.G.nodes[node]['x']) for node in route],
+                                color=color,
+                                weight=5,
+                                opacity=0.7,
+                                tooltip=tooltip).add_to(feature_group)
+            except ValueError as e:
+                print(f"No se pudo encontrar una ruta entre {nodo_origen} y {nodo_destino}")
+        
+
+        feature_group.add_to(mapa)
+        
+    def visualizar_varias_rutas(self, nodos_df, rutas_df, archivo_html):
+        mapa = folium.Map(location=[37.1773363, -3.5985571], zoom_start=13)
+        colores = ['red', 'blue', 'green', 'purple', 'orange']
+        colores_leyenda = ['rojo','azul', 'verde', 'morado', 'naranja']
+        
+        # Iterar sobre cada ruta y algoritmo
+        for idx, (ruta_str, algoritmo) in enumerate(zip(rutas_df['POIS VISITADOS'], rutas_df['ALGORITMO'])):
+            self.ruta_solucion = ast.literal_eval(ruta_str)
+            color = colores[idx % len(colores)]
+            color_leyenda = colores_leyenda[idx % len(colores_leyenda)]
+            self.visualizar_ruta_en_mapa_folium(nodos_df, mapa, color, color_leyenda, algoritmo)
+
+        folium.LayerControl().add_to(mapa)  # Añade un control de capas para alternar la visualización
+        mapa.save(archivo_html)
+
+    
 
     def visualizar_ruta_en_mapa_explore(self, nodos_df):
         """Visualiza la ruta en un mapa interactivo utilizando OSMnx.

@@ -193,19 +193,19 @@ def main(numero_ejecuciones):
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
             
     #Visualizamos las rutas
-    """
-    vista = visualizacion.Visualizacion(nodos_df, ruta_solucion)
-        if nodos_df is not None:
+    
+    vista = visualizacion.Visualizacion(nodos_df)
+    if nodos_df is not None:
         
 
-            mapa_folium = vista.visualizar_ruta_en_mapa_folium(nodos_df)
-            mapa_explore = vista.visualizar_ruta_en_mapa_explore(nodos_df)
-            vista.exportar_indicaciones_ruta_v1('indicaciones_ruta.txt')
+        mapa_folium = vista.visualizar_ruta_en_mapa_folium_individual(nodos_df)
+        mapa_explore = vista.visualizar_ruta_en_mapa_explore(nodos_df)
+        vista.exportar_indicaciones_ruta_v1('indicaciones_ruta.txt')
 
 
-            mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
-            mapa_explore.save('ruta_solucion_explore.html')   
-    """
+        mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
+        mapa_explore.save('ruta_solucion_explore.html')   
+    
 
 
 if __name__ == "__main__":

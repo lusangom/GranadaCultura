@@ -1,0 +1,18 @@
+Indicaciones de la Ruta:
+
+Nodos Visitados:
+Nodo 1: Alcaicería - Interés: 10
+Nodo 2: Plaza de Bib-Rambla - Interés: 10
+Nodo 3: Fuente de los Gigantes - Interés: 10
+Nodo 4: Granada Online - Interés: 10
+
+Ruta a Seguir:
+Desde Alcaicería (37.1753625, -3.5991907) hasta Plaza de Bib-Rambla (37.17518098868944, -3.5997978575743086)
+Ruta: [6244001211, 5594245656, 5594245654]
+
+Desde Plaza de Bib-Rambla (37.17518098868944, -3.5997978575743086) hasta Fuente de los Gigantes (37.17517599999999, -3.5997918)
+Ruta: [5594245654]
+
+Desde Fuente de los Gigantes (37.17517599999999, -3.5997918) hasta Granada Online (37.1740506, -3.5992853)
+Ruta: [5594245654, 5594245661, 1156588134, 8016049516, 8016049517]
+
