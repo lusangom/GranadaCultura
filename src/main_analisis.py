@@ -101,7 +101,7 @@ def graficar_diagrama_araña(resultados, titulo_comun=""):
         resultados (pandas.DataFrame): El DataFrame que contiene los datos.
         titulo_comun (str): El título común para el gráfico. 
     """
-    categorias = ['INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO RUTA', 'MARGEN', 'TIEMPO EJECUCION ALGORITMO','NUMERO DE POIS VISITADOS']
+    categorias = ['INTERÉS', 'DISTANCIA TOTAL', 'TIEMPO RUTA', 'MARGEN','NUMERO DE POIS VISITADOS']
     N = len(categorias)
     
     valores_maximos = resultados[categorias].max()
@@ -241,10 +241,8 @@ def main(ruta_archivo):
 
    
     graficar_dispersion(resultados, 'DISTANCIA TOTAL', 'INTERÉS', titulo_comun)
-    graficar_dispersion(resultados, 'MARGEN', 'NUMERO DE POIS VISITADOS', titulo_comun)
     graficar_dispersion(resultados, 'MARGEN', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'TIEMPO RUTA', 'INTERÉS', titulo_comun)
-    graficar_dispersion(resultados, 'TIEMPO EJECUCION ALGORITMO', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'TIEMPO RUTA', 'DISTANCIA TOTAL', titulo_comun)
     
     

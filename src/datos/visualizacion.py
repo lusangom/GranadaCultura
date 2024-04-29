@@ -148,15 +148,15 @@ class Visualizacion:
 
         return mapa
     
-    def visualizar_ruta_en_mapa_folium(self, nodos_df, mapa, color, color_leyenda,algoritmo):
+    def visualizar_ruta_en_mapa_folium(self, nodos_df, mapa, color, color_leyenda,algoritmo,info_ruta):
         if not self.ruta_solucion:
             print("La ruta de solución está vacía.")
             return mapa
 
-        feature_group = folium.FeatureGroup(name=f"{algoritmo} (Color: {color_leyenda})", show=True)
+        feature_group = folium.FeatureGroup(name=info_ruta, show=False)
         nodos_df_filtrado = nodos_df[nodos_df['nodo'].isin(self.ruta_solucion)].copy()
         
-        tooltip = f"Ruta generada por: {algoritmo}"
+        #tooltip = f"Ruta generada por: {algoritmo}"
         for idx, nodo_id in enumerate(self.ruta_solucion, start=1):
             row = nodos_df_filtrado[nodos_df_filtrado['nodo'] == nodo_id].iloc[0]
             icon = folium.DivIcon(html=f'<div style="font-size: 12pt; color : black; background-color:white; border-radius:50%; padding: 5px;">{idx}</div>')
@@ -177,7 +177,8 @@ class Visualizacion:
                                 color=color,
                                 weight=5,
                                 opacity=0.7,
-                                tooltip=tooltip).add_to(feature_group)
+                                #tooltip=tooltip
+                                ).add_to(feature_group)
             except ValueError as e:
                 print(f"No se pudo encontrar una ruta entre {nodo_origen} y {nodo_destino}")
         
@@ -190,14 +191,18 @@ class Visualizacion:
         colores_leyenda = ['rojo','azul', 'verde', 'morado', 'naranja']
         
         # Iterar sobre cada ruta y algoritmo
-        for idx, (ruta_str, algoritmo) in enumerate(zip(rutas_df['POIS VISITADOS'], rutas_df['ALGORITMO'])):
-            self.ruta_solucion = ast.literal_eval(ruta_str)
+        for idx, ruta in rutas_df.iterrows():
+            self.ruta_solucion = ast.literal_eval(ruta['POIS VISITADOS'])
+            algoritmo = ruta['ALGORITMO']
+            info_ruta = f"Ruta: {idx}, Interés: {ruta['INTERÉS']}, Distancia: {ruta['DISTANCIA TOTAL']}, Tiempo: {ruta['TIEMPO RUTA']}, Margen: {ruta['MARGEN']}"
             color = colores[idx % len(colores)]
             color_leyenda = colores_leyenda[idx % len(colores_leyenda)]
-            self.visualizar_ruta_en_mapa_folium(nodos_df, mapa, color, color_leyenda, algoritmo)
+            info_ruta = f"Ruta: {idx}, Interés: {ruta['INTERÉS']}, Distancia: {ruta['DISTANCIA TOTAL']}, Tiempo: {ruta['TIEMPO RUTA']}, Margen: {ruta['MARGEN']}, Color: {color_leyenda}"
+            self.visualizar_ruta_en_mapa_folium(nodos_df, mapa, color, color_leyenda, algoritmo,info_ruta)
 
         folium.LayerControl().add_to(mapa)  # Añade un control de capas para alternar la visualización
         mapa.save(archivo_html)
+
 
     
 

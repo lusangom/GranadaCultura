@@ -193,7 +193,7 @@ def main(numero_ejecuciones):
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
             
     #Visualizamos las rutas
-    
+    """
     vista = visualizacion.Visualizacion(nodos_df)
     if nodos_df is not None:
         
@@ -205,7 +205,7 @@ def main(numero_ejecuciones):
 
         mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
         mapa_explore.save('ruta_solucion_explore.html')   
-    
+    """
 
 
 if __name__ == "__main__":
