@@ -589,5 +589,6 @@ class AlgoritmoGeneticoEstacionario:
         tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
         distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
         beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
+        beneficio_actual = beneficio_actual - self.nodos_df.loc[self.visitados[0], 'interes']
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
    
