@@ -199,7 +199,8 @@ def tabla_ordenada_por_interes(resultados):
     return resultados.sort_values(by='INTERÉS', ascending=False)
 
 def mejor_solucion_por_algoritmo(resultados):
-    """Encuentra la mejor solución por cada algoritmo.
+    """Encuentra la mejor solución por cada algoritmo con respecto al interes, en caso de empate el siguiente factor 
+    es el tiempo de ruta. 
 
     Args:
         resultados (pandas.DataFrame): DataFrame con los datos de los algoritmos.
@@ -207,9 +208,11 @@ def mejor_solucion_por_algoritmo(resultados):
     Returns:
         pandas.DataFrame: DataFrame con la mejor solución de cada algoritmo.
     """
+    # Primero ordenamos los resultados por INTERÉS y luego por DISTANCIA TOTAL
+    resultados = resultados.sort_values(by=['INTERÉS', 'TIEMPO RUTA'], ascending=[False, True])
+    # Agrupamos por ALGORITMO y tomamos la primera ocurrencia que será la mejor en INTERÉS y menor en DISTANCIA TOTAL
     resultados = resultados.loc[resultados.groupby('ALGORITMO')['INTERÉS'].idxmax()]
     return resultados.sort_values(by='INTERÉS', ascending=False)
-
 
         
     
