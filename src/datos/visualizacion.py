@@ -114,6 +114,9 @@ class Visualizacion:
         if not self.ruta_solucion:
             print("La ruta de solución está vacía.")
             return None
+          # Asegurar que self.ruta_solucion es una lista de enteros
+        if isinstance(self.ruta_solucion, str):
+            self.ruta_solucion = list(map(int, self.ruta_solucion.split(',')))
 
         # Filtra nodos_df utilizando self.ruta_solucion para asegurar consistencia
         nodos_df_filtrado = nodos_df[nodos_df['nodo'].isin(self.ruta_solucion)].copy()
@@ -192,7 +195,14 @@ class Visualizacion:
         
         # Iterar sobre cada ruta y algoritmo
         for idx, ruta in rutas_df.iterrows():
-            self.ruta_solucion = ast.literal_eval(ruta['POIS VISITADOS'])
+            
+          
+            pois_visitados = ruta['POIS VISITADOS']
+            if isinstance(pois_visitados, str):
+                self.ruta_solucion = ast.literal_eval(pois_visitados)
+            else:
+                self.ruta_solucion = pois_visitados
+                
             algoritmo = ruta['ALGORITMO']
             info_ruta = f"Ruta: {idx}, Interés: {ruta['INTERÉS']}, Distancia: {ruta['DISTANCIA TOTAL']}, Tiempo: {ruta['TIEMPO RUTA']}, Margen: {ruta['MARGEN']}"
             color = colores[idx % len(colores)]

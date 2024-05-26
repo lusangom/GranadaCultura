@@ -51,6 +51,10 @@ def main(numero_ejecuciones):
     ruta_archivo_tiempos = 'data/tiempos_158.csv'
     ruta_archivo_edad_velocidad = 'data/edadvelocidad.csv'
     edad_velocidad_df = pd.read_csv(ruta_archivo_edad_velocidad)
+    
+    # DataFrame para almacenar los resultados
+    resultados_df = pd.DataFrame(columns=['ALGORITMO', 'POIS VISITADOS', 'INTERÉS','DISTANCIA TOTAL', 'TIEMPO RUTA', 'MARGEN'])
+
 
     # Cargar datos
     datos = lectura_datos.Datos(ruta_archivo_nodos, ruta_archivo_distancias, ruta_archivo_tiempos)
@@ -101,6 +105,20 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
+                  # Agregar resultados al DataFrame
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["GREEDY"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
             else:
                 print("\nALGORITMO GREEDY")
                 print(f"Ejecución {i+1}:")
@@ -110,7 +128,19 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
-                
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["GREEDY"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
         if 2 in elecciones or 6 in elecciones: #grasp
            
             if(es_ciclica):
@@ -122,6 +152,19 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["GRASP"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
             else:
                 print("\nALGORITMO GRASP")
                 print(f"Ejecución {i+1}:")
@@ -131,7 +174,19 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
-            
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["GRASP"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
         if 3 in elecciones or 6 in elecciones: #es
             if(es_ciclica):
                 print("\nALGORITMO ENFRIAMIENTO SIMULADO")
@@ -142,6 +197,18 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["ENFRIAMIENTO SIMULADO"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
             else:
                 print("\nALGORITMO ENFRIAMIENTO SIMULADO")
                 print(f"Ejecución {i+1}:")
@@ -151,7 +218,19 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
-            
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["ENFRIAMIENTO SIMULADO"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
         if 4 in elecciones or 6 in elecciones: #genetico
             if(es_ciclica):
                 print("\nALGORITMO GENETICO")
@@ -162,6 +241,19 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["GENETICO"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
             else:
                 print("\nALGORITMO GENETICO")
                 print(f"Ejecución {i+1}:")
@@ -171,7 +263,19 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
-                
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["GENETICO"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
         if 5 in elecciones or 6 in elecciones: #memetico
             if(es_ciclica):
                 tiempo_ini = time.time()
@@ -182,6 +286,19 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["MEMETICO"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
             else:
                 print("\nALGORITMO MEMETICO")
                 print(f"Ejecución {i+1}:")
@@ -191,21 +308,26 @@ def main(numero_ejecuciones):
                 tiempo_fin = time.time()
                 tiempo_ejecucion = tiempo_fin - tiempo_ini
                 mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, tiempo_max, es_ciclica, tiempo_ejecucion)
-            
-    #Visualizamos las rutas
-    """
+                margen = tiempo_max - tiempo_total
+                nuevo_df = pd.DataFrame({
+                    'ALGORITMO': ["MEMETICO"],
+                    'POIS VISITADOS': [ruta_solucion],
+                    'INTERÉS': [beneficio],
+                    'DISTANCIA TOTAL': [distancia_total],
+                    'TIEMPO RUTA': [tiempo_total],
+                    'MARGEN': [margen]
+                })
+
+                # Concatenar el nuevo DataFrame con resultados_df
+                resultados_df = pd.concat([resultados_df, nuevo_df], ignore_index=True)
+
+    
+    
     vista = visualizacion.Visualizacion(nodos_df)
     if nodos_df is not None:
-        
+        vista.visualizar_varias_rutas(nodos_df, resultados_df, "mapa_main_interactivo.html")
 
-        mapa_folium = vista.visualizar_ruta_en_mapa_folium_individual(nodos_df)
-        mapa_explore = vista.visualizar_ruta_en_mapa_explore(nodos_df)
-        vista.exportar_indicaciones_ruta_v1('indicaciones_ruta.txt')
-
-
-        mapa_folium.save('ruta_solucion_folium.html')  # Guarda el mapa en un archivo HTML
-        mapa_explore.save('ruta_solucion_explore.html')   
-    """
+    
 
 
 if __name__ == "__main__":
