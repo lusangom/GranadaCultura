@@ -89,12 +89,63 @@ class EnfriamientoSimulado:
         while True:
             mejor_fitness = -float('inf')
             mejor_nodo = None
+
+            for i, nodo in self.nodos_df.iterrows():
+                if i not in self.visitados and i != nodo_ciclico:
+                    tiempo_vuelta = self.distancias_df.loc[i, str(nodo_ciclico)] / self.velocidad
+                    tiempo_necesario = tiempo_actual + self.nodos_df.loc[i, 'tiempo_de_visita'] + tiempo_vuelta
+
+                    if tiempo_necesario <= self.tiempo_max:
+                        fitness = funciones.calcular_fitness(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
+                        if fitness > mejor_fitness:
+                            mejor_fitness = fitness
+                            mejor_nodo = i
+
+            if mejor_nodo is None:
+                break
+
+            tiempo_viaje = self.distancias_df.loc[self.visitados[-1], str(mejor_nodo)] / self.velocidad
+            tiempo_actual += tiempo_viaje + self.nodos_df.loc[mejor_nodo, 'tiempo_de_visita']
+            distancia_total += self.distancias_df.loc[self.visitados[-1], str(mejor_nodo)]
+            beneficio += self.nodos_df.loc[mejor_nodo, 'interes']
+            self.visitados.append(mejor_nodo)
+
+        tiempo_viaje_final = self.distancias_df.loc[self.visitados[-1], str(nodo_ciclico)] / self.velocidad
+        if tiempo_actual + tiempo_viaje_final <= self.tiempo_max:
+            self.visitados.append(nodo_ciclico)
+            distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
+            tiempo_actual += tiempo_viaje_final
+
+     
+        return self.visitados, tiempo_actual, distancia_total, beneficio
+
+
+
+    
+    def generar_solucion_inicial_greedy_ciclicoMAL(self, nodo_ciclico):
+        """Función genera solución inicial greedy ciclica.
+
+        Función usada para generar la solución inicial del algoritmo, el modo de creación
+        es un algoritmo Greedy ciclico, por lo que el funcionamiento es igual que dicho algoritmo.
+
+        Returns:
+            Array: Ruta inicial Greedy ciclica y la información asociada a ella.
+        """
+        
+        self.visitados = [nodo_ciclico]
+        distancia_total = 0
+        tiempo_actual = self.nodos_df.loc[nodo_ciclico, 'tiempo_de_visita']
+        beneficio = self.nodos_df.loc[nodo_ciclico, 'interes']
+
+        while True:
+            mejor_fitness = -float('inf')
+            mejor_nodo = None
                 
             for i, nodo in self.nodos_df.iterrows():
                 if i not in self.visitados and i != nodo_ciclico:
-                    tiempo_vuelta = (self.distancias_df.loc[i, str(nodo_ciclico)])/self.velocidad               # Asegurarse de tener en cuenta el tiempo de visita en el nodo final
-                    tiempo_necesario = tiempo_actual + self.nodos_df.loc[i, 'tiempo_de_visita'] + tiempo_vuelta + self.nodos_df.loc[nodo_ciclico, 'tiempo_de_visita']
-                        
+                    tiempo_vuelta = (self.distancias_df.loc[i, str(nodo_ciclico)])/self.velocidad
+                    tiempo_necesario = tiempo_actual + self.nodos_df.loc[i, 'tiempo_de_visita'] + tiempo_vuelta
+                    
                     if tiempo_necesario <= self.tiempo_max:
                         fitness = funciones.calcular_fitness(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
                         if fitness > mejor_fitness:
@@ -110,13 +161,16 @@ class EnfriamientoSimulado:
             beneficio += self.nodos_df.loc[mejor_nodo, 'interes']
             self.visitados.append(mejor_nodo)
 
-        if tiempo_actual + (self.distancias_df.loc[self.visitados[-1], str(nodo_ciclico)])/self.velocidad <= self.tiempo_max:
+        # Asegurarse de que se tiene en cuenta el tiempo de vuelta al nodo cíclico
+        tiempo_vuelta_final = (self.distancias_df.loc[self.visitados[-1], str(nodo_ciclico)])/self.velocidad
+        if tiempo_actual + tiempo_vuelta_final <= self.tiempo_max:
             self.visitados.append(nodo_ciclico)
             distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
-            tiempo_actual += (self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)])/self.velocidad
-            # No se añade beneficio porque el nodo cíclico ya fue considerado al inicio
+            tiempo_actual += tiempo_vuelta_final
 
+        
         return self.visitados, tiempo_actual, distancia_total, beneficio
+
     
     
     def generar_vecino(self, solucion):
@@ -176,29 +230,31 @@ class EnfriamientoSimulado:
         # Es decir se específica un nodo que tiene que ser el de inicio y el de fin.
         
         # Asegurarse de que hay al menos tres nodos en la solución para excluir el primero y el último
+        
         if len(solucion) <= 3:
-            return solucion  # Devolver la solución actual sin cambios si no es posible excluir ambos
+            return solucion
 
-        # Seleccionar un nodo aleatorio de la solución actual para ser reemplazado, excluyendo el primero y el último
         nodo_a_reemplazar = random.choice(solucion[1:-1])
-
-        nodos_posibles = [nodo for nodo in self.nodos_df.index if nodo not in solucion]
+        nodos_posibles = [nodo for nodo in self.nodos_df.index if nodo not in solucion and nodo != solucion[0]]
 
         if not nodos_posibles:
             return solucion
 
         nuevo_nodo = random.choice(nodos_posibles)
-
+       
+      
         vecino_potencial = solucion[:]
-        index_a_reemplazar = vecino_potencial.index(nodo_a_reemplazar)  
-        vecino_potencial[index_a_reemplazar] = nuevo_nodo  
-
-        tiempo_total =  funciones.calcular_tiempo_total(vecino_potencial, self.nodos_df, self.distancias_df, self.velocidad)
-        
-        if tiempo_total <= self.tiempo_max:
-            return vecino_potencial  
+        index_a_reemplazar = solucion.index(nodo_a_reemplazar)
         
       
+      
+        vecino_potencial[index_a_reemplazar] = nuevo_nodo
+      
+        tiempo_total, _ = funciones.calcular_tiempo_total_ciclico(vecino_potencial, self.nodos_df, self.distancias_df, self.velocidad)
+
+        if tiempo_total <= self.tiempo_max:
+            return vecino_potencial
+
         return solucion
 
     
@@ -222,17 +278,15 @@ class EnfriamientoSimulado:
             # Generamos la solución vecina y comprobamos si el intercambio merece la pena
             vecino = self.generar_vecino(self.visitados)
             beneficio_vecino = funciones.calcular_beneficio_total(vecino, self.nodos_df)
-            tmp_act =  funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
-            tmp_vec =  funciones.calcular_tiempo_total(vecino, self.nodos_df, self.distancias_df, self.velocidad)
-            tmp_act = tmp_act*0.1
-            tmp_vec = tmp_vec*0.1
-            delta_beneficio = (beneficio_vecino - tmp_vec)  - (beneficio_actual - tmp_act)
-            
+            beneficio_solucion_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
+          
+            delta_beneficio = (beneficio_vecino - beneficio_solucion_actual)
             # Si merece la pena el intercambio o si queremos empeorar la solución para explorar nuevos campos
             # se realiza el intercambio
             if delta_beneficio > 0 or np.random.rand() < math.exp(delta_beneficio / t_actual):
                 tiempo_vecino =  funciones.calcular_tiempo_total(vecino, self.nodos_df, self.distancias_df, self.velocidad)
                 if(tiempo_vecino <= self.tiempo_max):
+                 
                     self.visitados = vecino
                     beneficio_actual = beneficio_vecino
                     tiempo_actual = tiempo_vecino
@@ -262,23 +316,24 @@ class EnfriamientoSimulado:
         # El procedimiento de ejecución es igual que el anterior pero esta vez, se considera un nodo cíclico.
         # Es decir se específica un nodo que tiene que ser el de inicio y el de fin.
         
+        
         self.visitados, tiempo_actual, distancia_total, beneficio_actual = self.generar_solucion_inicial_greedy_ciclico(nodo_ciclico=nodo_ciclico)
-        
         t_actual = (self.MU * beneficio_actual) / (-math.log(self.PHI))
-        
 
         iteracion = 0
-        while t_actual > self.T_FINAL and iteracion < self.MAX_EVALUACIONES:
+        while t_actual > self.T_FINAL and iteracion < self.MAX_EVALUACIONES and tiempo_actual < self.tiempo_max:
             vecino = self.generar_vecino_ciclico(self.visitados)
+
             beneficio_vecino = funciones.calcular_beneficio_total(vecino, self.nodos_df)
-            tmp_act =  funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
-            tmp_vec =  funciones.calcular_tiempo_total(vecino, self.nodos_df, self.distancias_df, self.velocidad)
-            tmp_act = tmp_act*0.1
-            tmp_vec = tmp_vec*0.1
-            delta_beneficio = (beneficio_vecino - tmp_vec)  - (beneficio_actual - tmp_act)
+            beneficio_vecino -= self.nodos_df.loc[vecino[0], 'interes']
+            beneficio_solucion_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
+            beneficio_solucion_actual -= self.nodos_df.loc[self.visitados[0], 'interes']
+            delta_beneficio = beneficio_vecino - beneficio_solucion_actual
+
             if delta_beneficio > 0 or np.random.rand() < math.exp(delta_beneficio / t_actual):
-                tiempo_vecino =  funciones.calcular_tiempo_total(vecino, self.nodos_df, self.distancias_df, self.velocidad)
-                if(tiempo_vecino <= self.tiempo_max):
+                tiempo_vecino, _ = funciones.calcular_tiempo_total_ciclico(vecino,self.nodos_df, self.distancias_df,self.velocidad)
+                if tiempo_vecino <= self.tiempo_max:
+                
                     self.visitados = vecino
                     beneficio_actual = beneficio_vecino
                     tiempo_actual = tiempo_vecino
@@ -286,9 +341,10 @@ class EnfriamientoSimulado:
 
             t_actual = t_actual / (1 + self.BETA * t_actual)
             iteracion += 1
-        
-        tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
+
+        tiempo_actual, _ = funciones.calcular_tiempo_total_ciclico(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
         distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
         beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
-        beneficio_actual = beneficio_actual - self.nodos_df.loc[self.visitados[0], 'interes']
+        beneficio_actual -= self.nodos_df.loc[self.visitados[0], 'interes']
+
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual

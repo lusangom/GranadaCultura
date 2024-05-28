@@ -1,0 +1,183 @@
+Introduce el número de ejecuciones para cada algoritmo: Datos de nodos cargados exitosamente.
+Matriz de distancias cargada exitosamente.
+Matriz de tiempos cargada exitosamente.
+Introduce la edad (entre 0 y 99): Velocidad correspondiente a la edad: 76.2
+Introduce el tiempo máximo: Tiempo máximo: 200
+¿Qué algoritmo(s) deseas ejecutar?
+1. Greedy
+2. GRASP
+3. Enfriamiento Simulado
+4. Algoritmo Genético
+5. Algoritmo Memético
+6. Todos
+Introduce el número correspondiente a tu elección, separados por coma si son varios (ejemplo: 1,2): ¿Deseas que la ruta sea cíclica? (si/no): Lista de POIs:
+0: Mirador de San Cristóbal
+1: Museo Manuel de Falla
+2: Oficina Municipal de Información Turística
+3: Museo de la Alhambra
+4: Mirador de San Nicolás
+5: Fundación Rodríguez Acosta
+6: Puerta de las Granadas
+7: Museo de Bellas Artes
+8: Alcaicería
+9: Mirador del Barranco del Abogado
+10: Patronato Provincial de Turismo de Granada
+11: Fuente de los Leones
+12: Puerta de la Justicia
+13: Fuente del Pimiento
+14: Fuente del Tomate
+15: Mirador de San Miguel Alto
+16: Museo Cuevas del Sacromonte
+17: Pilar del Toro
+18: Albert Einstein
+19: Kugelbahn 13
+20: Instituto Andaluz de la Juventud
+21: Casa Morisca Horno de Oro
+22: Ninfa
+23: Mirador de Alixares
+24: Escultura Granada al Flamenco
+25: Mirador Mario Maya
+26: Casa de los Tiros
+27: Oficina de Turismo de Granada
+28: Flamenco La Alborea
+29: Palacio de los Olvidados
+30: Mirador de la Placeta de los Carvajales
+31: Galería Alea
+32: Barrio Castrense
+33: Lugar de Memoria Histórica de Andalucía
+34: Muralla San Miguel
+35: Cripta de Fray Leopoldo de Alpandeire
+36: Cristo de los Favores
+37: Studio Pedro Osakar
+38: Washington Irving
+39: Mirador de la Placeta de la Puerta del Sol
+40: Homenaje a los emigrantes granadinos
+41: Antigua Prisión Provincial de Granada
+42: Banco-escultura
+43: Los Albercones
+44: Danzante
+45: Escultura Luna
+46: Museo de la Capilla Real
+47: Parque Periurbano
+48: Mirador del Carmen de los Mártires
+49: Cerro del sol
+50: Chorrojumo
+51: Centro de Exposiciones CajaGranada-Puerta Real
+52: Centro Cultural Zaida
+53: Estatua de Fray Luis de Granada
+54: Pilar de Carlos V
+55: Mirador de la Churra
+56: Homenaje a los viajeros románticos
+57: Welcome Visitor Centre
+58: Caminante
+59: Mirador de Hotel Alhambra Palace
+60: Fundación Rodriguez-Acosta
+61: Alhambra y Generalife
+62: La Ciudad Liberal
+63: Conjunto Monumental
+64: Torre de la vela
+65: Mirador de la Lona
+66: Mirador Ojo de Granada
+67: Información y Atención al Cliente
+68: Casa Museo Sefardí
+69: Mirador de la Cruz de la Rauda
+70: Homenaje a las víctimas de la Violencia de Género
+71: Escultura a Emilio Herrera Linares
+72: Mirador Generalife
+73: Pozo Airón
+74: Virgen de la Encarnación
+75: Estatua de Don Quijote y Rocinante
+76: Granada a las Escuelas del Ave María
+77: Centro de Interpretación del Agua
+78: Casa Museo Max Moreau
+79: Palacios Nazaríes
+80: Monumento a Agustín Lara
+81: Monumento al Aguador
+82: Granada Ciudad Amiga de la Infancia 2014-2018
+83: Venus de Ilíberis
+84: Aurora Reina Y Madre del Albayzin
+85: Nuestro Padre Jesús del Perdón
+86: Mirador Romántico
+87: Museo Memoria de Andalucía
+88: Granada Online
+89: Fuente de la Corona
+90: Play Granada
+91: El Silo Eléctrico
+92: Covento de San Bernardo
+93: Ashe'
+94: Monasterio de Santa Paula
+95: Fernando de los Ríos
+96: Huecos de Silencio
+97: Parque de las Ciencias
+98: Alcazaba
+99: Cuesta del Rey Chico
+100: Cuarto Real de Santo Domingo
+101: Carmen de los Mártires
+102: Mariposario
+103: Iglesia Virgen de las Angustias
+104: Alhambra
+105: Patio de los Leones
+106: Puente romano
+107: Palacio de Dar al-Horra
+108: Calle Carrera del Darro
+109: Paseo de los Tristes
+110: Iglesia de Santa María de la Alhambra
+111: Casa-Museo Federico García Lorca
+112: Iglesia del Sagrario
+113: Catedral de Granada
+114: Fuente del Triunfo
+115: Capilla Real
+116: Plaza de Bib-Rambla
+117: Paseo del Padre Manjón
+118: Museo José Guerrero
+119: Museo de San Juan de Dios
+120: Calle Chirimías
+121: El Bañuelo
+122: Generalife
+123: Carmen de la Victoria
+124: Silla del Moro
+125: Laberinto
+126: Fuente de las Granadas
+127: Casa Molino de Ángel Ganivet
+128: Bomba de Agua
+129: Puerta de Fajalauza
+130: Cuesta de Gomérez
+131: Fuente de los Cuatro Leones
+132: Fuente de la Bomba
+133: Fuente de la Ninfa
+134: Centro Europeo de las Mujeres Mariana Pineda
+135: Aljibe de San Nicolás
+136: Calle Carrera del Darro
+137: Convento de Santa Catalina de Zafra
+138: Casa de Lorenzo el Chapiz
+139: Puerta de Elvira
+140: Aljibe del Rey
+141: Aljibe de la Lluvia
+142: Biodomo
+143: Fuente de los Gigantes
+144: Fuente de las Batallas
+145: Aljibe de la Cruz de Piedra
+146: Sala Regia
+147: Aljibe del Salvador
+148: Aljibe del Peso de la Harina
+149: Escultura a Fernando de los Ríos
+150: Palacio de Carlos V
+151: Corral del Carbón
+152: Monasterio de La Cartuja
+153: Casa de Zafra
+154: Museo Arqueológico y Etnológico de Granada
+155: Palacio de los Córdova
+156: Casa del Chapiz
+157: Hospital de la tiña
+Selecciona el número de nodo para el punto de origen: 
+ALGORITMO ENFRIAMIENTO SIMULADO
+Ejecución 1:
+Tiempo ejecucion algoritmo: 13.151339292526245 segundos
+Ruta solución: [9, 117, 144, 89, 152, 53, 9]
+Tiempo total: 188.2051968503937
+Distancia total: 1387.236
+Interes total: 60
+Margen: 11.79480314960631
+Porcentaje interes:  100.0
+Numero de nodos visitados: 6
+Ruta ciclica: True
