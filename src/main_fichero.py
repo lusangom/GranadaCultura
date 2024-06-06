@@ -105,6 +105,7 @@ def main(configuracion):
     }
 
     for i in range(configuracion["numero_ejecuciones"]):
+        print("ejecucion: ",i)
         # Ejecutamos los algoritmos
         for alg_id in configuracion["algoritmos"]:
             if alg_id == 1 or alg_id == 6: #greedy

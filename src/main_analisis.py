@@ -247,6 +247,7 @@ def main(ruta_archivo):
     graficar_dispersion(resultados, 'MARGEN', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'TIEMPO RUTA', 'INTERÉS', titulo_comun)
     graficar_dispersion(resultados, 'TIEMPO RUTA', 'DISTANCIA TOTAL', titulo_comun)
+    graficar_dispersion(resultados, 'MARGEN', 'NUMERO DE POIS VISITADOS', titulo_comun)
     
     
     graficar_bigotes(resultados, 'TIEMPO RUTA', 'ALGORITMO', titulo_comun)
@@ -254,6 +255,7 @@ def main(ruta_archivo):
     graficar_bigotes(resultados, 'INTERÉS', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'DISTANCIA TOTAL', 'ALGORITMO', titulo_comun)
     graficar_bigotes(resultados, 'MARGEN', 'ALGORITMO', titulo_comun)
+    graficar_bigotes(resultados, 'NUMERO DE POIS VISITADOS', 'ALGORITMO', titulo_comun)
     
     graficar_diagrama_araña(resultados, titulo_comun)
     

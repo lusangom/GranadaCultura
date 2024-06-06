@@ -1,8 +1,8 @@
 {
     "edad": 30,
-    "tiempo_maximo": 120,
+    "tiempo_maximo": 300,
     "algoritmos": [1,2,3,4,5],
-    "es_ciclica": true,
+    "es_ciclica": false,
     "nodo_origen": 9,
     "numero_ejecuciones": 20,
     "tamaño_db": "158",
@@ -18,7 +18,7 @@
           "poblacion_size": 50,
           "intentos_cruce": 10,
           "max_iteraciones": 500,
-          "max_iteraciones_bl": 5000,
+          "max_iteraciones_bl": 1000,
           "tipo_hibridacion": "best",
           "porcentaje_mutacion": 0.1,
           "aplica_bl": 10,
@@ -29,12 +29,12 @@
             "MU": 0.3,
             "PHI": 0.2,
             "T_FINAL": 0.0001,
-            "MAX_EVALUACIONES": 50000,
+            "MAX_EVALUACIONES": 400,
             "BETA": 0.2
           },
           "grasp": {
-            "MAX_ITERACIONES": 300,
-            "MAX_ITERACIONES_BL": 50000,
+            "MAX_ITERACIONES": 500,
+            "MAX_ITERACIONES_BL": 1000,
             "cantidad_candidatos": 0.05
           }
       }
