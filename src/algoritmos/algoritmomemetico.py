@@ -152,6 +152,7 @@ class AlgoritmoMemetico:
         return cromosoma
     
    
+   
     def seleccion_torneo(self):
         """Función selección torneo.
 
@@ -246,15 +247,22 @@ class AlgoritmoMemetico:
         intentos = 0
         while intentos < self.intentos_cruce:  # Máximo de 10 intentos para generar un hijo válido
             hijo = [None] * max(len(padre1), len(padre2))  # Selecciona el tamaño máximo entre los dos padres
-            # Mantener posiciones iguales
-            for i in range(min(len(padre1), len(padre2))):
+            
+            # Mantener el primer y último nodo fijo
+            hijo[0] = padre1[0]
+            hijo[-1] = padre1[0]
+
+            # Mantener posiciones iguales (excluyendo la primera y última)
+            for i in range(1, min(len(padre1), len(padre2)) - 1):
                 if padre1[i] == padre2[i]:
                     hijo[i] = padre1[i]
 
-            posiciones_restantes = [i for i, v in enumerate(hijo) if v is None]
+            posiciones_restantes = [i for i, v in enumerate(hijo) if v is None and i != 0 and i != len(hijo) - 1]
+            
             # Seleccionar nodos restantes de ambos padres que no estén en el hijo
-            nodos_restantes_padre1 = [n for n in padre1 if n not in hijo]
-            nodos_restantes_padre2 = [n for n in padre2 if n not in hijo]
+            nodos_restantes_padre1 = [n for n in padre1 if n not in hijo and n != padre1[0]]
+            nodos_restantes_padre2 = [n for n in padre2 if n not in hijo and n != padre2[0]]
+            
             # Mezclar los nodos restantes de ambos padres y eliminar duplicados
             nodos_restantes = list(set(nodos_restantes_padre1 + nodos_restantes_padre2))
             random.shuffle(nodos_restantes)
@@ -270,9 +278,6 @@ class AlgoritmoMemetico:
                 else:
                     break  # No hay más nodos restantes para insertar
             
-            # Es ciclico por lo que establecemos la ultima y primera posición con el nodo ciclico
-            hijo[0]=padre1[0]
-            hijo[-1]=padre1[0]
             es_ciclico = True
             
             # Verificar si el hijo generado cumple con el tiempo máximo permitido
@@ -283,8 +288,7 @@ class AlgoritmoMemetico:
         # Si después de 10 intentos no se genera un hijo válido, se devuelve el mejor padre
         return mejor_padre
 
-
-  
+    
     def mutacion_intercambio(self, solucion):
         """Función mutación intercambio.
 
@@ -376,6 +380,9 @@ class AlgoritmoMemetico:
             return vecino_potencial  # Devolver la solución propuesta si es válida
             
         return solucion
+    
+    
+
     
     def mutacion_añado(self, solucion):
         """Función mutación añado.
@@ -664,6 +671,10 @@ class AlgoritmoMemetico:
         distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
         beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
         beneficio_actual = beneficio_actual - self.nodos_df.loc[self.visitados[0], 'interes']
+        
+          
+        
+        
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
     
     def buscar_local_dlb(self, solucion):
@@ -694,10 +705,10 @@ class AlgoritmoMemetico:
             for i in range(0, len(mejor_solucion) - 1): 
                 if dlb[i] == 0:  # Solo considerar este nodo si su DLB está en 0
                     improve_flag = False
-                    for j in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
-                        if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
+                    for k in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
+                        if i != k:  # Asegurarse de no intercambiar el nodo consigo mismo
                             # Intercambiar nodos
-                            mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                            mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
                             tiempo_actual = funciones.calcular_tiempo_total(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
 
                             # Si no se encuentra una mejora, revertir el intercambio
@@ -705,11 +716,11 @@ class AlgoritmoMemetico:
                                 mejor_tiempo = tiempo_actual  # Actualizar el mejor tiempo
                                 mejor_encontrada = True;
                                 improve_flag = True  # Indicar que hubo una mejora
-                                dlb[i] = dlb[j] = 0  # Restablecer los bits DLB ya que hubo una mejora
+                                dlb[i] = dlb[k] = 0  # Restablecer los bits DLB ya que hubo una mejora
                                 break  # Salir del bucle for interno
                             else:
                                 # Revertir el intercambio si no mejora
-                                mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                                mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
 
                     # Si no se encontró ninguna mejora, establecer el bit DLB en 1
                     if not improve_flag:
@@ -739,47 +750,43 @@ class AlgoritmoMemetico:
         mejor_solucion = solucion[:]
         mejor_tiempo, tmp = funciones.calcular_tiempo_total_ciclico(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
         dlb = [0] * len(mejor_solucion)  # Inicializar la máscara DLB
-        
+
         mejor_encontrada = True
-        j=0
-      
+        j = 0
+
         # Iterar a través de los nodos de la solución
         while j < self.MAX_ITERACIONES_BL and mejor_encontrada:
-        
             mejor_encontrada = False
-            
-            for i in range(1, len(mejor_solucion) - 1):  # El nodo inicial se mantiene fijo
+
+            for i in range(1, len(mejor_solucion) - 1):  # El nodo inicial y final se mantienen fijos
                 if dlb[i] == 0:  # Solo considerar este nodo si su DLB está en 0
                     improve_flag = False
-                    for j in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
-                        if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
+                    for k in range(1, len(mejor_solucion) - 1):  # Considerar todos los otros nodos excepto el último
+                        if i != k:  # Asegurarse de no intercambiar el nodo consigo mismo
                             # Intercambiar nodos
-                            mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                            mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
                             tiempo_actual, tmp_vuelta = funciones.calcular_tiempo_total_ciclico(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
-
 
                             # Si no se encuentra una mejora, revertir el intercambio
                             if tiempo_actual < mejor_tiempo:
-                                
                                 mejor_tiempo = tiempo_actual
                                 # Restamos el tiempo de vuelta al nodo ciclico ya que este solo se tiene en cuenta al final
                                 mejor_tiempo = mejor_tiempo - tmp_vuelta
-                              
-                                mejor_encontrada = True;
+
+                                mejor_encontrada = True
                                 improve_flag = True  # Indicar que hubo una mejora
-                                dlb[i] = dlb[j] = 0  # Restablecer los bits DLB ya que hubo una mejora
+                                dlb[i] = dlb[k] = 0  # Restablecer los bits DLB ya que hubo una mejora
                                 break  # Salir del bucle for interno
                             else:
                                 # Revertir el intercambio si no mejora
-                                mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                                mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
 
                     # Si no se encontró ninguna mejora, establecer el bit DLB en 1
                     if not improve_flag:
                         dlb[i] = 1
-            
-            j = j+1
-                     
-                    
+
+            j = j + 1
+                            
 
         return mejor_solucion
 

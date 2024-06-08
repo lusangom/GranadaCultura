@@ -173,11 +173,14 @@ def verificar_tiempo_hijo(hijo, distancias_df, velocidad, nodos_df, tiempo_max, 
     """
     tiempo_total = 0
     for i, nodo in enumerate(hijo[:-1]):
-        tiempo_viaje = (distancias_df.at[hijo[i], str(hijo[i + 1])])/velocidad
+        try:
+            tiempo_viaje = (distancias_df.at[hijo[i], str(hijo[i + 1])]) / velocidad
+        except KeyError:
+            return False
+            
         tiempo_total += tiempo_viaje + nodos_df.at[nodo, 'tiempo_de_visita']
     # Si la ruta no es ciclica se incluye el tiempo de visita al ultimo nodo sino no
     if not es_ciclico: 
         tiempo_total += nodos_df.at[hijo[-1], 'tiempo_de_visita']
     return tiempo_total <= tiempo_max
 
-    

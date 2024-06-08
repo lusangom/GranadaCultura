@@ -161,10 +161,10 @@ class Grasp:
             for i in range(0, len(mejor_solucion) - 1): 
                 if dlb[i] == 0:  # Solo considerar este nodo si su DLB está en 0
                     improve_flag = False
-                    for j in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
-                        if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
+                    for k in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
+                        if i != k:  # Asegurarse de no intercambiar el nodo consigo mismo
                             # Intercambiar nodos
-                            mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                            mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
                             tiempo_actual = funciones.calcular_tiempo_total(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
 
                             # Si no se encuentra una mejora, revertir el intercambio
@@ -172,11 +172,11 @@ class Grasp:
                                 mejor_tiempo = tiempo_actual  # Actualizar el mejor tiempo
                                 mejor_encontrada = True;
                                 improve_flag = True  # Indicar que hubo una mejora
-                                dlb[i] = dlb[j] = 0  # Restablecer los bits DLB ya que hubo una mejora
+                                dlb[i] = dlb[k] = 0  # Restablecer los bits DLB ya que hubo una mejora
                                 break  # Salir del bucle for interno
                             else:
                                 # Revertir el intercambio si no mejora
-                                mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                                mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
 
                     # Si no se encontró ninguna mejora, establecer el bit DLB en 1
                     if not improve_flag:
@@ -285,7 +285,7 @@ class Grasp:
             tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
             distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
             beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
-            beneficio_actual = beneficio_actual - self.nodos_df(self.visitados[0],'interes') #El interes del nodo ciclico no se tiene en cuenta dos veces
+            beneficio_actual = beneficio_actual - self.nodos_df.loc[self.visitados[0], 'interes'] #El interes del nodo ciclico no se tiene en cuenta dos veces
               
 
         return self.visitados, tiempo_actual, distancia_total, beneficio_actual
@@ -353,10 +353,10 @@ class Grasp:
             for i in range(1, len(mejor_solucion) - 1):  # El nodo inicial se mantiene fijo
                 if dlb[i] == 0:  # Solo considerar este nodo si su DLB está en 0
                     improve_flag = False
-                    for j in range(1, len(mejor_solucion)):  # Considerar todos los otros nodos
-                        if i != j:  # Asegurarse de no intercambiar el nodo consigo mismo
+                    for k in range(1, len(mejor_solucion)-1):  # Considerar todos los otros nodos
+                        if i != k:  # Asegurarse de no intercambiar el nodo consigo mismo
                             # Intercambiar nodos
-                            mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                            mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
                             tiempo_actual, tmp_vuelta = funciones.calcular_tiempo_total_ciclico(mejor_solucion, self.nodos_df, self.distancias_df, self.velocidad)
 
 
@@ -369,11 +369,11 @@ class Grasp:
                               
                                 mejor_encontrada = True;
                                 improve_flag = True  # Indicar que hubo una mejora
-                                dlb[i] = dlb[j] = 0  # Restablecer los bits DLB ya que hubo una mejora
+                                dlb[i] = dlb[k] = 0  # Restablecer los bits DLB ya que hubo una mejora
                                 break  # Salir del bucle for interno
                             else:
                                 # Revertir el intercambio si no mejora
-                                mejor_solucion[i], mejor_solucion[j] = mejor_solucion[j], mejor_solucion[i]
+                                mejor_solucion[i], mejor_solucion[k] = mejor_solucion[k], mejor_solucion[i]
 
                     # Si no se encontró ninguna mejora, establecer el bit DLB en 1
                     if not improve_flag:
