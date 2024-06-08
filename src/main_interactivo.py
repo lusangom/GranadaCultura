@@ -38,7 +38,7 @@ def mostrar_resultados(ruta_solucion, tiempo_total, distancia_total, beneficio, 
                 print("Numero de nodos visitados:", len(ruta_solucion))
            
         else:
-            print("Numero de nodos visitados:", len(ruta_solucion)-1)
+            print("Numero de nodos visitados:", len(ruta_solucion))
             print("Porcentaje interes: ",(beneficio/len(ruta_solucion))*10)
             
         print("Ruta ciclica:", es_ciclica)

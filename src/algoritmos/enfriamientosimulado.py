@@ -110,67 +110,30 @@ class EnfriamientoSimulado:
             beneficio += self.nodos_df.loc[mejor_nodo, 'interes']
             self.visitados.append(mejor_nodo)
 
+        # Añadir el nodo inicial al final de la ruta
         tiempo_viaje_final = self.distancias_df.loc[self.visitados[-1], str(nodo_ciclico)] / self.velocidad
-        if tiempo_actual + tiempo_viaje_final <= self.tiempo_max:
-            self.visitados.append(nodo_ciclico)
-            distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
+        tiempo_actual += tiempo_viaje_final
+        distancia_total += self.distancias_df.loc[self.visitados[-1], str(nodo_ciclico)]
+
+        self.visitados.append(nodo_ciclico)
+
+        # Verificar si se excede el tiempo máximo
+        if tiempo_actual > self.tiempo_max:
+            # Si excede el tiempo, remover el último nodo visitado antes de regresar al inicio
+            ultimo_nodo = self.visitados[-2]
+            self.visitados.pop(-2)
+            distancia_total -= self.distancias_df.loc[ultimo_nodo, str(nodo_ciclico)]
+            tiempo_actual -= (self.distancias_df.loc[ultimo_nodo, str(nodo_ciclico)] / self.velocidad + self.nodos_df.loc[ultimo_nodo, 'tiempo_de_visita'])
+            beneficio -= self.nodos_df.loc[ultimo_nodo, 'interes']
+
+            # Agregar el nodo inicial de nuevo para cerrar el ciclo
+            tiempo_viaje_final = self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)] / self.velocidad
             tiempo_actual += tiempo_viaje_final
-
-     
-        return self.visitados, tiempo_actual, distancia_total, beneficio
-
-
-
-    
-    def generar_solucion_inicial_greedy_ciclicoMAL(self, nodo_ciclico):
-        """Función genera solución inicial greedy ciclica.
-
-        Función usada para generar la solución inicial del algoritmo, el modo de creación
-        es un algoritmo Greedy ciclico, por lo que el funcionamiento es igual que dicho algoritmo.
-
-        Returns:
-            Array: Ruta inicial Greedy ciclica y la información asociada a ella.
-        """
-        
-        self.visitados = [nodo_ciclico]
-        distancia_total = 0
-        tiempo_actual = self.nodos_df.loc[nodo_ciclico, 'tiempo_de_visita']
-        beneficio = self.nodos_df.loc[nodo_ciclico, 'interes']
-
-        while True:
-            mejor_fitness = -float('inf')
-            mejor_nodo = None
-                
-            for i, nodo in self.nodos_df.iterrows():
-                if i not in self.visitados and i != nodo_ciclico:
-                    tiempo_vuelta = (self.distancias_df.loc[i, str(nodo_ciclico)])/self.velocidad
-                    tiempo_necesario = tiempo_actual + self.nodos_df.loc[i, 'tiempo_de_visita'] + tiempo_vuelta
-                    
-                    if tiempo_necesario <= self.tiempo_max:
-                        fitness = funciones.calcular_fitness(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
-                        if fitness > mejor_fitness:
-                            mejor_fitness = fitness
-                            mejor_nodo = i
-                
-            if mejor_nodo is None:
-                break
-
-            tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(mejor_nodo)])/self.velocidad
-            tiempo_actual += tiempo_viaje + self.nodos_df.loc[mejor_nodo, 'tiempo_de_visita']
-            distancia_total += self.distancias_df.loc[self.visitados[-1], str(mejor_nodo)]
-            beneficio += self.nodos_df.loc[mejor_nodo, 'interes']
-            self.visitados.append(mejor_nodo)
-
-        # Asegurarse de que se tiene en cuenta el tiempo de vuelta al nodo cíclico
-        tiempo_vuelta_final = (self.distancias_df.loc[self.visitados[-1], str(nodo_ciclico)])/self.velocidad
-        if tiempo_actual + tiempo_vuelta_final <= self.tiempo_max:
-            self.visitados.append(nodo_ciclico)
             distancia_total += self.distancias_df.loc[self.visitados[-2], str(nodo_ciclico)]
-            tiempo_actual += tiempo_vuelta_final
 
-        
         return self.visitados, tiempo_actual, distancia_total, beneficio
 
+        
     
     
     def generar_vecino(self, solucion):

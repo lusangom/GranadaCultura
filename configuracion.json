@@ -1,7 +1,7 @@
 {
     "edad": 30,
     "tiempo_maximo": 300,
-    "algoritmos": [5],
+    "algoritmos": [1,2,3,4,5],
     "es_ciclica": true,
     "nodo_origen": 9,
     "numero_ejecuciones": 20,
