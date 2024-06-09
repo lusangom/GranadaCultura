@@ -16,7 +16,7 @@ class AlgoritmoGeneticoEstacionario:
         self.velocidad = velocidad
         self.poblacion_size = poblacion_size
         self.poblacion = []
-        self.fitness = []
+        self.factor_decision = []
         self.visitados = []
         self.intentos_cruce = intentos_cruce
         self.MAX_ITERACIONES = max_iteraciones
@@ -160,8 +160,8 @@ class AlgoritmoGeneticoEstacionario:
         padres = []
         for _ in range(2):
             candidatos = random.choices(self.poblacion, k=2)
-            candidato_fitness = [funciones.calcular_fitness_total(c, self.distancias_df, self.velocidad, self.nodos_df) for c in candidatos]
-            padres.append(candidatos[np.argmax(candidato_fitness)])
+            candidato_factor_decision = [funciones.calcular_factor_decision_total(c, self.distancias_df, self.velocidad, self.nodos_df) for c in candidatos]
+            padres.append(candidatos[np.argmax(candidato_factor_decision)])
      
         return padres
 
@@ -180,7 +180,7 @@ class AlgoritmoGeneticoEstacionario:
         Returns:
             Array: Array hijo con el cruce de los dos padres
         """
-        mejor_padre = padre1 if funciones.calcular_fitness_total(padre1, self.distancias_df, self.velocidad, self.nodos_df) > funciones.calcular_fitness_total(padre2, self.distancias_df, self.velocidad, self.nodos_df) else padre2
+        mejor_padre = padre1 if funciones.calcular_factor_decision_total(padre1, self.distancias_df, self.velocidad, self.nodos_df) > funciones.calcular_factor_decision_total(padre2, self.distancias_df, self.velocidad, self.nodos_df) else padre2
         intentos = 0
         while intentos < self.intentos_cruce:  # Máximo de 10 intentos para generar un hijo válido
             
@@ -238,7 +238,7 @@ class AlgoritmoGeneticoEstacionario:
         # El procedimiento de ejecución es igual que el anterior pero esta vez, se considera un nodo cíclico.
         # Es decir se específica un nodo que tiene que ser el de inicio y el de fin.
         
-        mejor_padre = padre1 if funciones.calcular_fitness_total(padre1, self.distancias_df, self.velocidad, self.nodos_df) > funciones.calcular_fitness_total(padre2, self.distancias_df, self.velocidad, self.nodos_df) else padre2
+        mejor_padre = padre1 if funciones.calcular_factor_decision_total(padre1, self.distancias_df, self.velocidad, self.nodos_df) > funciones.calcular_factor_decision_total(padre2, self.distancias_df, self.velocidad, self.nodos_df) else padre2
         intentos = 0
         while intentos < self.intentos_cruce:  # Máximo de 10 intentos para generar un hijo válido
             hijo = [None] * max(len(padre1), len(padre2))  # Selecciona el tamaño máximo entre los dos padres
@@ -509,12 +509,12 @@ class AlgoritmoGeneticoEstacionario:
                     self.poblacion += [hijo2]
               
 
-            # Ordenamos segun el valor de fitness
-            self.poblacion = sorted(self.poblacion, key=lambda c:funciones.calcular_fitness_total(c, distancias_df=self.distancias_df, velocidad=self.velocidad, nodos_df=self.nodos_df), reverse=True)[:len(self.poblacion)]
+            # Ordenamos segun el valor de factor de decision
+            self.poblacion = sorted(self.poblacion, key=lambda c:funciones.calcular_factor_decision_total(c, distancias_df=self.distancias_df, velocidad=self.velocidad, nodos_df=self.nodos_df), reverse=True)[:len(self.poblacion)]
             generaciones += 1
             
         # Cuando acabemos todas las generaciones nos quedamos con la mejor generación 
-        self.visitados =  max(self.poblacion, key=lambda c:funciones.calcular_beneficio_total(c, self.nodos_df))  # Devuelve el mejor cromosoma, aunque antes hayamos usado el fitness ahora usamos el beneficio por que es lo que hemos hecho en el resto de algoritmos
+        self.visitados =  max(self.poblacion, key=lambda c:funciones.calcular_beneficio_total(c, self.nodos_df))  # Devuelve el mejor cromosoma, aunque antes hayamos usado el factor de decision ahora usamos el beneficio por que es lo que hemos hecho en el resto de algoritmos
         tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
         distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
         beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)
@@ -582,10 +582,10 @@ class AlgoritmoGeneticoEstacionario:
                     self.poblacion += [hijo2]
          
          
-            # Ordenamos segun el valor de fitness
-            self.poblacion = sorted(self.poblacion, key=lambda c:funciones.calcular_fitness_total(c, distancias_df=self.distancias_df, velocidad=self.velocidad, nodos_df=self.nodos_df), reverse=True)[:len(self.poblacion)]
+            # Ordenamos segun el valor de factor de decision
+            self.poblacion = sorted(self.poblacion, key=lambda c:funciones.calcular_factor_decision_total(c, distancias_df=self.distancias_df, velocidad=self.velocidad, nodos_df=self.nodos_df), reverse=True)[:len(self.poblacion)]
             generaciones += 1
-        self.visitados =  max(self.poblacion, key=lambda c:funciones.calcular_beneficio_total(c, self.nodos_df))  # Devuelve el mejor cromosoma, aunque antes hayamos usado el fitness ahora usamos el beneficio por que es lo que hemos hecho en el resto de algoritmos
+        self.visitados =  max(self.poblacion, key=lambda c:funciones.calcular_beneficio_total(c, self.nodos_df))  # Devuelve el mejor cromosoma, aunque antes hayamos usado el factor de decision ahora usamos el beneficio por que es lo que hemos hecho en el resto de algoritmos
         tiempo_actual = funciones.calcular_tiempo_total(self.visitados, self.nodos_df, self.distancias_df, self.velocidad)
         distancia_total = funciones.calcular_distancia_total(self.visitados, self.distancias_df)
         beneficio_actual = funciones.calcular_beneficio_total(self.visitados, self.nodos_df)

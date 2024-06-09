@@ -1,8 +1,8 @@
     
-def calcular_fitness(distancias_df, nodo_origen, nodo_destino, velocidad, nodos_df):
-    """Calcular fitness entre dos nodos.
+def calcular_factor_decision(distancias_df, nodo_origen, nodo_destino, velocidad, nodos_df):
+    """Calcular factor de decision entre dos nodos.
 
-    Esta función calcula el fitness entre dos nodos: nodo origen y nodo destino. Este fitness viene dado por 
+    Esta función calcula el factor de decision entre dos nodos: nodo origen y nodo destino. Este factor de decision viene dado por 
     el beneficio de visitar el nodo destino menos el tiempo que se tarda en llegar a ese nodo desde el nodo
     origen multiplicado por 0.1
 
@@ -14,19 +14,19 @@ def calcular_fitness(distancias_df, nodo_origen, nodo_destino, velocidad, nodos_
         nodos_df (matrix): Matriz con la información del interes de los nodos.
 
     Returns:
-        float: Número que representa el fitness entre los nodos.
+        float: Número que representa el factor entre los nodos.
     """
     tiempo_viaje = (distancias_df.loc[nodo_origen, str(nodo_destino)])/velocidad
     tiempo_viaje = tiempo_viaje * 0.1
     beneficio = nodos_df.loc[nodo_destino, 'interes']
        
-    fitness = beneficio - tiempo_viaje
-    return fitness
+    factor_decision = beneficio - tiempo_viaje
+    return factor_decision
 
-def calcular_fitness_total(cromosoma, distancias_df, velocidad, nodos_df):
-    """Calcular fitness total de una solución.
+def calcular_factor_decision_total(cromosoma, distancias_df, velocidad, nodos_df):
+    """Calcular factor de decision total de una solución.
 
-    Esta función se encarga de calcular el fitness total de una solución. Este fitness viene dado por 
+    Esta función se encarga de calcular el factor de decision total de una solución. Este factor de decision viene dado por 
     el beneficio de visitar el nodo destino menos el tiempo que se tarda en llegar a ese nodo desde el nodo
     origen multiplicado por 0.1
 
@@ -37,13 +37,13 @@ def calcular_fitness_total(cromosoma, distancias_df, velocidad, nodos_df):
         nodos_df (matrix): Matriz con la información del interes de los nodos.
 
     Returns:
-        float: Número que representa el fitness total de la solución.
+        float: Número que representa el factor de decision total de la solución.
     """
-    fitness_total = 0
+    factor_decision_total = 0
     for i, nodo in enumerate(cromosoma[:-1]):
         tiempo_viaje = (distancias_df.loc[cromosoma[i], str(cromosoma[i+1])])/velocidad            
-        fitness_total += nodos_df.loc[nodo, 'interes'] - tiempo_viaje*0.1
-    return fitness_total
+        factor_decision_total += nodos_df.loc[nodo, 'interes'] - tiempo_viaje*0.1
+    return factor_decision_total
 
 def calcular_tiempo_total(solucion, nodos_df, distancias_df, velocidad):
     """Calcular tiempo total de duracion de una solucion en minutos.
@@ -68,16 +68,6 @@ def calcular_tiempo_total(solucion, nodos_df, distancias_df, velocidad):
    
     return tiempo_total
 
-"""
-
- def calcular_tiempo_total(self, solucion):
-        tiempo_total = self.nodos_df.loc[solucion[0], 'tiempo_de_visita']
-        
-        for i in range(len(solucion) - 1):
-            tiempo_total += self.nodos_df.loc[solucion[i + 1], 'tiempo_de_visita']
-            tiempo_total += (self.distancias_df.loc[solucion[i], str(solucion[i + 1])])/self.velocidad            
-        return tiempo_total
-    """
 
 def calcular_tiempo_total_ciclico(solucion, nodos_df, distancias_df, velocidad):
     """Calcular tiempo total de duracion de una solucion ciclica en minutos.
@@ -92,7 +82,7 @@ def calcular_tiempo_total_ciclico(solucion, nodos_df, distancias_df, velocidad):
         float: Número que representa el tiempo total para recorrer la solucion ciclica en minutos.
         float: Número que representa el tiempo total para volver al nodo ciclico en minutos.
     """
-    #tiempo_total = nodos_df.loc[solucion[0], 'tiempo_de_visita']
+  
     ultimo_nodo = 0
     tiempo_total =0   
     for i in range(len(solucion) - 1):
@@ -145,14 +135,8 @@ def calcular_beneficio_total(solucion, nodos_df):
         nodo = solucion[i]
         beneficio_total += nodos_df.loc[nodo, 'interes']
     return beneficio_total
-    """"
-     def calcular_beneficio_cromosoma(self, cromosoma):
-            fitness_total = 0
-       
-        for i, nodo in enumerate(cromosoma[:-1]):
-            fitness_total += self.nodos_df.loc[nodo, 'interes']
-        return fitness_total
-    """
+
+
 def verificar_tiempo_hijo(hijo, distancias_df, velocidad, nodos_df, tiempo_max, es_ciclico):
     """Función verificar tiempo hijo.
 

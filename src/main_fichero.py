@@ -3,7 +3,7 @@ import pandas as pd
 import time
 from datos import lectura_datos
 from algoritmos import greedy, grasp, enfriamientosimulado, algoritmogenetico, algoritmomemetico
-# from datos import visualizacion  # Descomentar si tienes este módulo para visualización
+
 
 def leer_configuracion_json(ruta_archivo):
     with open(ruta_archivo, 'r') as archivo:

@@ -80,7 +80,8 @@ class Datos:
             
     #Funciones auxiliares       
     def calcula_tiempos(self, ruta_guardado):
-        """Divide los datos de distancias entre 75 y muestra el resultado.
+        """Divide los datos de distancias entre 75 y muestra el resultado. Esto es usado
+        en el caso de que no queremos personalizar los tiempos sino de forma genérica.
 
         Args:
             ruta_guardado (str): Ruta del archivo CSV donde se guardará el resultado.
@@ -105,61 +106,3 @@ class Datos:
     
      
   
-    def int_to_float(self, ruta_guardado):
-        """Comprueba y modifica los valores de la matriz de distancias.
-
-        Si el valor es mayor que 20000, lo divide por 1000.
-
-        Args:
-            ruta_guardado (str): Ruta del archivo CSV donde se guardará la matriz de distancias modificada.
-        """
-        distancias_df = self.cargar_distancias()
-        if distancias_df is not None:
-            # Copia la matriz de distancias para evitar cambios en el original
-            distancias_modificadas = distancias_df.copy()
-
-            # Itera sobre cada celda de la matriz de distancias
-            for i in range(len(distancias_modificadas)):
-                for j in range(len(distancias_modificadas.columns)):
-                    valor = distancias_modificadas.iloc[i, j]
-                    # Comprueba si el valor es mayor que 20000
-                    if valor > 20000:
-                        # Divide la casilla por 1000
-                        distancias_modificadas.iloc[i, j] /= 1000
-
-            # Guarda la matriz de distancias modificada en un nuevo archivo CSV
-            try:
-                distancias_modificadas.to_csv(ruta_guardado, index=False)
-                print(f"Matriz de distancias modificada guardada exitosamente en {ruta_guardado}.")
-            except Exception as e:
-                print(f"Error al guardar la matriz de distancias modificada: {e}")
-                
-     
-    def change_distances(self, ruta_guardado):
-        """Comprueba y modifica los valores de la matriz de distancias.
-
-        Si el valor es mayor que 251, lo divide por 1000.
-
-        Args:
-            ruta_guardado (str): Ruta del archivo CSV donde se guardará la matriz de distancias modificada.
-        """
-        distancias_df = self.cargar_distancias()
-        if distancias_df is not None:
-            # Copia la matriz de distancias para evitar cambios en el original
-            distancias_modificadas = distancias_df.copy()
-
-            # Itera sobre cada celda de la matriz de distancias
-            for i in range(len(distancias_modificadas)):
-                for j in range(len(distancias_modificadas.columns)):
-                    valor = distancias_modificadas.iloc[i, j]
-                    # Comprueba si el valor es mayor que 20000
-                    if valor > 251:
-                        # Divide la casilla por 1000
-                        distancias_modificadas.iloc[i, j] /= 1000
-
-            # Guarda la matriz de distancias modificada en un nuevo archivo CSV
-            try:
-                distancias_modificadas.to_csv(ruta_guardado, index=False)
-                print(f"Matriz de distancias modificada guardada exitosamente en {ruta_guardado}.")
-            except Exception as e:
-                print(f"Error al guardar la matriz de distancias modificada: {e}")

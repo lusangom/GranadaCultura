@@ -50,14 +50,14 @@ class EnfriamientoSimulado:
         beneficio = self.nodos_df.loc[nodo_inicial, 'interes']
      
         while tiempo_actual <= self.tiempo_max:
-            mejor_fitness = -float('inf')
+            mejor_factor_decision = -float('inf')
             mejor_nodo = None
             
             for i, nodo in self.nodos_df.iterrows():
                 if i not in self.visitados:
-                    fitness = funciones.calcular_fitness(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
-                    if fitness > mejor_fitness and tiempo_actual + (self.distancias_df.loc[self.visitados[-1], str(i)])/self.velocidad + self.nodos_df.loc[i, 'tiempo_de_visita'] <= self.tiempo_max:
-                        mejor_fitness = fitness
+                    factor_decision = funciones.calcular_factor_decision(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
+                    if factor_decision > mejor_factor_decision and tiempo_actual + (self.distancias_df.loc[self.visitados[-1], str(i)])/self.velocidad + self.nodos_df.loc[i, 'tiempo_de_visita'] <= self.tiempo_max:
+                        mejor_factor_decision = factor_decision
                         mejor_nodo = i
                         
                       
@@ -87,7 +87,7 @@ class EnfriamientoSimulado:
         beneficio = self.nodos_df.loc[nodo_ciclico, 'interes']
 
         while True:
-            mejor_fitness = -float('inf')
+            mejor_factor_decision = -float('inf')
             mejor_nodo = None
 
             for i, nodo in self.nodos_df.iterrows():
@@ -96,9 +96,9 @@ class EnfriamientoSimulado:
                     tiempo_necesario = tiempo_actual + self.nodos_df.loc[i, 'tiempo_de_visita'] + tiempo_vuelta
 
                     if tiempo_necesario <= self.tiempo_max:
-                        fitness = funciones.calcular_fitness(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
-                        if fitness > mejor_fitness:
-                            mejor_fitness = fitness
+                        factor_decision = funciones.calcular_factor_decision(self.distancias_df, self.visitados[-1], i, self.velocidad, self.nodos_df)
+                        if factor_decision > mejor_factor_decision:
+                            mejor_factor_decision = factor_decision
                             mejor_nodo = i
 
             if mejor_nodo is None:

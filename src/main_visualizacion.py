@@ -7,7 +7,7 @@ from datos import visualizacion
 import argparse  # Importa argparse
 
 def main(archivo_rutas, archivo_html):
-      # Leer los archivos correspondientes 
+    # Leer los archivos correspondientes 
     ruta_archivo_nodos = 'data/pois_158.csv'
     ruta_archivo_distancias = 'data/distancias_158.csv'
     ruta_archivo_tiempos = 'data/tiempos_158.csv'

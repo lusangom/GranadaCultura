@@ -52,22 +52,22 @@ class Grasp:
         # Mientras que haya tiempo y mientras que no hayamos llegado al maximo de iteraciones
         while tiempo_actual <= self.tiempo_max and iter < self.MAX_ITERACIONES:
             
-            # Calculamos el fitness de todos los nodos que no esten en la solucion
-            fitness_nodos = []
+            # Calculamos el factor de decision de todos los nodos que no esten en la solucion
+            factor_decision_nodos = []
             for i, nodo in self.nodos_df.iterrows():
                 if i not in self.visitados:
-                    fitness = funciones.calcular_fitness(self.distancias_df,self.visitados[-1], i, self.velocidad, self.nodos_df)
-                    fitness_nodos.append((fitness,i))
+                    factor_decision = funciones.calcular_factor_decision(self.distancias_df,self.visitados[-1], i, self.velocidad, self.nodos_df)
+                    factor_decision_nodos.append((factor_decision,i))
                     
-            # Ordenar los nodos por fitness y obtenemos la lista de candidatos según un porcentaje de la población de candidatos
-            fitness_nodos.sort(reverse=True)
-            candidatos = fitness_nodos[:max(1, math.ceil(len(fitness_nodos) * self.cantidad_candidatos))]
+            # Ordenar los nodos por factor de decision y obtenemos la lista de candidatos según un porcentaje de la población de candidatos
+            factor_decision_nodos.sort(reverse=True)
+            candidatos = factor_decision_nodos[:max(1, math.ceil(len(factor_decision_nodos) * self.cantidad_candidatos))]
 
             # Iteramos sobre la lista de candidatos
             candidatos_fallidos = []
             while candidatos:
                 # Seleccionar un nodo aleatorio de la lista de candidatos
-                fitness, nodo = random.choice(candidatos)
+                factor_decision, nodo = random.choice(candidatos)
           
                 # Calculamos el tiempo necesario para visitar ese candidato
                 tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)])/self.velocidad                
@@ -87,7 +87,7 @@ class Grasp:
                 else:
                     # Si no se puede añadir el nodo, eliminarlo de la lista de candidatos y continuamos con el siguiente nodo
                     candidatos_fallidos.append(nodo)
-                    candidatos.remove((fitness, nodo))
+                    candidatos.remove((factor_decision, nodo))
                     break
                     
             # Aplicamos a nuesta solución una busqueda local y actualizamos las variables
@@ -214,22 +214,22 @@ class Grasp:
         
         while tiempo_actual <= self.tiempo_max and iter < self.MAX_ITERACIONES:
             
-            #Calculamos el fitness de todos los nodos
-            fitness_nodos = []
+            #Calculamos el factor de decision de todos los nodos
+            factor_decision_nodos = []
             for i, nodo in self.nodos_df.iterrows():
                 if i not in self.visitados:
-                    fitness = funciones.calcular_fitness(self.distancias_df,self.visitados[-1], i, self.velocidad, self.nodos_df)
-                    fitness_nodos.append((fitness,i))
+                    factor_decision = funciones.calcular_factor_decision(self.distancias_df,self.visitados[-1], i, self.velocidad, self.nodos_df)
+                    factor_decision_nodos.append((factor_decision,i))
                     
-            # Ordenar los nodos por fitness y obtenemos la lista de candidatos según un porcentaje de la población de candidatos
-            fitness_nodos.sort(reverse=True)
-            candidatos = fitness_nodos[:max(1, math.ceil(len(fitness_nodos) * self.cantidad_candidatos))]
+            # Ordenar los nodos por factor de decision y obtenemos la lista de candidatos según un porcentaje de la población de candidatos
+            factor_decision_nodos.sort(reverse=True)
+            candidatos = factor_decision_nodos[:max(1, math.ceil(len(factor_decision_nodos) * self.cantidad_candidatos))]
        
             # Iterar sobre la lista de candidatos
             candidatos_fallidos = []
             while candidatos:
                 # Seleccionar un nodo aleatorio de la lista de candidatos
-                fitness, nodo = random.choice(candidatos)
+                factor_decision, nodo = random.choice(candidatos)
                 
                 # Para los tiempos hay que tener en cuenta el tiempo de vuelta al nodo ciclico
                 tiempo_viaje = (self.distancias_df.loc[self.visitados[-1], str(nodo)])/self.velocidad                
@@ -258,7 +258,7 @@ class Grasp:
                     
                     # Si no se puede añadir el nodo, eliminarlo de la lista de candidatos y continuar con el siguiente nodo
                     candidatos_fallidos.append(nodo)
-                    candidatos.remove((fitness, nodo))
+                    candidatos.remove((factor_decision, nodo))
                     break
                         
                         
