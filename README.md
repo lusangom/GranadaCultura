@@ -10,8 +10,7 @@ GranadaCultura es un paquete Python diseñado para optimizar rutas culturales en
 
 **Instalación:**
 
-Para instalar el paquete GranadaCultura. Se dispone de dos formas:
-- Clonar el repositorio e instalar las dependencias necesarias:
+Para instalar el paquete GranadaCultura hay que clonar el repositorio e instalar las dependencias necesarias:
 ```bash
 git clone https://github.com/lusangom/GranadaCultura.git
 cd GranadaCultura
@@ -23,17 +22,7 @@ pip install
 "geopandas==0.14.3",
  "osmnx==1.9.1",
 ```
-- Instalar el paquete que se encuentra en el siguiente enlace: https://pypi.org/project/GranadaCultura/0.1.2/ y las dependencias necesarias:
-```bash
-pip install GranadaCultura==0.1.2
-pip install
-"numpy == 1.23.5",
-"pandas==1.5.2",
-"matplotlib==3.8.2",
-"folium==0.15.1",
-"geopandas==0.14.3",
- "osmnx==1.9.1",
-```
+
 
 **Uso:**
 
@@ -46,7 +35,7 @@ El paquete proporciona varios scripts principales para diferentes casos de uso:
 
 **Ejemplo de uso:**
 
-Para ejecutar el algoritmo Greedy para un usuario de 30 años con 60 minutos disponibles, visitando todos los POIs y comenzando en el nodo 1, ejecute el siguiente comando:
+Para ejecutar el algoritmo Greedy para un usuario de 30 años con 60 minutos disponibles, visitando todos los POIs posibles y comenzando en el nodo 1, ejecute el siguiente comando:
 
 ```bash
 python3 main_fichero.py configuracion_greedy.json
