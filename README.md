@@ -2,7 +2,7 @@
 
 **Descripción:**
 
-GranadaCultura es un paquete Python diseñado para optimizar rutas culturales en la ciudad de Granada, España. Proporciona un conjunto de algoritmos y herramientas para planificar rutas eficientes y agradables que tengan en cuenta las preferencias del usuario, como la edad, el tiempo disponible y los puntos de interés (POIs) que desea visitar. El paquete incluye:
+GranadaCultura es un paquete Python diseñado para optimizar rutas culturales en la ciudad de Granada, España. Proporciona un conjunto de algoritmos y herramientas para planificar rutas eficientes e interesantes desde el punto de vista del usuario y que además tengan en cuenta sus preferencias. Estas preferencias pueden ser: el tiempo disponible y los puntos de interés (POIs) que desea visitar. El paquete incluye:
 
 * **Algoritmos:** Implementa diversos algoritmos de optimización para la planificación de rutas, incluyendo Greedy, GRASP, Simulación de Recocido, Algoritmo Genético y Algoritmo Memetic.
 * **Procesamiento de Datos:** Proporciona funciones para cargar y procesar datos de OpenStreetMap, incluyendo nodos, aristas, POIs y matrices de distancia y tiempo.
@@ -43,6 +43,6 @@ python3 main_fichero.py configuracion_greedy.json
 
 Esto generará un archivo de resultados `resultados.txt` y un archivo CSV `tabla.csv` que contienen los detalles de la ruta.
 
-* El paquete está diseñado con fines de investigación y educativos. No está destinado a uso comercial.
+* El paquete está diseñado con fines de investigación y educativos. 
 * El paquete asume la precisión de los datos de OpenStreetMap. Se recomienda verificar los datos antes de usarlos.
 * El rendimiento del paquete puede variar según la complejidad del problema y los recursos computacionales disponibles.
